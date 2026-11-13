@@ -9,9 +9,9 @@
 
   // Communs à toutes les spécialités : un lien vers chaque rubrique (pas de tuiles répétées)
   const PERIOP = [
+    { href: "#/terrains", title: "Selon le terrain", desc: "Coronarien, insuffisant cardiaque, BPCO, apnées, obèse, rein, foie, sujet âgé", icon: "terrain", accent: "anesthesie" },
     { href: "#/preop", title: "Gestion pré-opératoire", desc: "Consultation, visite préanesthésique, traitements, anticoagulants", icon: "fiche", accent: "anesthesie" },
     { href: "#/perop", title: "Per-opératoire", desc: "Médicaments, voies aériennes, rachianesthésie, antibioprophylaxie, transfusion", icon: "perop", accent: "anesthesie" },
-    { href: "#/terrains", title: "Anesthésie selon le terrain", desc: "Coronarien, insuffisant cardiaque, BPCO, apnées, obèse, rein, foie, sujet âgé", icon: "terrain", accent: "anesthesie" },
     { href: "#/postop", title: "Post-opératoire", desc: "Analgésie, blocs, extubation, saignement, sortie de SSPI, thromboprophylaxie", icon: "sspi", accent: "sspi" }
   ];
 
@@ -24,7 +24,7 @@
         href: `#/anesthesie/${s.id}`, title: s.title, desc: s.desc, icon: "anesthesie", accent: "anesthesie",
         badge: `${s.interventions.length} fiches`
       })))
-        + P17.group("Avant, pendant, après l'intervention et selon le terrain", P17.tiles(PERIOP))
+        + P17.group("Selon le terrain, avant, pendant et après l'intervention", P17.tiles(PERIOP))
     })
   });
   P17.index("#/anesthesie", SEC, "protocoles anesthésie spécialités", SEC);
@@ -45,7 +45,7 @@
         body: P17.group(princ(s).length ? PRINC : "Principes", P17.tiles([{ href: `#/anesthesie/${s.id}/generalites`, title: "Généralités de la spécialité", desc: s.generalites.subtitle || "", icon: "fiche", accent: "anesthesie" },
             ...princ(s).map(i => ({ href: `#/anesthesie/${s.id}/${i.id}`, title: i.title, desc: i.subtitle || "", icon: i.icon || "fiche", accent: "anesthesie" }))]))
           + groups(s).map(([g, list]) => P17.group(g, P17.tiles(list.map(i => ({ href: `#/anesthesie/${s.id}/${i.id}`, title: i.title, desc: i.subtitle || "", icon: i.icon || "fiche", accent: "anesthesie" }))))).join("")
-          + P17.group("Avant, pendant, après l'intervention et selon le terrain", P17.tiles(PERIOP))
+          + P17.group("Selon le terrain, avant, pendant et après l'intervention", P17.tiles(PERIOP))
       })
     });
     P17.index(`#/anesthesie/${s.id}`, s.title, s.desc + " " + s.interventions.map(i => i.title).join(" "), SEC);

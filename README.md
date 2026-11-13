@@ -42,7 +42,7 @@ Toutes les modifications peuvent se faire directement sur GitHub (bouton ✏️ 
 | Sections de l'accueil (gestion pré-opératoire, per-opératoire, post-opératoire, outils, divers) | `assets/modules/accueil.js` |
 | Urgences au bloc : bulle rouge présente sur toutes les pages et aides cognitives (liste `URG`) | `assets/modules/urgences.js` |
 | Per-opératoire : médicaments, voies aériennes et estomac plein, rachianesthésie, antibioprophylaxie (outil qui lit les fiches des interventions), transfusion ; thromboprophylaxie postopératoire | `assets/modules/perop.js` |
-| Anesthésie selon le terrain (section de l'accueil) : situations à risque puis conduite (coronarien, insuffisant cardiaque, BPCO, apnées, obèse, insuffisant rénal, cirrhotique, sujet âgé) | `assets/modules/terrains.js` |
+| Selon le terrain (section de l'accueil) : situations à risque puis conduite (coronarien, insuffisant cardiaque, BPCO, apnées, obèse, insuffisant rénal, cirrhotique, sujet âgé) | `assets/modules/terrains.js` |
 | Gestion pré-opératoire : consultation, visite préanesthésique, traitements chroniques, antiagrégants et anticoagulants (outil GIHP-SFAR 2026) | `assets/modules/commun.js` (règles de calcul dans `assets/calc.js`) |
 | Cours de chirurgie thoracique (VATS, wedge, unipulmonaire, sonde double lumière, bloqueurs, péridurale, analgésie) | `assets/modules/anesth/thoracique-cours.js` |
 | Antibiothérapie (BMR, durées, rein, administration) | `assets/modules/atb-data.js` |

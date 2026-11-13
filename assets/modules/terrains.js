@@ -5,7 +5,7 @@
    ===================================================================== */
 (function () {
   const { S, ul, kv, tbl, warn, danger, info } = P17.h;
-  const SEC = "Anesthésie selon le terrain";
+  const SEC = "Selon le terrain";
   const ROOT = "#/terrains";
   const PREOP = ["Gestion pré-opératoire", "#/preop"];
   const btns = (...l) => ({ html: `<p class="btn-row">${l.map(([h, t]) => `<a class="btn btn--ghost" href="${h}">${t}</a>`).join(" ")}</p>` });
