@@ -202,8 +202,7 @@
             ["Corriger ce qui entretient le saignement", "Fibrinogène si ≤ 1,5 g/L, calcium ionisé supérieur à 0,9 mmol/L, température supérieure à 36 °C, pH supérieur à 7,2"]
           )], { wide: true, tone: "alert" }),
           S("Objectifs", [kv(["Hémoglobine", "7 à 9 g/dL"], ["Plaquettes", "Plus de 50 G/L ; plus de 100 G/L en neurochirurgie ou si le saignement persiste"], ["Fibrinogène", "Plus de 1,5 g/L"], ["TP", "Plus de 40 %"], ["Bilans", "Hémoglobine, lactate, calcium ionisé, hémostase toutes les 30 à 60 minutes"])]),
-          S("Penser à", [ul("Antagoniser un anticoagulant : protamine, CCP, idarucizumab", "Récupération du sang épanché si elle est possible", "Hyperkaliémie et hypocalcémie de la transfusion massive", "Embolisation en radiologie interventionnelle selon la source"),
-            { html: `<p class="btn-row"><a class="btn btn--ghost" href="#/sspi/saignement">Saignement en SSPI : arbre décisionnel</a> <a class="btn btn--ghost" href="#/perop/transfusion">Transfusion et épargne sanguine</a></p>` }])
+          S("Penser à", [ul("Antagoniser un anticoagulant : protamine, CCP, idarucizumab", "Récupération du sang épanché si elle est possible", "Hyperkaliémie et hypocalcémie de la transfusion massive", "Embolisation en radiologie interventionnelle selon la source")])
         ],
         refs: ["Duranteau J et al. Recommandations sur la réanimation du choc hémorragique (SFAR 2015). Anesth Reanim 2015", "Kietaibl S et al. Management of severe peri-operative bleeding: guidelines from the ESAIC, second update 2022. Eur J Anaesthesiol 2023"]
       }
@@ -245,8 +244,7 @@
             ["Émulsion lipidique 20 %", "Bolus puis perfusion, dès les premiers signes graves"],
             ["Arrêt cardiaque", "Réanimation prolongée, adrénaline à petites doses, amiodarone en cas d'arythmie ventriculaire ; assistance circulatoire si elle est disponible"]
           ), danger("Pas de lidocaïne, d'inhibiteur calcique ni de bêtabloquant. Éviter la vasopressine.")], { wide: true, tone: "alert" }),
-          S("Ensuite", [ul("Surveillance monitorée au moins 4 à 6 heures après un épisode grave, 2 heures après des signes neurologiques isolés", "Ne pas dépasser la dose maximale d'émulsion lipidique ; surveiller pancréatite et hypertriglycéridémie"),
-            { html: `<p class="btn-row"><a class="btn btn--ghost" href="#/blocs">Doses maximales d'anesthésiques locaux</a></p>` }])
+          S("Ensuite", [ul("Surveillance monitorée au moins 4 à 6 heures après un épisode grave, 2 heures après des signes neurologiques isolés", "Ne pas dépasser la dose maximale d'émulsion lipidique ; surveiller pancréatite et hypertriglycéridémie")])
         ],
         refs: ["Neal JM et al. ASRA checklist for treatment of local anesthetic systemic toxicity: 2020 version. Reg Anesth Pain Med 2021"]
       }

@@ -330,10 +330,6 @@
         <div class="page accent-analgesie">
           <div class="page-head">${P17.backLink(ROOT, SEC)}${P17.crumbs([POSTOP, [SEC, ROOT], [b.court, path]])}</div>
           ${P17.fiche(fiche)}
-          <nav class="fiche-nav">
-            ${prev ? `<a class="tile" href="${ROOT}/${prev.id}"><span class="tile-ico">${P17.icon("back")}</span><span class="tile-body"><span class="tile-desc">Précédent</span><span class="tile-title">${prev.court}</span></span></a>` : "<span></span>"}
-            ${next ? `<a class="tile" href="${ROOT}/${next.id}"><span class="tile-body"><span class="tile-desc">Suivant</span><span class="tile-title">${next.court}</span></span><span class="tile-ico">${P17.icon("arrow")}</span></a>` : ""}
-          </nav>
         </div>`
     });
     P17.index(path, `Bloc ${b.court}`, `${b.nom} ${b.region} ${b.indications.join(" ")}`, SEC);

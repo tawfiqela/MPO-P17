@@ -75,8 +75,7 @@
         warn("Sous ECMO VA : branchement possible sur le circuit entre la pompe centrifuge et l'oxygénateur — ne jamais restituer la totalité du volume (risque d'embolie gazeuse)."),
         { img: "assets/img/eer/eerecmo.webp", caption: "Schéma : EER branchée sur un circuit d'ECMO" }]),
       S("Anticoagulation du circuit", [ul("<strong>Citrate régional</strong> en première intention en l'absence de contre-indication (insuffisance hépatocellulaire sévère, choc avec hyperlactatémie > 4 mmol/L) : surveillance Ca ionisé patient (cible 1,0–1,2 mmol/L) et post-filtre (0,25–0,35 mmol/L), rapport Ca total/Ca ionisé (accumulation si > 2,5)", "<strong>Héparine non fractionnée</strong> si contre-indication au citrate : objectif anti-Xa 0,2–0,4 UI/mL ou TCA 1,5 fois le témoin", "Sans anticoagulation si risque hémorragique majeur : privilégier la prédilution et un débit sang élevé")]),
-      S("Prescription et surveillance", [ul("Dose délivrée ≥ 25 mL/kg/h (prescrire 25–30 mL/kg/h pour compenser les arrêts)", "Fraction de filtration < 25 % en post-dilution", "Perte nette adaptée au bilan entrées-sorties et à l'état hémodynamique", "Ionogramme, phosphore, Mg, Ca ionisé toutes les 6–8 h au début", "Adapter les antibiotiques (doses souvent sous-estimées sous EER continue)"),
-        { html: `<p class="btn-row"><a class="btn btn--ghost" href="#/antibiotherapie/adaptation-renale">Adaptation des antibiotiques sous EER</a></p>` }])
+      S("Prescription et surveillance", [ul("Dose délivrée ≥ 25 mL/kg/h (prescrire 25–30 mL/kg/h pour compenser les arrêts)", "Fraction de filtration < 25 % en post-dilution", "Perte nette adaptée au bilan entrées-sorties et à l'état hémodynamique", "Ionogramme, phosphore, Mg, Ca ionisé toutes les 6–8 h au début", "Adapter les antibiotiques (doses souvent sous-estimées sous EER continue)")])
     ]
   };
   P17.route("#/eer/cvvh", { title: "EER continue", render: () => eerPage("#/eer/cvvh", "EER continue", CVVH) });

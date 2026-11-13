@@ -57,7 +57,7 @@
         ["Forte", "Laparotomie, thoracotomie, arthrodèse, chirurgie osseuse majeure", "Protocole complet + ALR continue (péridurale, paravertébral, cathéter périnerveux) + kétamine ; morphine en PCA de secours"]
       ])], { wide: true }),
       S("Anesthésie sans opioïdes peropératoire", [ul("Possible en associant kétamine, lidocaïne, dexmédétomidine, magnésium et ALR", "Bénéfices : moins de NVPO et de sédation ; intérêt chez l'obèse avec apnées du sommeil", warn("Les fortes doses de dexmédétomidine exposent à des bradycardies sévères et à des réveils prolongés (essai POFA) : préférer des doses modérées."))]),
-      S("Si la douleur reste > 3", [ul("Vérifier l'administration du protocole et l'efficacité de l'ALR (cathéter déplacé ?)", "Rechercher une complication chirurgicale (douleur inhabituelle)", "Titration morphinique en SSPI puis PCA"), { html: `<p><a class="btn btn--ghost" href="#/analgesie/titration-morphine">Protocole de titration morphinique</a></p>` }])
+      S("Si la douleur reste > 3", [ul("Vérifier l'administration du protocole et l'efficacité de l'ALR (cathéter déplacé ?)", "Rechercher une complication chirurgicale (douleur inhabituelle)", "Titration morphinique en SSPI puis PCA")])
     ],
     refs: [REF_DOUL, "Beloeil H et al. Essai POFA : anesthésie sans opioïdes avec dexmédétomidine. Anesthesiology 2021", "Recommandations PROSPECT (ESRA) spécifiques à la procédure"]
   };
@@ -305,8 +305,7 @@
         "Glycémie ≤ 10 mmol/L et alimentation reprise : traitements habituels aux horaires habituels",
         "Antidiabétiques oraux (type 2) : glycémie < 12 mmol/L depuis 24 h et fonction rénale vérifiée — DFG > 60 : tous ; 30–60 : tous sauf metformine ; < 30 : pas de reprise",
         "Glycémie > 16,5 mmol/L : pas de retour à domicile, hospitalisation pour insuline IV"),
-        warn("Situations à risque : dexaméthasone (hyperglycémie transitoire), gliflozines (acidocétose euglycémique : glycémie normale mais acidose et cétonémie élevée)."),
-        { html: `<p><a class="btn btn--ghost" href="#/preop/traitements">Antidiabétiques avant la chirurgie : fiche Traitements chroniques</a></p>` }]),
+        warn("Situations à risque : dexaméthasone (hyperglycémie transitoire), gliflozines (acidocétose euglycémique : glycémie normale mais acidose et cétonémie élevée).")]),
 
       S("Orientation en soins critiques", [ul("Instabilité hémodynamique ou besoin persistant de vasopresseurs",
         "Insuffisance respiratoire, besoin de VNI ou d'oxygène à haut débit",

@@ -85,8 +85,7 @@
         ["Urapidil", "5 mg/mL", "10–25 mg en bolus"],
         ["Esmolol", "10 mg/mL", "0,5 mg/kg en bolus"]
       ])], { wide: true }),
-      S("Agents inhalés", [kv(["Sévoflurane", "CAM 2 % à 40 ans"], ["Desflurane", "CAM 6 % ; irritant, pas d'induction au masque"], ["Isoflurane", "CAM 1,15 %"], ["Âge", "La CAM baisse d'environ 6 % par décennie"], ["Contre-indication", "Antécédent personnel ou familial d'hyperthermie maligne"]),
-        btns(["#/blocs", "Anesthésiques locaux : doses maximales"], ["#/sspi/sortie", "Antiémétiques"], ["#/urgences", "Urgences au bloc"])])
+      S("Agents inhalés", [kv(["Sévoflurane", "CAM 2 % à 40 ans"], ["Desflurane", "CAM 6 % ; irritant, pas d'induction au masque"], ["Isoflurane", "CAM 1,15 %"], ["Âge", "La CAM baisse d'environ 6 % par décennie"], ["Contre-indication", "Antécédent personnel ou familial d'hyperthermie maligne"])])
     ],
     refs: ["RFE SFAR 2018 : Curarisation et décurarisation en anesthésie (Plaud B et al., Anaesth Crit Care Pain Med 2020)", "Nightingale CE et al. Peri-operative management of the obese surgical patient 2015. Anaesthesia 2015", "Janmahasatian S et al. Quantification of lean bodyweight. Clin Pharmacokinet 2005", "Résumés des caractéristiques des produits (base de données publique des médicaments)"]
   };
@@ -100,14 +99,14 @@
         ["Intubation difficile", "Antécédent d'intubation difficile, Mallampati 3 ou 4, ouverture de bouche < 35 mm, distance thyro-mentonnière < 65 mm, mobilité cervicale réduite, rétrognathie"],
         ["Ventilation au masque difficile", "Au moins deux critères : âge > 55 ans, IMC > 26, barbe, édentation, ronflement ; limitation de la protrusion mandibulaire"],
         ["Désaturation rapide", "Obésité, grossesse, hypoxémie, sepsis, occlusion"]
-      ]), btns(["#/preop/consultation", "Évaluation en consultation d'anesthésie"])], { wide: true }),
+      ])], { wide: true }),
       S("Préoxygéner", [ul("Masque étanche, oxygène pur pendant 3 minutes à volume courant, ou 8 inspirations profondes en 1 minute", "Objectif : fraction expirée d'oxygène supérieure à 90 %", "Position proclive de 25 à 30° chez l'obèse", "Patient hypoxémique ou obèse : ventilation non invasive (aide inspiratoire et pression expiratoire positive) ou oxygène à haut débit", "Poursuivre l'apport d'oxygène pendant l'apnée")]),
       S("Choisir la stratégie", [tbl(["Situation", "Stratégie"], [
         ["Aucun critère de difficulté", "Laryngoscopie directe ou vidéolaryngoscope, mandrin long béquillé disponible"],
         ["Intubation difficile prévue, ventilation possible", "Vidéolaryngoscope d'emblée, curarisation, dispositif supraglottique prêt"],
         ["Intubation et ventilation difficiles prévues", "Intubation vigile sous fibroscope, en ventilation spontanée"],
         ["Dans tous les cas", "Annoncer à l'équipe le plan en cas d'échec avant d'induire"]
-      ]), btns(["#/urgences/intubation-difficile", "Intubation difficile imprévue : arbre décisionnel"])], { wide: true }),
+      ])], { wide: true }),
       S("Reconnaître l'estomac plein", [ul("Urgence, jeûne non respecté, occlusion, hémorragie digestive, vomissements", "Reflux sévère, hernie hiatale, gastroparésie diabétique, traitement par agoniste du GLP-1", "Douleur intense, morphiniques, traumatisme récent", "Grossesse à partir du deuxième trimestre"),
         kv(["Échographie de l'antre gastrique", "Antre vide : estomac vide. Liquide clair de moins de 1,5 mL/kg : risque faible. Contenu solide ou volume supérieur à 1,5 mL/kg : estomac plein"])]),
       S("Induction en séquence rapide", [ol("Vidange gastrique par sonde en cas d'occlusion ; aspiration prête, patient en proclive", "Préoxygénation rigoureuse", "Hypnotique d'action rapide : propofol 2–2,5 mg/kg, étomidate 0,3 mg/kg ou kétamine 2–3 mg/kg selon l'hémodynamique", "Curare d'action rapide : succinylcholine 1 mg/kg ou rocuronium 1–1,2 mg/kg, avec sugammadex disponible", "Pas de ventilation au masque avant l'intubation, sauf hypoxémie : insufflations douces à moins de 15 cmH₂O", "Intubation orotrachéale, ballonnet gonflé avant toute ventilation ; contrôle par capnographie", "Extubation patient réveillé, réflexes récupérés"),
@@ -124,8 +123,7 @@
     sections: [
       S("Indications et contre-indications", [kv(["Indications", "Chirurgie sous-ombilicale : membre inférieur, hanche, urologie endoscopique, périnée, paroi abdominale basse"],
         ["Contre-indications", "Refus du patient, infection au point de ponction, hypovolémie non corrigée, trouble de l'hémostase ou antithrombotique non arrêté, hypertension intracrânienne, allergie aux anesthésiques locaux"],
-        ["Prudence", "Rétrécissement aortique serré, cardiopathie obstructive, sepsis, maladie neurologique évolutive"]),
-        btns(["#/preop/antithrombotiques", "Délais des antithrombotiques avant un geste neuraxial"])]),
+        ["Prudence", "Rétrécissement aortique serré, cardiopathie obstructive, sepsis, maladie neurologique évolutive"])]),
       S("Technique", [ul("Monitorage, voie veineuse, vasopresseur prêt dans une seringue", "Asepsie chirurgicale ; patient assis ou en décubitus latéral", "Ponction en L3–L4 ou L4–L5 (la ligne des crêtes iliaques croise L4) ; jamais au-dessus de L2", "Aiguille à pointe crayon de 25 ou 27 G avec introducteur", "Reflux de liquide cérébrospinal clair avant une injection lente", "Repérage échographique si les repères sont difficiles (obésité, scoliose)")]),
       S("Doses de bupivacaïne hyperbare 0,5 %", [tbl(["Chirurgie", "Niveau visé", "Dose"], [
         ["Périnée, proctologie (bloc en selle)", "S2–S5", "5–7,5 mg"],
@@ -141,7 +139,7 @@
         ["Rétention urinaire", "Échographie vésicale avant la sortie de SSPI, sondage évacuateur"],
         ["Déficit moteur qui persiste ou réapparaît", "Hématome ou abcès péridural : IRM en urgence, avis neurochirurgical"],
         ["Douleurs radiculaires transitoires", "Surtout avec la lidocaïne : antalgiques, régression en quelques jours"]
-      ]), btns(["#/sspi/sortie", "Check-list de sortie de SSPI"])], { wide: true })
+      ])], { wide: true })
     ],
     refs: ["RPC SFAR 2006 : Les blocs périmédullaires chez l'adulte", "Kietaibl S et al. Regional anaesthesia in patients on antithrombotic drugs: joint ESAIC/ESRA guidelines. Eur J Anaesthesiol 2022", "Uppal V et al. Consensus practice guidelines on postdural puncture headache. Reg Anesth Pain Med 2023"]
   };
@@ -179,8 +177,7 @@
       }
       return { html: `<div class="out-label">${P17.esc(x.s.short || x.s.title)}</div><div class="out-main" style="margin-top:4px">${it.title}</div>
         ${v.allergie ? `<h4>Allergie aux bêta-lactamines</h4><ul class="rx"><li>${al || "Pas d'alternative indiquée dans la fiche : avis de l'infectiologue ou du référent antibiotique"}</li></ul>` : ""}
-        <h4>Schéma de la fiche</h4><div class="abp-blocks">${P17.blocks(sec.blocks)}</div>${re}
-        <p class="btn-row"><a class="btn btn--ghost" href="#/anesthesie/${x.s.id}/${it.id}">Ouvrir la fiche de l'intervention</a></p>` };
+        <h4>Schéma de la fiche</h4><div class="abp-blocks">${P17.blocks(sec.blocks)}</div>${re}` };
     },
     note: "<p>D'après les RFE SFAR-SPILF 2024. Une intervention absente de la liste n'a pas de schéma dans les fiches.</p>"
   });
@@ -221,8 +218,7 @@
     title: "Transfusion et épargne sanguine", subtitle: "Préparer le patient, limiter les pertes, transfuser au bon seuil",
     tags: ["Seuils", "Acide tranexamique", "Fer", "Sécurité transfusionnelle"], tool: psaTool, toolLabel: "Pertes admissibles",
     sections: [
-      S("Avant l'intervention", [ul("Dépister l'anémie (hémoglobine < 13 g/dL) au moins 4 semaines avant une chirurgie hémorragique", "Carence martiale (ferritine < 100 µg/L, ou < 300 µg/L avec un coefficient de saturation < 20 %) : fer intraveineux", "Érythropoïétine en chirurgie orthopédique majeure si l'hémoglobine est entre 10 et 13 g/dL", "Gérer les antithrombotiques ; groupe sanguin et recherche d'agglutinines irrégulières selon le risque"),
-        btns(["#/preop/antithrombotiques", "Antiagrégants et anticoagulants"])]),
+      S("Avant l'intervention", [ul("Dépister l'anémie (hémoglobine < 13 g/dL) au moins 4 semaines avant une chirurgie hémorragique", "Carence martiale (ferritine < 100 µg/L, ou < 300 µg/L avec un coefficient de saturation < 20 %) : fer intraveineux", "Érythropoïétine en chirurgie orthopédique majeure si l'hémoglobine est entre 10 et 13 g/dL", "Gérer les antithrombotiques ; groupe sanguin et recherche d'agglutinines irrégulières selon le risque")]),
       S("Pendant l'intervention", [ul("Acide tranexamique 1 g à l'incision en chirurgie hémorragique (prothèse, rachis, traumatologie) ; prudence en cas d'antécédent de convulsions", "Normothermie, normocalcémie, pH normal", "Récupération du sang épanché si les pertes prévues dépassent 500 mL", "Hémostase chirurgicale soigneuse, garrot quand il est possible", "Stratégie transfusionnelle restrictive, un concentré à la fois hors hémorragie active")]),
       S("Seuils transfusionnels", [tbl(["Produit", "Seuil", "Dose"], [
         ["Globules rouges", "7 g/dL sans antécédent ; 8–9 g/dL si antécédent cardiovasculaire ; 10 g/dL si mauvaise tolérance, syndrome coronarien aigu ou insuffisance cardiaque", "Un concentré élève l'hémoglobine d'environ 1 g/dL"],
@@ -232,8 +228,7 @@
         ["Concentré de complexe prothrombinique", "Saignement sous AVK", "25 UI/kg avec vitamine K 10 mg"]
       ])], { wide: true }),
       S("Sécurité transfusionnelle", [ol("Prescription nominative, deux déterminations de groupe, agglutinines irrégulières de moins de 72 heures", "Contrôle ultime au lit du patient : identité, concordance des documents, compatibilité ABO sur carte", "Surveillance rapprochée pendant les 15 premières minutes, puis régulière", "Traçabilité de chaque produit dans le dossier"),
-        warn("Devant une réaction : arrêter la transfusion, garder la voie, prévenir le médecin et le centre de transfusion. Penser à la surcharge, au TRALI, à l'incompatibilité ABO, à l'hyperkaliémie et à l'hypocalcémie des transfusions rapides.")]),
-      S("Hémorragie massive", [btns(["#/urgences/hemorragie-massive", "Hémorragie massive : aide au bloc"], ["#/sspi/saignement", "Saignement en SSPI"])])
+        warn("Devant une réaction : arrêter la transfusion, garder la voie, prévenir le médecin et le centre de transfusion. Penser à la surcharge, au TRALI, à l'incompatibilité ABO, à l'hyperkaliémie et à l'hypocalcémie des transfusions rapides.")])
     ],
     refs: ["HAS 2014 : Transfusion de globules rouges homologues : produits, indications, alternatives", "HAS 2022 : Gestion du capital sanguin en pré, per et post-opératoire et en obstétrique", "Kietaibl S et al. Management of severe peri-operative bleeding: guidelines from the ESAIC, second update 2022. Eur J Anaesthesiol 2023"]
   };
@@ -331,8 +326,7 @@
         ["Fondaparinux", "2,5 mg × 1/j, au moins 8 heures après la chirurgie ; contre-indiqué si le DFG est < 50 mL/min, déconseillé sous 50 kg"],
         ["AOD (prothèse de hanche ou de genou)", "Apixaban 2,5 mg × 2/j ; rivaroxaban 10 mg × 1/j"]
       ])], { wide: true }),
-      S("Moyens mécaniques et surveillance", [ul("Compression pneumatique intermittente : lorsque les anticoagulants sont contre-indiqués ; en association en cas de risque très élevé ; elle ne doit pas retarder la marche", "Plaquettes : à l'instauration, puis une à deux fois par semaine du 4e au 14e jour sous HBPM (deux à trois fois sous héparine non fractionnée)", "Pas de dosage de l'activité anti-Xa en routine, y compris aux poids extrêmes et dans l'insuffisance rénale", "Cathéter périmédullaire : retrait au moins 12 heures après une HBPM préventive"),
-        btns(["#/preop/antithrombotiques", "Antiagrégants et anticoagulants : arrêt et reprise"])])
+      S("Moyens mécaniques et surveillance", [ul("Compression pneumatique intermittente : lorsque les anticoagulants sont contre-indiqués ; en association en cas de risque très élevé ; elle ne doit pas retarder la marche", "Plaquettes : à l'instauration, puis une à deux fois par semaine du 4e au 14e jour sous HBPM (deux à trois fois sous héparine non fractionnée)", "Pas de dosage de l'activité anti-Xa en routine, y compris aux poids extrêmes et dans l'insuffisance rénale", "Cathéter périmédullaire : retrait au moins 12 heures après une HBPM préventive")])
     ],
     refs: ["Godier A, Lasne D, Pernod G et al. Prévention de la maladie thromboembolique veineuse péri-opératoire : actualisation des recommandations (GIHP, SFAR, SFTH, SFMV), 2024", "Afshari A et al. European guidelines on perioperative venous thromboembolism prophylaxis. Eur J Anaesthesiol 2018"]
   };

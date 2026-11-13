@@ -24,8 +24,7 @@
         S("Ventilation unipulmonaire", [
           kv(["Exclusion", "Sonde double lumière gauche de référence ; bloqueur bronchique si intubation difficile ou trachéotomie"],
             ["Contrôle", "Fibroscope après l'intubation, puis après la mise en décubitus latéral"],
-            ["Ventilation", "Protectrice sur un seul poumon : petit volume courant, PEP, FiO₂ la plus basse possible"]),
-          { html: `<p class="btn-row"><a class="btn btn--ghost" href="#/anesthesie/thoracique/ventilation-unipulmonaire">Réglages et hypoxémie</a> <a class="btn btn--ghost" href="#/anesthesie/thoracique/sonde-double-lumiere">Sonde double lumière</a> <a class="btn btn--ghost" href="#/anesthesie/thoracique/bloqueurs-bronchiques">Bloqueurs bronchiques</a></p>` }
+            ["Ventilation", "Protectrice sur un seul poumon : petit volume courant, PEP, FiO₂ la plus basse possible"])
         ]),
         S("Remplissage", [
           ul("Stratégie restrictive guidée par objectifs : bilan positif < 1,5 L ou 20 mL/kg sur les 24 premières heures après pneumonectomie",
@@ -33,8 +32,7 @@
             "Cristalloïdes balancés")
         ]),
         S("Analgésie", [
-          ul("Thoracotomie : bloc paravertébral continu ou péridurale thoracique", "Thoracoscopie : bloc paravertébral ou ESP en injection unique", "Toujours avec paracétamol, AINS si possible et dexaméthasone"),
-          { html: `<p class="btn-row"><a class="btn btn--ghost" href="#/anesthesie/thoracique/analgesie-thoracique">Analgésie après chirurgie thoracique</a> <a class="btn btn--ghost" href="#/blocs">Fiches des blocs</a></p>` }
+          ul("Thoracotomie : bloc paravertébral continu ou péridurale thoracique", "Thoracoscopie : bloc paravertébral ou ESP en injection unique", "Toujours avec paracétamol, AINS si possible et dexaméthasone")
         ]),
         S("Antibioprophylaxie : vue d'ensemble", [
           tbl(["Intervention", "Antibioprophylaxie"], [

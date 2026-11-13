@@ -30,11 +30,9 @@
   P17.index("#/anesthesie", SEC, "protocoles anesthésie spécialités", SEC);
 
   // Allègement à l'affichage : l'antibioprophylaxie tient en une ligne dans chaque fiche d'intervention,
-  // et le tableau récapitulatif des généralités est remplacé par un lien vers l'outil (une seule source).
-  const ABP_LINK = { title: "Antibioprophylaxie", blocks: [{ html: `<p>Le schéma figure dans chaque fiche d'intervention.</p><p class="btn-row"><a class="btn btn--ghost" href="#/perop/antibioprophylaxie">Outil d'antibioprophylaxie par intervention</a></p>` }] };
+  // et le tableau récapitulatif des généralités est retiré (une seule source par intervention).
   const tidy = f => ({ ...f, sections: (f.sections || []).map(x =>
-    /^Antibioprophylaxie : vue d'ensemble/.test(x.title) ? ABP_LINK
-      : x.title === "Antibioprophylaxie" && !x.tone ? { ...x, tone: "compact", wide: true } : x) });
+    x.title === "Antibioprophylaxie" && !x.tone ? { ...x, tone: "compact", wide: true } : x).filter(x => !/^Antibioprophylaxie : vue d'ensemble/.test(x.title)) });
 
   SPECS.forEach(s => {
     const sBase = [...base, [s.short || s.title, `#/anesthesie/${s.id}`]];
@@ -45,7 +43,6 @@
         body: P17.group(princ(s).length ? PRINC : "Principes", P17.tiles([{ href: `#/anesthesie/${s.id}/generalites`, title: "Généralités de la spécialité", desc: s.generalites.subtitle || "", icon: "fiche", accent: "anesthesie" },
             ...princ(s).map(i => ({ href: `#/anesthesie/${s.id}/${i.id}`, title: i.title, desc: i.subtitle || "", icon: i.icon || "fiche", accent: "anesthesie" }))]))
           + groups(s).map(([g, list]) => P17.group(g, P17.tiles(list.map(i => ({ href: `#/anesthesie/${s.id}/${i.id}`, title: i.title, desc: i.subtitle || "", icon: i.icon || "fiche", accent: "anesthesie" }))))).join("")
-          + P17.group("Selon le terrain, avant, pendant et après l'intervention", P17.tiles(PERIOP))
       })
     });
     P17.index(`#/anesthesie/${s.id}`, s.title, s.desc + " " + s.interventions.map(i => i.title).join(" "), SEC);
@@ -57,7 +54,6 @@
           ${P17.crumbs([...sBase, [label, path]])}
         </div>
         ${P17.fiche({ kicker: s.title, accent: "anesthesie", ...tidy(f) })}
-        ${nav(f, s)}
       </div>`;
 
     P17.route(`#/anesthesie/${s.id}/generalites`, {
@@ -91,15 +87,5 @@
     return out;
   }
 
-  function nav(f, s) {
-    const list = [{ id: "generalites", title: "Généralités" }, ...princ(s), ...s.interventions.filter(i => i.group !== PRINC)];
-    const idx = list.findIndex(x => (x.title === f.title) || (f.title || "").startsWith("Généralités") && x.id === "generalites");
-    const prev = idx > 0 ? list[idx - 1] : null;
-    const next = idx >= 0 && idx < list.length - 1 ? list[idx + 1] : null;
-    if (!prev && !next) return "";
-    return `<nav class="fiche-nav">
-      ${prev ? `<a class="tile" href="#/anesthesie/${s.id}/${prev.id}"><span class="tile-ico">${P17.icon("back")}</span><span class="tile-body"><span class="tile-desc">Précédent</span><span class="tile-title">${prev.title}</span></span></a>` : "<span></span>"}
-      ${next ? `<a class="tile" href="#/anesthesie/${s.id}/${next.id}"><span class="tile-body"><span class="tile-desc">Suivant</span><span class="tile-title">${next.title}</span></span><span class="tile-ico">${P17.icon("arrow")}</span></a>` : ""}
-    </nav>`;
-  }
+
 })();
