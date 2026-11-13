@@ -6,7 +6,7 @@
   // préfixe d'adresse → scène (le premier préfixe qui correspond l'emporte)
   const MAP = [
     ["#/anesthesie", "bloc-anesthesie"], ["#/perop", "bloc-anesthesie"],
-    ["#/preop", "bloc-salle"], ["#/urgences", "bloc-salle"], ["#/blocs", "bloc-salle"],
+    ["#/preop", "bloc-salle"], ["#/terrains", "bloc-salle"], ["#/urgences", "bloc-salle"], ["#/blocs", "bloc-salle"],
     ["#/postop", "rea-ventilation"], ["#/sspi", "rea-ventilation"], ["#/analgesie", "rea-ventilation"],
     ["#/calculateurs", "rea-soins"], ["#/eer", "rea-soins"], ["#/echographie", "rea-soins"], ["#/enseignement", "rea-soins"], ["#/bibliographie", "rea-soins"]
   ];

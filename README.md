@@ -6,11 +6,15 @@ Le site fonctionne sans serveur ni base de données : il suffit de l'héberger g
 
 ---
 
-## 1. Mise en ligne (GitHub Pages)
+## 1. Mettre le site en ligne (GitHub Pages)
 
-Le site est publié depuis la branche `main`, dossier racine (**Settings > Pages > Source : Deploy from a branch**, `main`, `/ (root)`). Chaque modification de `main` est mise en ligne en une à deux minutes, à l'adresse `https://tawfiqela.github.io/MPO-P17/`.
-
-Après l'ajout ou la suppression de fichiers, régénérer la liste hors connexion avant de publier : `python3 scripts/build_sw.py`.
+1. Créer un compte sur <https://github.com> (gratuit).
+2. Cliquer sur **New repository**, nommer le dépôt par exemple `rea-chir-p17`, le laisser **Public**, puis **Create repository**.
+3. Sur la page du dépôt vide, cliquer sur **uploading an existing file**, puis glisser **le contenu** du dossier décompressé (les fichiers `index.html`, `manifest.webmanifest`, `sw.js`, `README.md`, `.nojekyll` et les dossiers `assets`, `icons`, `scripts`, `tests`, `.github`). Valider avec **Commit changes**.
+   - Le dossier `.github` est masqué sur certains ordinateurs : l'afficher (macOS : `Cmd + Maj + .` ; Windows : Affichage > Éléments masqués). S'il ne passe pas par le navigateur, créer le fichier à la main : **Add file > Create new file**, nom `.github/workflows/deploy.yml`, et coller son contenu.
+4. Aller dans **Settings > Pages**, et choisir **Source : GitHub Actions**.
+5. Aller dans **Actions**, ouvrir « Mise en ligne » et cliquer sur **Run workflow** (la première fois seulement).
+6. Après 1 à 2 minutes, le site est disponible à l'adresse `https://<votre-identifiant>.github.io/rea-chir-p17/`.
 
 ### Installer l'application sur un téléphone
 
@@ -38,7 +42,7 @@ Toutes les modifications peuvent se faire directement sur GitHub (bouton ✏️ 
 | Sections de l'accueil (gestion pré-opératoire, per-opératoire, post-opératoire, outils, divers) | `assets/modules/accueil.js` |
 | Urgences au bloc : bulle rouge présente sur toutes les pages et aides cognitives (liste `URG`) | `assets/modules/urgences.js` |
 | Per-opératoire : médicaments, voies aériennes et estomac plein, rachianesthésie, antibioprophylaxie (outil qui lit les fiches des interventions), transfusion ; thromboprophylaxie postopératoire | `assets/modules/perop.js` |
-| Anesthésie selon le terrain : situations à risque puis conduite (coronarien, insuffisant cardiaque, BPCO, apnées, obèse, insuffisant rénal, cirrhotique, sujet âgé) | `assets/modules/terrains.js` |
+| Anesthésie selon le terrain (section de l'accueil) : situations à risque puis conduite (coronarien, insuffisant cardiaque, BPCO, apnées, obèse, insuffisant rénal, cirrhotique, sujet âgé) | `assets/modules/terrains.js` |
 | Gestion pré-opératoire : consultation, visite préanesthésique, traitements chroniques, antiagrégants et anticoagulants (outil GIHP-SFAR 2026) | `assets/modules/commun.js` (règles de calcul dans `assets/calc.js`) |
 | Cours de chirurgie thoracique (VATS, wedge, unipulmonaire, sonde double lumière, bloqueurs, péridurale, analgésie) | `assets/modules/anesth/thoracique-cours.js` |
 | Antibiothérapie (BMR, durées, rein, administration) | `assets/modules/atb-data.js` |

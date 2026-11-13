@@ -6,7 +6,7 @@
 (function () {
   const { S, ul, kv, tbl, warn, danger, info } = P17.h;
   const SEC = "Anesthésie selon le terrain";
-  const ROOT = "#/preop/terrains";
+  const ROOT = "#/terrains";
   const PREOP = ["Gestion pré-opératoire", "#/preop"];
   const btns = (...l) => ({ html: `<p class="btn-row">${l.map(([h, t]) => `<a class="btn btn--ghost" href="${h}">${t}</a>`).join(" ")}</p>` });
   const REF_ESC = "Halvorsen S et al. 2022 ESC Guidelines on cardiovascular assessment and management of patients undergoing non-cardiac surgery. Eur Heart J 2022";
@@ -160,21 +160,25 @@
   });
 
   /* ---------------- Routes ---------------- */
+  // anciennes adresses (rubrique rangée auparavant dans Gestion pré-opératoire)
+  P17.redirect("#/preop/terrains", ROOT);
+  TERRAINS.forEach(t => P17.redirect(`#/preop/terrains/${t.id}`, `${ROOT}/${t.id}`));
   P17.route(ROOT, {
     title: SEC,
-    render: () => P17.page({ crumbs: [PREOP, [SEC, ROOT]], title: SEC, accent: "anesthesie", icon: "terrain",
+    render: () => P17.page({ crumbs: [[SEC, ROOT]], title: SEC, accent: "anesthesie", icon: "terrain", back: "#/",
       subtitle: "Pour chaque terrain : d'abord les situations à risque, puis la conduite de l'anesthésie avant, pendant et après l'intervention.",
       body: P17.tiles(TERRAINS.map(t => ({ href: `${ROOT}/${t.id}`, title: t.court, desc: t.desc, icon: "terrain", accent: "anesthesie" }))) })
   });
-  P17.index(ROOT, SEC, "comorbidités terrain patient à risque", PREOP[0]);
+  P17.index(ROOT, SEC, "comorbidités terrain patient à risque", SEC);
   TERRAINS.forEach(t => {
     const path = `${ROOT}/${t.id}`;
     P17.route(path, { title: t.court, render: () => `
       <div class="page accent-anesthesie">
-        <div class="page-head">${P17.backLink(ROOT, SEC)}${P17.crumbs([PREOP, [SEC, ROOT], [t.court, path]])}</div>
+        <div class="page-head">${P17.backLink(ROOT, SEC)}${P17.crumbs([[SEC, ROOT], [t.court, path]])}</div>
         ${P17.fiche({ kicker: SEC, accent: "anesthesie", ...t.fiche })}
       </div>` });
-    P17.index(path, t.fiche.title, `${t.desc} ${(t.fiche.tags || []).join(" ")} terrain`, PREOP[0]);
+    P17.index(path, t.fiche.title, `${t.desc} ${(t.fiche.tags || []).join(" ")} terrain`, SEC);
   });
-  if (P17.preop) P17.preop.push({ href: ROOT, title: SEC, desc: "Situations à risque et conduite : cœur, poumon, obésité, rein, foie, sujet âgé", icon: "terrain", accent: "anesthesie" });
+  // Section principale de l'accueil (volet « Selon le patient »)
+  P17.terrains = TERRAINS.map(t => ({ href: `${ROOT}/${t.id}`, title: t.court, desc: t.desc, icon: "terrain", accent: "anesthesie" }));
 })();

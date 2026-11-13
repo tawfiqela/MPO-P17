@@ -150,7 +150,7 @@
         </section>
 
         <section class="acc-group" aria-label="Avant, pendant et après l'intervention">
-          ${[["preop", "Gestion pré-opératoire", "Avant", P17.preop || [], "fiche"], ["perop", "Per-opératoire", "Pendant", P17.perop || [], "perop"], ["postop", "Post-opératoire", "Après", P17.postop || [], "sspi"]].map(([id, t, step, list, icon]) => `
+          ${[["preop", "Gestion pré-opératoire", "Avant", P17.preop || [], "fiche"], ["perop", "Per-opératoire", "Pendant", P17.perop || [], "perop"], ["postop", "Post-opératoire", "Après", P17.postop || [], "sspi"], ["terrain", "Anesthésie selon le terrain", "Selon le patient", P17.terrains || [], "terrain"]].map(([id, t, step, list, icon]) => `
           <div class="acc ${OPEN === id ? "is-open" : ""}" data-acc="${id}">
             <button class="acc-head" type="button" aria-expanded="${OPEN === id}" aria-controls="acc-${id}">
               <span class="acc-ico">${P17.icon(icon)}</span>

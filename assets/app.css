@@ -1152,3 +1152,50 @@ body.has-decor .decor { display: block; }
 @media (max-width: 760px) { .decor { width: 120vw; height: 46vh; } .decor img { opacity: .13; } }
 body.has-decor :is(.tile, .fcard, .fiche-head, .calc, .fiche-toc, .acc) { background-color: color-mix(in srgb, var(--surface) 86%, transparent); }
 body.has-decor .fcard--alert { background-color: color-mix(in srgb, var(--danger) 5%, color-mix(in srgb, var(--surface) 88%, transparent)); }
+
+/* =====================================================================
+   Téléphone : version compacte (titres seuls, sous-titres courts)
+   ===================================================================== */
+@media (max-width: 560px) {
+  .crumbs { display: none; }
+  .page-head { margin-bottom: 14px; }
+  .page-title { font-size: 26px; }
+  .page-ico { width: 40px; height: 40px; }
+  .page-sub { font-size: 14.5px; margin-top: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .group { margin-top: 20px; }
+  .group-title { font-size: 17px; margin-bottom: 10px; }
+  /* tuiles : le titre suffit */
+  .tiles { gap: 8px; }
+  .tile { padding: 11px 13px; gap: 12px; border-radius: 15px; min-height: 0; }
+  .tile .tile-desc { display: none; }
+  .tile-title { font-size: 15.5px; }
+  .tile-ico { width: 36px; height: 36px; border-radius: 11px; }
+  .tile-img { width: 44px; height: 44px; border-radius: 12px; }
+  .tile-go { width: 28px; height: 28px; }
+  .tiles--compact .tile { padding: 10px 12px; }
+  /* spécialités de l'accueil : nom et nombre de fiches */
+  .sat { padding: 12px; gap: 2px; }
+  .sat-desc { display: none; }
+  .sat-top { margin-bottom: 4px; }
+  .sat-meta { margin-top: 4px; }
+  /* volets pré-, per- et post-opératoire : sans la liste du contenu */
+  .acc-t em { display: none; }
+  .acc-head { padding: 11px 12px; }
+  /* en-tête des fiches : titre et une ligne de sous-titre, sans pastilles */
+  .fiche-head { padding: 16px 16px 18px; gap: 6px; }
+  .fiche-head .chips, .fiche-service { display: none; }
+  .fiche-kicker { font-size: 12px; padding: 4px 11px; margin-top: 0; }
+  .fiche-title { font-size: 24px; }
+  .fiche-sub { font-size: 14.5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .fcard { padding: 16px 15px; }
+  .fcard-title { font-size: 17px; }
+  .hm-line { font-size: 13px; margin-bottom: 16px; }
+}
+@media (max-width: 560px) {
+  .sat { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 10px; row-gap: 4px; }
+  .sat .sat-top { grid-row: span 2; margin: 0; }
+  .sat .sat-ico { width: 34px; height: 34px; }
+  .sat-title { font-size: 15px; line-height: 1.2; }
+  .sat-meta { margin: 0; font-size: 13px; }
+  .sat.sat--endo { justify-items: start; text-align: left; }
+}
