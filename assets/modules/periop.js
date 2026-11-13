@@ -138,13 +138,7 @@
     kicker: "Post-opératoire", title: "Extubation en SSPI", subtitle: "Critères, décurarisation, extubation à risque",
     tags: ["TOF ≥ 0,9", "Sugammadex", "Extubation à risque"],
     sections: [
-      S("Décurarisation", [tbl(["Situation", "Antagonisation"], [
-        ["Rocuronium : TOF ≥ 2 réponses", "Sugammadex 2 mg/kg"],
-        ["Rocuronium : bloc profond (PTC 1–2)", "Sugammadex 4 mg/kg"],
-        ["Rocuronium 1,2 mg/kg, antagonisation immédiate", "Sugammadex 16 mg/kg"],
-        ["Tout curare non dépolarisant : 4 réponses au TOF avec épuisement", "Néostigmine 40–50 µg/kg (max 5 mg) + atropine 15–20 µg/kg ; délai d'action 10 min"],
-        ["Rapport TOF ≥ 0,9", "Pas d'antagonisation nécessaire"]
-      ], "Le monitorage quantitatif est indispensable : les tests cliniques (lever de tête) ne détectent pas une curarisation résiduelle. La néostigmine est inefficace sur un bloc profond.")], { wide: true }),
+      S("Décurarisation", [ul("Rapport du train de quatre ≥ 0,9 mesuré à l'adducteur du pouce avant toute extubation", "Les tests cliniques (lever de tête) ne suffisent pas")]),
       S("Technique d'extubation", [ol("Patient réveillé, critères remplis (outil ci-dessus)", "Préoxygénation FiO₂ 100 %", "Aspiration oropharyngée sous laryngoscopie ou vision directe", "Position demi-assise (obèse, apnées du sommeil)", "Dégonfler le ballonnet et retirer la sonde en fin d'inspiration (pression positive)", "Oxygène au masque, vérifier la liberté des voies aériennes et la ventilation", "Surveillance rapprochée pendant au moins 30 min")]),
       S("Extubation à risque", [ul("Facteurs : intubation difficile, obésité, apnées du sommeil, chirurgie cervicale ou des voies aériennes, œdème facial (Trendelenburg prolongé, décubitus ventral), insuffisance respiratoire, pathologie neuromusculaire", "Stratégies : extubation sur patient parfaitement réveillé, en présence d'un senior, matériel d'intubation difficile prêt", "Test de fuite au ballonnet si œdème : absence de fuite = risque de stridor", "Cathéter d'échange laissé en place, ou différer l'extubation, voire trachéotomie"), warn("En cas de doute, il est plus sûr de différer l'extubation que de réintuber en urgence.")]),
       S("Complications après l'extubation", [ul("Laryngospasme : subluxation, ventilation en pression positive FiO₂ 100 %, propofol 0,5 mg/kg, succinylcholine 0,5–1 mg/kg si persistance", "Stridor post-extubation : aérosol d'adrénaline (1–5 mg), corticoïdes IV, réintubation si épuisement", "Curarisation résiduelle : dyspnée, désaturation, diplopie — mesure du TOF, sugammadex", "Œdème pulmonaire à pression négative (après obstruction) : oxygène, PPC")])

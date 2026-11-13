@@ -437,6 +437,26 @@
       return { mol: "Énoxaparine", dose: "4 000 UI × 1/j SC", motif: "Schéma standard" };
     },
 
+    /* ---------- Compléments métaboliques et hémodynamiques ---------- */
+    deltaGap(ta, hco3, taNormal = 12) {   // ΔTA / ΔHCO₃⁻
+      if (!ok(ta, hco3) || hco3 >= 24) return null;
+      const dTA = ta - taNormal, dB = 24 - hco3;
+      return { dTA, dB, ratio: dTA / dB };
+    },
+    adrogue(na, naPerf, kPerf, eauTotale) {   // variation de natrémie pour 1 L perfusé
+      if (!ok(na, naPerf, eauTotale) || eauTotale <= 0) return null;
+      return ((naPerf + (kPerf || 0)) - na) / (eauTotale + 1);
+    },
+    eauTotale(sexe, age, poids) {   // fraction : 0,6 homme, 0,5 femme ; 0,5 et 0,45 après 65 ans
+      if (!ok(poids)) return null;
+      const old = ok(age) && age >= 65;
+      return poids * (sexe === "F" ? (old ? 0.45 : 0.5) : (old ? 0.5 : 0.6));
+    },
+    entretien421(poids) {   // besoins d'entretien horaires (règle 4-2-1)
+      if (!ok(poids) || poids <= 0) return null;
+      return poids <= 10 ? 4 * poids : poids <= 20 ? 40 + 2 * (poids - 10) : 60 + (poids - 20);
+    },
+
     /* ---------- IGS II (Le Gall 1993) ---------- */
     igs2(v) {   // v : points déjà attribués par variable (sélecteurs) ; renvoie total et mortalité prédite
       const pts = Object.values(v).map(Number).filter(x => !isNaN(x));

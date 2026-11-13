@@ -1236,3 +1236,32 @@ body.has-decor .fcard--alert { background-color: color-mix(in srgb, var(--danger
 .bs-key i { display: inline-block; width: 14px; height: 6px; border-radius: 3px; }
 .bs-key .k-pr { background: var(--accent); } .bs-key .k-nd { background: #e0a100; margin-left: 8px; }
 @media (max-width: 700px) { .bimg { grid-template-columns: minmax(0, 1fr); } .bschema svg { max-height: 240px; } }
+
+/* Transfusion : carte de contrôle ultime */
+.cross { margin: 0; max-width: 620px; }
+.cross svg { width: 100%; height: auto; display: block; }
+.cross .c-card { fill: #fbfaf5; stroke: #c9c3a8; stroke-width: 2; }
+.cross .c-h { font: 700 17px var(--font-display); fill: #2b2b2b; }
+.cross .c-t { font: 700 15px var(--font-body); fill: #2b2b2b; }
+.cross .c-sep { stroke: #c9c3a8; stroke-width: 2; stroke-dasharray: 4 6; }
+.cross .c-well { fill: #fff; stroke: #b9b3a0; stroke-width: 2; }
+.cross .c-hom { fill: #b3261e; opacity: .55; }
+.cross .c-agg { fill: #8f1d17; }
+.cross figcaption { margin-top: 10px; font-size: 14.5px; line-height: 1.5; color: var(--fg-2); }
+.cross figcaption b { color: var(--ink); }
+
+/* Fiches d'anesthésie : sous-parties réunies dans une même carte */
+.sub-blk + .sub-blk { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line-soft); }
+.sub-t { margin: 0 0 8px; font-family: var(--font-display); font-weight: 800; font-size: 15.5px; color: var(--sec, var(--accent)); }
+.sub-blk--compact .kv { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px 26px; margin: 0; display: grid; }
+.sub-blk--compact .kv > div { display: block; padding: 0; border: 0; }
+.sub-blk--compact .kv dt { font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 1px; }
+.sub-blk--compact .kv dd { font-size: 15px; line-height: 1.45; }
+.tech-voie{margin:0 0 .5rem;color:var(--muted,#5b6b7a);font-size:.92em;font-style:italic}
+.tsteps{list-style:none;margin:0;padding:0;counter-reset:ts;border:1px solid var(--line,#dbe6ee);border-radius:12px;overflow:hidden}
+.tsteps li{counter-increment:ts;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);gap:.4rem 1rem;padding:.6rem .85rem;border-top:1px solid var(--line,#dbe6ee)}
+.tsteps li:first-child{border-top:0}
+.tsteps .ts-t{font-weight:600;color:var(--ink,#0f2236)}
+.tsteps .ts-t::before{content:counter(ts);display:inline-grid;place-items:center;width:1.35em;height:1.35em;margin-right:.45em;border-radius:50%;background:var(--accent-soft,#e1eff8);color:var(--accent,#0f6fa8);font-size:.8em;font-weight:700}
+.tsteps .ts-a{color:var(--fg,#2a3b4c)}
+@media (max-width:640px){.tsteps li{grid-template-columns:1fr;gap:.15rem}.tsteps .ts-a{padding-left:1.8em;font-size:.95em}}

@@ -153,4 +153,11 @@ assert.ok(F.thromboDose({ poids: 42, imc: 17, dfg: 80 }).dose.startsWith("2 000"
 near(F.igs2({ a: 40 }).mortalite, 24.7, 0.5);
 assert.strictEqual(F.igs2({ a: 12, b: 7, c: 0 }).score, 19);
 
+// Delta gap, Adrogué-Madias, eau totale, règle 4-2-1
+near(F.deltaGap(24, 12).ratio, 1, 0.001);
+near(F.adrogue(110, 154, 0, F.eauTotale("F", 40, 60)), (154 - 110) / 31, 0.001);
+assert.strictEqual(F.eauTotale("H", 70, 70), 35);
+assert.strictEqual(F.entretien421(70), 110);
+assert.strictEqual(F.entretien421(15), 50);
+
 console.log("Tous les tests de calcul sont passés.");

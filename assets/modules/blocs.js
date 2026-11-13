@@ -245,29 +245,6 @@
     note: "<p>Propositions d'après PROSPECT (ESRA), ERAS et la SFAR ; à adapter au patient, au chirurgien et à l'expérience de l'équipe.</p>"
   });
 
-  /* ---------------- Dose maximale et toxicité systémique ---------------- */
-  const alCalc = P17.calc({
-    id: "alMax", title: "Dose maximale d'anesthésique local", desc: "Utiliser le poids idéal chez l'obèse ; cumuler toutes les injections (bloc, infiltration, lidocaïne IV)",
-    fields: [{ id: "mol", label: "Molécule", type: "select", options: [["ropivacaine", "Ropivacaïne"], ["bupivacaine", "Bupivacaïne"], ["levobupivacaine", "Lévobupivacaïne"], ["lidocaine", "Lidocaïne"], ["mepivacaine", "Mépivacaïne"]] },
-      { id: "adre", label: "Avec adrénaline (lidocaïne)", type: "check", showIf: v => v.mol === "lidocaine" },
-      { id: "poids", label: "Poids", unit: "kg" }, { id: "conc", label: "Concentration", unit: "%", placeholder: "0,375" }],
-    compute: v => {
-      const r = F.doseMaxAL(v.mol, v.poids, v.adre);
-      if (!r) return null;
-      const rows = [["Base de calcul", `${f(r.mgkg, 1)} mg/kg, plafond ${r.plafond} mg`]];
-      if (v.conc) rows.push(["Volume maximal", `${f(r.mg / (v.conc * 10), 0)} mL à ${f(v.conc, 3)} %`]);
-      return { label: "Dose maximale", main: `${f(r.mg, 0)} mg`, rows };
-    },
-    note: "Doses indicatives en injection unique ; réduire chez le sujet âgé, l'insuffisant cardiaque ou hépatique, et pour les sites très vasculaires (intercostal, ESP bilatéral)."
-  });
-  const lipCalc = P17.calc({
-    id: "lipid", title: "Émulsion lipidique 20 % (toxicité systémique)", desc: "Dès les premiers signes neurologiques ou cardiovasculaires graves",
-    fields: [{ id: "poids", label: "Poids", unit: "kg" }],
-    compute: v => {
-      const r = F.intralipide(v.poids); if (!r) return null;
-      return { label: "Bolus", main: `${f(r.bolus, 0)} mL en 2–3 min`, rows: [["Puis perfusion", r.perf], ["Dose cumulée maximale", `≈ ${f(r.max, 0)} mL (12 mL/kg)`]], tone: "danger", sub: "Répéter le bolus (1 à 2 fois) si instabilité persistante ; doubler le débit si besoin" };
-    }
-  });
   const REF_LAST = "ASRA 2020 : Checklist for treatment of local anesthetic systemic toxicity (Neal JM et al., Reg Anesth Pain Med 2021)";
 
   /* ---------------- Pages ---------------- */
@@ -290,10 +267,7 @@
               "Échoguidage, asepsie chirurgicale, aiguille visible en permanence, aspiration et injection lente et fractionnée",
               "Dose totale d'anesthésique local calculée : bloc + infiltrations du chirurgien + lidocaïne IV éventuelle",
               "Dexaméthasone 4–8 mg IV : prolonge la durée des blocs"),
-              info(`Antithrombotiques : les blocs superficiels restent possibles ; les blocs profonds (paravertébral, carré des lombes, plexus lombaire, infraclaviculaire) suivent les délais des procédures à risque élevé — <a href="#/preop/antithrombotiques">outil Antiagrégants et anticoagulants</a>. Images échographiques réelles : ${NYSORA}.`)]),
-            S("Dose maximale d'anesthésique local", [kv(["Ropivacaïne", "3 mg/kg, plafond 225 mg"], ["Bupivacaïne, lévobupivacaïne", "2 mg/kg, plafond 150 mg"], ["Lidocaïne", "4,5 mg/kg (7 mg/kg avec adrénaline)"], ["Mépivacaïne", "4,4 mg/kg"])], { tool: alCalc }),
-            S("Toxicité systémique des anesthésiques locaux", [danger("Signes : goût métallique, acouphènes, paresthésies péribuccales, agitation, convulsions, troubles du rythme, collapsus, arrêt cardiaque."),
-              { ol: ["Arrêter l'injection, appeler à l'aide", "Oxygène 100 %, contrôle des voies aériennes, éviter l'hypoxie et l'acidose", "Convulsions : benzodiazépine (midazolam 2–5 mg) ou propofol à faible dose", "Émulsion lipidique 20 % (outil ci-dessous)", "Arrêt cardiaque : RCP prolongée, adrénaline à petites doses (≤ 1 µg/kg), amiodarone si arythmie ventriculaire, ECMO si disponible", "Pas de lidocaïne, d'inhibiteurs calciques ni de bêtabloquants"] }], { wide: true, tone: "alert", tool: lipCalc })
+              info(`Antithrombotiques : les blocs superficiels restent possibles ; les blocs profonds (paravertébral, carré des lombes, plexus lombaire, infraclaviculaire) suivent les délais des procédures à risque élevé — <a href="#/preop/antithrombotiques">outil Antiagrégants et anticoagulants</a>. Images échographiques réelles : ${NYSORA}.`)])
           ],
           refs: [REF_PROSPECT, REF_SFAR, REF_ESAIC, REF_LAST, REF_NYSORA]
         })}

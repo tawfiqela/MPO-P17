@@ -25,12 +25,16 @@
       }
     }),
     P17.calc({
-      id: "pf", title: "Rapport PaO₂/FiO₂", desc: "Classification de Berlin (sous PEP ≥ 5 cmH₂O)",
-      fields: [{ id: "pao2", label: "PaO₂", unit: "mmHg" }, { id: "fio2", label: "FiO₂", unit: "% ou fraction", placeholder: "60" }],
+      id: "pf", title: "Rapports P/F et S/F", desc: "PaO₂/FiO₂ (classification de Berlin, PEP ≥ 5) ; SpO₂/FiO₂ si pas de gaz du sang",
+      fields: [{ id: "pao2", label: "PaO₂", unit: "mmHg" }, { id: "spo2", label: "SpO₂ (option)", unit: "%" }, { id: "fio2", label: "FiO₂", unit: "% ou fraction", placeholder: "60" }],
       compute: v => {
+        const fi = v.fio2 > 1 ? v.fio2 / 100 : v.fio2;
+        const sf = v.spo2 && fi ? v.spo2 / fi : null;
         const pf = F.pf(v.pao2, v.fio2);
-        if (pf === null) return null;
-        return { main: f(pf, 0), sub: F.berlin(pf), tone: pf <= 100 ? "danger" : pf <= 200 ? "warn" : "" };
+        if (pf === null && sf === null) return null;
+        const rows = sf !== null ? [["S/F", `${f(sf, 0)}${v.spo2 <= 97 ? (sf <= 315 ? " — équivaut à P/F ≤ 300" : "") : " — valable si SpO₂ ≤ 97 %"}`]] : [];
+        if (pf === null) return { label: "S/F", main: f(sf, 0), sub: v.spo2 > 97 ? "Interprétable seulement si SpO₂ ≤ 97 %" : sf <= 315 ? "S/F ≤ 315 : équivaut à un P/F ≤ 300" : "" };
+        return { label: "P/F", main: f(pf, 0), sub: F.berlin(pf), rows, tone: pf <= 100 ? "danger" : pf <= 200 ? "warn" : "" };
       }
     }),
     P17.calc({
@@ -128,6 +132,18 @@
       }
     }),
     P17.calc({
+      id: "remplissage", title: "Remplissage", desc: "Épreuve de remplissage (réponse du VES) et besoins d'entretien (règle 4-2-1)",
+      fields: [{ id: "avant", label: "VES ou ITV avant", unit: "mL ou cm" }, { id: "apres", label: "VES ou ITV après", unit: "mL ou cm" }, { id: "poids", label: "Poids (entretien)", unit: "kg" }],
+      compute: v => {
+        const rows = []; let main = null, sub = "", tone = "";
+        if (v.avant && v.apres) { const d = 100 * (v.apres - v.avant) / v.avant; main = `${d > 0 ? "+" : ""}${f(d, 0)} %`; sub = d >= 10 ? "Hausse ≥ 10 % : précharge-dépendant (répondeur)" : "Hausse < 10 % : non répondeur, ne pas poursuivre le remplissage"; tone = d >= 10 ? "ok" : "warn"; }
+        const e = F.entretien421(v.poids); if (e) rows.push(["Entretien (4-2-1)", `${f(e, 0)} mL/h, soit ${f(e * 24 / 1000, 1)} L/24 h`]);
+        if (!main && !rows.length) return null;
+        return { label: main ? "Variation après 250–500 mL en 10 min" : "Besoins d'entretien", main: main || rows[0][1], sub, rows: main ? rows : [], tone };
+      },
+      note: "Épreuve de remplissage : 250 à 500 mL de cristalloïde en 10 min, ou lever de jambes passif (hausse ≥ 10 % de l'ITV)."
+    }),
+    P17.calc({
       id: "gapco2", title: "Gap veino-artériel en CO₂", desc: "ΔPCO₂ = PcvCO₂ − PaCO₂ (prélèvements simultanés)",
       fields: [{ id: "pcv", label: "PcvCO₂", unit: "mmHg" }, { id: "pa", label: "PaCO₂", unit: "mmHg" }],
       compute: v => {
@@ -162,13 +178,28 @@
       compute: v => { const r = F.caCorrige(v.ca, v.alb); return r === null ? null : { main: `${f(r, 2)} mmol/L`, tone: r > 2.6 || r < 2.2 ? "warn" : "" }; }
     }),
     P17.calc({
-      id: "ta", title: "Trou anionique", desc: "Na − (Cl + HCO₃⁻), corrigé par l'albumine",
+      id: "ta", title: "Trou anionique et delta gap", desc: "Na − (Cl + HCO₃⁻), corrigé par l'albumine ; delta gap si HCO₃⁻ < 24",
       fields: [{ id: "na", label: "Na", unit: "mmol/L" }, { id: "cl", label: "Cl", unit: "mmol/L" }, { id: "hco3", label: "HCO₃⁻", unit: "mmol/L" }, { id: "alb", label: "Albumine (option)", unit: "g/L" }],
       compute: v => {
         const r = F.trouAnionique(v.na, v.cl, v.hco3, v.alb); if (!r) return null;
         const t = r.corrige !== null ? r.corrige : r.ta;
-        return { main: `${f(r.ta, 0)} mmol/L`, sub: r.corrige !== null ? `Corrigé par l'albumine : ${f(r.corrige, 1)} mmol/L` : "Normale 12 ± 4 (sans K)", tone: t > 16 ? "warn" : "" };
+        const dg = F.deltaGap(t, v.hco3);
+        const rows = dg ? [["Delta gap (ΔTA / ΔHCO₃⁻)", `${f(dg.ratio, 2)} — ${dg.ratio < 0.4 ? "acidose hyperchlorémique" : dg.ratio < 1 ? "acidose mixte (TA élevé + hyperchlorémie)" : dg.ratio <= 2 ? "acidose à TA élevé pure" : "alcalose métabolique associée"}`]] : [];
+        return { main: `${f(r.ta, 0)} mmol/L`, sub: r.corrige !== null ? `Corrigé par l'albumine : ${f(r.corrige, 1)} mmol/L` : "Normale 12 ± 4 (sans K)", rows, tone: t > 16 ? "warn" : "" };
       }
+    }),
+    P17.calc({
+      id: "natcorr", title: "Correction d'une dysnatrémie", desc: "Formule d'Adrogué-Madias : variation de natrémie attendue pour 1 litre perfusé",
+      fields: [{ id: "sexe", label: "Sexe", type: "seg", options: [["H", "Homme"], ["F", "Femme"]] }, { id: "age", label: "Âge", unit: "ans" }, { id: "poids", label: "Poids", unit: "kg" }, { id: "na", label: "Natrémie", unit: "mmol/L" },
+        { id: "sol", label: "Soluté", type: "select", full: true, options: [["154", "NaCl 0,9 % (Na 154)"], ["130", "Ringer lactate (Na 130)"], ["513", "NaCl 3 % (Na 513)"], ["77", "NaCl 0,45 % (Na 77)"], ["0", "Glucosé 5 % (Na 0)"]] }],
+      compute: v => {
+        const et = F.eauTotale(v.sexe, v.age, v.poids); const d = F.adrogue(v.na, +v.sol, 0, et); if (d === null) return null;
+        const hypo = v.na < 135, hyper = v.na > 145;
+        const lim = hypo ? 10 : 10; const l = d !== 0 ? Math.abs(lim / d) : null;
+        return { label: "Pour 1 L perfusé", main: `${d > 0 ? "+" : ""}${f(d, 1)} mmol/L`, rows: [["Eau totale", `${f(et, 1)} L`], ...(l ? [["Volume pour " + (d > 0 ? "+" : "−") + lim + " mmol/L", `≈ ${f(l, 2)} L`]] : [])],
+          sub: hypo ? "Hyponatrémie chronique : pas plus de 8 à 10 mmol/L par 24 h (myélinolyse). Symptômes graves : NaCl 3 % 150 mL en 20 min, à répéter, objectif +5 mmol/L." : hyper ? "Hypernatrémie chronique : baisse de 10 mmol/L par 24 h au plus." : "", tone: hypo || hyper ? "warn" : "" };
+      },
+      note: "Estimation : ne tient pas compte de la diurèse ni des autres apports. Contrôler la natrémie toutes les 4 à 6 h au début."
     }),
     P17.calc({
       id: "dvic", title: "Variation du volume intracellulaire", desc: "ΔVIC = 0,4 × poids × (140/Na − 1)",
@@ -324,13 +355,28 @@
     })
   ];
 
+  perf.push(P17.calc({
+    id: "dilution", title: "Dilution et concentration", desc: "Concentration obtenue et volume à prélever",
+    fields: [{ id: "qte", label: "Quantité de médicament", unit: "mg" }, { id: "vol", label: "Volume final", unit: "mL" }, { id: "dose", label: "Dose à injecter (option)", unit: "mg" }],
+    compute: v => {
+      if (!v.qte || !v.vol) return null;
+      const c = v.qte / v.vol;
+      const rows = [["En µg/mL", `${f(c * 1000, c < 1 ? 1 : 0)} µg/mL`]];
+      if (v.dose) rows.push(["Volume à injecter", `${f(v.dose / c, 2)} mL`]);
+      return { label: "Concentration", main: `${f(c, c < 1 ? 3 : 2)} mg/mL`, rows };
+    },
+    note: "Exemples : noradrénaline 8 mg / 40 mL = 0,2 mg/mL ; éphédrine 30 mg / 10 mL = 3 mg/mL ; adrénaline 1 mg / 10 mL = 100 µg/mL."
+  }));
+
+  P17.toolHTML = { pse: perf[0], dilution: perf[1] };
+
   const PAGES = [
-    { id: "ventilation", title: "Ventilation", desc: "Vt protecteur, P/F, driving pressure, espace mort, NO, ROX", cards: ventilation },
-    { id: "hemodynamique", title: "Hémodynamique", desc: "Débit cardiaque, PAM, résistances, DO₂/VO₂, gap CO₂", cards: hemo },
-    { id: "metabolique", title: "Métabolique et rein", desc: "Osmolarité, Na et Ca corrigés, trou anionique, volumes, DFG, KDIGO", cards: meta },
+    { id: "ventilation", title: "Ventilation", desc: "Poids prédit et Vt, P/F et S/F, driving pressure, compliance, espace mort, NO, ROX", cards: ventilation },
+    { id: "hemodynamique", title: "Hémodynamique", desc: "PAM, débit et index cardiaque, RVS, remplissage, CaO₂ et DO₂, gap CO₂", cards: hemo },
+    { id: "metabolique", title: "Biologie, métabolique et rein", desc: "Trou anionique et delta gap, osmolarité, natrémie et calcémie, correction des dysnatrémies, DFG, KDIGO", cards: meta },
     { id: "neurologie", title: "Neurologie", desc: "Doppler transcrânien, PPC, Glasgow", cards: neuro },
     { id: "scores", title: "Scores de gravité", desc: "SOFA, IGS II", cards: scores },
-    { id: "perfusions", title: "Perfusions", desc: "Conversion dose ↔ débit des seringues électriques", cards: perf }
+    { id: "perfusions", title: "Seringues électriques et dilutions", desc: "Débit, dose en µg/kg/min, conversion mg/h, dilutions", cards: perf }
   ];
 
   P17.route("#/calculateurs", {

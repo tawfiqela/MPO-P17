@@ -300,6 +300,32 @@
     P17._tocUpdate = update;
   }
 
+  /* Volets repliables (menu à dérouler) : un seul ouvert à la fois, retrouvé au retour sur la page */
+  const ACC = {};
+  P17.accordion = function (key, items) {
+    const open = ACC[key] || "";
+    return `<section class="acc-group" data-acc-key="${key}">${items.map(it => `
+      <div class="acc ${open === it.id ? "is-open" : ""}" data-acc="${it.id}">
+        <button class="acc-head" type="button" aria-expanded="${open === it.id}" aria-controls="acc-${key}-${it.id}">
+          <span class="acc-ico">${P17.icon(it.icon || "fiche")}</span>
+          <span class="acc-t">${it.step ? `<span class="acc-step">${it.step}</span>` : ""}<b>${it.title}</b>${it.sub ? `<em>${it.sub}</em>` : ""}</span>
+          <span class="acc-n">${it.n || ""}</span>
+          <span class="acc-chev" aria-hidden="true">${P17.icon("arrow")}</span>
+        </button>
+        <div class="acc-panel" id="acc-${key}-${it.id}" ${open === it.id ? "" : "inert"}><div class="acc-inner">${it.html}</div></div>
+      </div>`).join("")}</section>`;
+  };
+  document.addEventListener("click", e => {
+    const h = e.target.closest("[data-acc-key] .acc-head"); if (!h) return;
+    const grp = h.closest("[data-acc-key]"), acc = h.closest("[data-acc]");
+    const on = !acc.classList.contains("is-open");
+    grp.querySelectorAll("[data-acc]").forEach(o => {
+      const x = o === acc && on;
+      o.classList.toggle("is-open", x); o.querySelector(".acc-head").setAttribute("aria-expanded", String(x)); o.querySelector(".acc-panel").toggleAttribute("inert", !x);
+    });
+    ACC[grp.dataset.accKey] = on ? acc.dataset.acc : "";
+  });
+
   /* Raccourcis d'écriture des fiches */
   P17.h = {
     S: (title, blocks, opts = {}) => ({ title, blocks: Array.isArray(blocks) ? blocks : [blocks], ...opts }),

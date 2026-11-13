@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors connexion de la plateforme Réa Chir P17.
    La liste PRECACHE et la VERSION sont régénérées par scripts/build_sw.py. */
-const VERSION = "20261113-7d65393b";
+const VERSION = "20261113-3321a63c";
 const CACHE = "p17-" + VERSION;
 const PRECACHE = [
   "./",
@@ -109,6 +109,7 @@ const PRECACHE = [
   "./assets/modules/anesth/endoscopie.js",
   "./assets/modules/anesth/gynecologie.js",
   "./assets/modules/anesth/neurochirurgie.js",
+  "./assets/modules/anesth/techniques.js",
   "./assets/modules/anesth/thoracique-cours.js",
   "./assets/modules/anesth/thoracique.js",
   "./assets/modules/anesth/transplantation-renale.js",
