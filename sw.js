@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors connexion de la plateforme Réa Chir P17.
    La liste PRECACHE et la VERSION sont régénérées par scripts/build_sw.py. */
-const VERSION = "20261113-3321a63c";
+const VERSION = "20261113-15a627a9";
 const CACHE = "p17-" + VERSION;
 const PRECACHE = [
   "./",
@@ -53,6 +53,11 @@ const PRECACHE = [
   "./assets/img/decor/bloc-salle.webp",
   "./assets/img/decor/rea-soins.webp",
   "./assets/img/decor/rea-ventilation.webp",
+  "./assets/img/decor/spe-gynecologie.webp",
+  "./assets/img/decor/spe-neurochirurgie.webp",
+  "./assets/img/decor/spe-traumatologie.webp",
+  "./assets/img/decor/spe-urologie.webp",
+  "./assets/img/decor/spe-visceral.webp",
   "./assets/img/echo/base-m1.webp",
   "./assets/img/echo/base-m2.webp",
   "./assets/img/echo/base-m3.webp",

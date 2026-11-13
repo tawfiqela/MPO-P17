@@ -5,6 +5,8 @@
 (function () {
   // préfixe d'adresse → scène (le premier préfixe qui correspond l'emporte)
   const MAP = [
+    // une scène par spécialité (pages de la spécialité et toutes ses fiches)
+    ...["visceral", "traumatologie", "gynecologie", "urologie", "neurochirurgie"].map(s => [`#/anesthesie/${s}`, `spe-${s}`]),
     ["#/anesthesie", "bloc-anesthesie"], ["#/perop", "bloc-anesthesie"],
     ["#/preop", "bloc-salle"], ["#/terrains", "bloc-salle"], ["#/urgences", "bloc-salle"], ["#/blocs", "bloc-salle"],
     ["#/postop", "rea-ventilation"], ["#/sspi", "rea-ventilation"], ["#/analgesie", "rea-ventilation"],
