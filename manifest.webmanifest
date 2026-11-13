@@ -1,17 +1,17 @@
 {
-  "name": "Anesth P17 – Protocoles d'anesthésie",
-  "short_name": "Anesth P17",
-  "description": "Protocoles d'anesthésie du Service de Réanimation Chirurgicale P17, CHU Ibn Rochd, Casablanca",
+  "name": "Réa Chir P17 — CHU Ibn Rochd",
+  "short_name": "Réa Chir P17",
+  "description": "Protocoles d'anesthésie-réanimation du Service de Réanimation Chirurgicale P17, CHU Ibn Rochd de Casablanca",
   "lang": "fr",
-  "start_url": "./",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#f4f7f8",
-  "theme_color": "#0f4c5c",
+  "background_color": "#0b1420",
+  "theme_color": "#0c1626",
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
