@@ -9,7 +9,7 @@
 
   // Communs à toutes les spécialités : un lien vers chaque rubrique (pas de tuiles répétées)
   const PERIOP = [
-    { href: "#/terrains", title: "Selon le terrain", desc: "Coronarien, insuffisant cardiaque, BPCO, apnées, obèse, rein, foie, sujet âgé", icon: "terrain", accent: "anesthesie" },
+    { href: "#/terrains", title: "Selon le terrain", desc: "Cœur, poumon, métabolisme, système nerveux, sang, grossesse, addictions", icon: "terrain", accent: "anesthesie" },
     { href: "#/preop", title: "Gestion pré-opératoire", desc: "Consultation, visite préanesthésique, traitements, anticoagulants", icon: "fiche", accent: "anesthesie" },
     { href: "#/perop", title: "Per-opératoire", desc: "Médicaments, voies aériennes, rachianesthésie, antibioprophylaxie, transfusion", icon: "perop", accent: "anesthesie" },
     { href: "#/postop", title: "Post-opératoire", desc: "Analgésie, blocs, extubation, saignement, sortie de SSPI, thromboprophylaxie", icon: "sspi", accent: "sspi" }

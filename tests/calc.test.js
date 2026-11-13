@@ -149,4 +149,8 @@ assert.ok(F.thromboDose({ poids: 130, imc: 44, dfg: 80 }).dose.startsWith("4 000
 assert.ok(F.thromboDose({ poids: 160, imc: 52, dfg: 80 }).dose.startsWith("6 000 UI × 2"));
 assert.ok(F.thromboDose({ poids: 42, imc: 17, dfg: 80 }).dose.startsWith("2 000"));
 
+// IGS II : score 40 → mortalité ≈ 25 % (Le Gall 1993)
+near(F.igs2({ a: 40 }).mortalite, 24.7, 0.5);
+assert.strictEqual(F.igs2({ a: 12, b: 7, c: 0 }).score, 19);
+
 console.log("Tous les tests de calcul sont passés.");

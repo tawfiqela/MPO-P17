@@ -418,7 +418,26 @@
     </div>`;
   }
 
+  /* Plusieurs outils côte à côte : présentés en liste repliée, un clic ouvre l'outil */
+  function collapseCalcs(root) {
+    root.querySelectorAll(".calc-grid").forEach(grid => {
+      const items = Array.from(grid.children).filter(el => el.matches("[data-calc]"));
+      if (items.length < 2) return;
+      grid.classList.add("calc-list");
+      items.forEach(box => {
+        if (box.classList.contains("is-collapsible")) return;
+        box.classList.add("is-collapsible");
+        const head = box.querySelector(".calc-head");
+        head.setAttribute("role", "button"); head.setAttribute("tabindex", "0"); head.setAttribute("aria-expanded", "false");
+        head.insertAdjacentHTML("beforeend", `<span class="calc-chev" aria-hidden="true">${P17.icon("arrow")}</span>`);
+        const toggle = () => { const open = box.classList.toggle("is-open"); head.setAttribute("aria-expanded", String(open)); };
+        head.addEventListener("click", toggle);
+        head.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
+      });
+    });
+  }
   function bindCalcs(root) {
+    collapseCalcs(root);
     root.querySelectorAll("[data-calc]").forEach(box => {
       const def = CALCS[box.dataset.calc];
       if (!def) return;

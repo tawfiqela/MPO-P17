@@ -136,11 +136,132 @@
           btns(["#/perop/medicaments", "Doses d'induction"], ["#/perop/rachianesthesie", "Rachianesthésie"])], { tone: "key" }),
         S("Après l'intervention", [ul("Dépister la confusion chaque jour pendant 5 jours", "Prévenir sans médicament : réorientation, lunettes et appareils, sommeil respecté, lever précoce, hydratation, retrait rapide des sondes", "Chercher une cause : douleur, globe vésical, fécalome, infection, hypoxie, médicament", "Analgésie multimodale ; morphine titrée par bolus de 2 mg ; éviter le néfopam et le tramadol", "Halopéridol à faible dose seulement devant une agitation dangereuse")])
       ],
-      refs: ["Aubrun F et al. Anesthésie du sujet âgé : l'exemple de la fracture de l'extrémité supérieure du fémur (RFE SFAR-SFGG). Anesth Reanim 2017", "Aldecoa C et al. Update of the European Society of Anaesthesiology and Intensive Care Medicine evidence-based and consensus-based guideline on postoperative delirium in adult patients. Eur J Anaesthesiol 2024", "Neuman MD et al. Spinal anesthesia or general anesthesia for hip surgery in older adults (REGAIN). N Engl J Med 2021"] } }
+      refs: ["Aubrun F et al. Anesthésie du sujet âgé : l'exemple de la fracture de l'extrémité supérieure du fémur (RFE SFAR-SFGG). Anesth Reanim 2017", "Aldecoa C et al. Update of the European Society of Anaesthesiology and Intensive Care Medicine evidence-based and consensus-based guideline on postoperative delirium in adult patients. Eur J Anaesthesiol 2024", "Neuman MD et al. Spinal anesthesia or general anesthesia for hip surgery in older adults (REGAIN). N Engl J Med 2021"] } },
+    { id: "enceinte", court: "Femme enceinte", desc: "Chirurgie non obstétricale pendant la grossesse", fiche: {
+      title: "Femme enceinte : chirurgie non obstétricale", subtitle: "Protéger la mère d'abord, c'est protéger le fœtus : oxygénation, pression artérielle, utérus dégagé",
+      tags: ["Décubitus latéral gauche", "Estomac plein", "Pas d'AINS"],
+      sections: [
+        S("Évaluer", [ul("Terme exact ; avis obstétrical avant toute intervention", "Chirurgie programmée : reportée après l'accouchement ; chirurgie non différable : de préférence au deuxième trimestre", "Voies aériennes : œdème, muqueuses fragiles, intubation plus difficile", "Risque thromboembolique augmenté")]),
+        S("Avant l'intervention", [ul("Prévention de l'inhalation à partir du deuxième trimestre : antiacide (citrate de sodium), anti-H2", "Tocolyse à discuter avec l'obstétricien selon le terme et la chirurgie", "Anesthésie locorégionale privilégiée quand elle est possible")]),
+        S("Au bloc", [ul("À partir de 20 semaines : décubitus latéral gauche ou cale sous la fesse droite (compression aorto-cave)", "Préoxygénation soigneuse, séquence rapide, sonde de petit calibre, vidéolaryngoscope prêt", "Pression artérielle maintenue à sa valeur de base : phényléphrine ou noradrénaline", "Normoxie, normocapnie (EtCO₂ autour de 32 mmHg), normothermie", "Cœlioscopie possible : pression d'insufflation de 10 à 15 mmHg", "Rythme cardiaque fœtal avant et après l'intervention à partir de 22–24 semaines"), warn("Les médicaments de l'anesthésie ne sont pas tératogènes aux doses usuelles. Les AINS sont contre-indiqués à partir de 20–24 semaines.")], { tone: "key" }),
+        S("Après l'intervention", [ul("Surveillance des contractions et du rythme cardiaque fœtal", "Paracétamol, morphiniques titrés, ALR ; pas d'AINS au troisième trimestre", "Thromboprophylaxie, lever précoce", "Immunoglobulines anti-D si la mère est Rhésus négatif et qu'un traumatisme abdominal est possible")])
+      ],
+      refs: ["ACOG Committee Opinion 775 : Nonobstetric surgery during pregnancy. Obstet Gynecol 2019", "Haggerty E, Daly J. Anaesthesia and non-obstetric surgery in pregnancy. BJA Educ 2021"] } },
+    { id: "myopathe", court: "Myopathe", desc: "Succinylcholine interdite, halogénés, cœur et ventilation", fiche: {
+      title: "Patient myopathe", subtitle: "Pas de succinylcholine, prudence avec les halogénés, curares à doses réduites, extubation à risque",
+      tags: ["Pas de succinylcholine", "Anesthésie intraveineuse", "Sugammadex"],
+      sections: [
+        S("Évaluer", [ul("Type de myopathie : dystrophinopathie (Duchenne, Becker), myotonie (Steinert), myopathie congénitale, mitochondriale", "Atteinte cardiaque : cardiomyopathie, troubles de conduction (Steinert) — ECG, échocardiographie", "Atteinte respiratoire : capacité vitale (risque si inférieure à 50 %), toux, déglutition", "Antécédent d'hyperthermie maligne personnel ou familial ; myopathie à central core : risque d'hyperthermie maligne")]),
+        S("Avant l'intervention", [ul("Kinésithérapie respiratoire, ventilation non invasive habituelle apportée", "Pas de sédatif en prémédication si la ventilation est limite", "Prévoir une surveillance postopératoire en soins continus")]),
+        S("Au bloc", [kv(["Succinylcholine", "Contre-indiquée : hyperkaliémie massive, rhabdomyolyse, arrêt cardiaque"], ["Halogénés", "Évités dans les dystrophinopathies et les myopathies à risque d'hyperthermie maligne : anesthésie intraveineuse au propofol, machine purgée"], ["Curares", "Sensibilité accrue : rocuronium à dose réduite, monitorage quantitatif, sugammadex"], ["Myotonie (Steinert)", "Éviter le froid, les frissons, la néostigmine et la succinylcholine, qui déclenchent la contracture"], ["Anesthésie locorégionale", "Privilégiée quand elle est possible"])], { tone: "key" }),
+        S("Après l'intervention", [ul("Extubation sur un patient bien réveillé et complètement décurarisé ; relais par ventilation non invasive si besoin", "Surveillance de la SpO₂ et de la capnie, morphiniques réduits", "Rhabdomyolyse : CPK, myoglobinurie, kaliémie", "Kinésithérapie respiratoire précoce")])
+      ],
+      refs: ["Racca F et al. Practical approach to respiratory emergencies in neurological diseases. Neurol Sci 2020", "Veyckemans F, Scholtes JL. Myotonic dystrophies type 1 and 2: anesthetic care. Paediatr Anaesth 2013", "Hopkins PM et al. Malignant hyperthermia 2020: guideline from the Association of Anaesthetists. Anaesthesia 2021"] } },
+    { id: "trisomie", court: "Trisomie 21", desc: "Rachis cervical, voies aériennes, cœur", fiche: {
+      title: "Patient porteur d'une trisomie 21", subtitle: "Rachis cervical instable, voies aériennes étroites, cardiopathie et apnées fréquentes",
+      tags: ["Instabilité C1–C2", "Sonde plus petite", "Apnées"],
+      sections: [
+        S("Évaluer", [ul("Instabilité atlanto-axoïdienne : douleur cervicale, troubles de la marche, signes neurologiques ; imagerie si symptômes", "Cardiopathie congénitale opérée ou non, hypertension pulmonaire : échocardiographie", "Apnées du sommeil, macroglossie, sténose sous-glottique", "Hypothyroïdie, obésité, reflux ; capacité de coopération et présence de l'accompagnant")]),
+        S("Avant l'intervention", [ul("Accompagnant présent jusqu'à l'induction et dès le réveil", "Prémédication anxiolytique adaptée, prudente si apnées", "Matériel d'intubation difficile prêt")]),
+        S("Au bloc", [ul("Rachis cervical en position neutre, sans hyperextension à la laryngoscopie", "Sonde d'un demi à un numéro en dessous de la taille habituelle (sténose sous-glottique)", "Bradycardie fréquente à l'induction au sévoflurane : atropine prête", "Abords veineux souvent difficiles ; installation prudente (hyperlaxité)")], { tone: "key" }),
+        S("Après l'intervention", [ul("Surveillance des apnées et de la SpO₂, position latérale", "Agitation au réveil : présence de l'accompagnant", "Évaluation de la douleur adaptée à la communication du patient")])
+      ],
+      refs: ["Bull MJ et al. Health supervision for children and adolescents with Down syndrome. Pediatrics 2022", "Lewanda AF et al. Preoperative evaluation and comprehensive risk assessment for children with Down syndrome. Paediatr Anaesth 2016"] } },
+    { id: "g6pd", court: "Déficit en G6PD", desc: "Médicaments oxydants, hémolyse", fiche: {
+      title: "Déficit en G6PD", subtitle: "Éviter les médicaments et situations oxydants, savoir reconnaître une hémolyse",
+      tags: ["Hémolyse", "Bleu de méthylène interdit", "Prilocaïne"],
+      sections: [
+        S("Évaluer", [ul("Antécédents d'hémolyse, de transfusion, d'ictère néonatal ; activité enzymatique si disponible", "Hémoglobine, bilirubine, haptoglobine de base", "Liste des médicaments à éviter remise au dossier")]),
+        S("Avant l'intervention", [ul("Pas de jeûne prolongé ni de déshydratation", "Infection, acidose et hyperglycémie favorisent l'hémolyse : les corriger")]),
+        S("Au bloc", [kv(["À éviter", "Bleu de méthylène (aggrave la méthémoglobinémie et l'hémolyse), prilocaïne et crème EMLA, rasburicase, dapsone, sulfamides, nitrofurantoïne, primaquine, quinolones à discuter"], ["Utilisables", "Propofol, halogénés, morphiniques, curares, sugammadex, lidocaïne, bupivacaïne, ropivacaïne, paracétamol aux doses usuelles"], ["Méthémoglobinémie", "Traitement par vitamine C ou exsanguinotransfusion, jamais par bleu de méthylène"])], { tone: "key" }),
+        S("Après l'intervention", [ul("Hémolyse 24 à 72 heures après l'exposition : urines foncées, ictère, chute de l'hémoglobine", "Bilan : hémoglobine, bilirubine, LDH, haptoglobine, réticulocytes", "Hydratation, transfusion si anémie mal tolérée")])
+      ],
+      refs: ["Luzzatto L et al. Glucose-6-phosphate dehydrogenase deficiency. Hematol Oncol Clin North Am 2016", "Elyassi AR, Rowshan HH. Perioperative management of the glucose-6-phosphate dehydrogenase deficient patient. Anesth Prog 2009"] } },
+    { id: "drepanocytaire", court: "Drépanocytaire", desc: "Transfusion, hypoxie, syndrome thoracique aigu", fiche: {
+      title: "Patient drépanocytaire", subtitle: "Préparer avec l'hématologue, éviter tout ce qui fait falciformer, prévenir le syndrome thoracique aigu",
+      tags: ["Hb ≥ 10 g/dL", "Oxygène, hydratation", "Spirométrie incitative"],
+      sections: [
+        S("Évaluer", [ul("Forme (SS, SC, S-bêta-thalassémie), crises récentes, antécédent de syndrome thoracique aigu, d'AVC", "Hémoglobine de base, pourcentage d'HbS, traitement (hydroxyurée, programme transfusionnel)", "Atteintes d'organes : rein, cœur, hypertension pulmonaire, rétine", "Allo-immunisation : recherche d'agglutinines irrégulières")]),
+        S("Avant l'intervention", [ul("Avis de l'hématologue pour toute chirurgie programmée", "Forme SS et chirurgie à risque intermédiaire : transfusion préopératoire pour atteindre 10 g/dL d'hémoglobine (essai TAPS) ; échange transfusionnel si l'hémoglobine est déjà élevée", "Concentrés phénotypés, compatibilisés", "Hydratation intraveineuse dès le début du jeûne")]),
+        S("Au bloc", [ul("Éviter l'hypoxémie, l'hypothermie, la déshydratation, l'acidose et la douleur : elles déclenchent la falciformation", "Oxygène, réchauffement actif, remplissage adapté", "Garrot : à discuter, durée la plus courte possible", "Analgésie multimodale et anesthésie locorégionale")], { tone: "key" }),
+        S("Après l'intervention", [ul("Syndrome thoracique aigu entre le deuxième et le troisième jour : douleur thoracique, fièvre, désaturation, infiltrat radiologique", "Spirométrie incitative, kinésithérapie, lever précoce, oxygène si SpO₂ inférieure à 95 %", "Analgésie efficace, hydratation, thromboprophylaxie", "Crise vaso-occlusive : protocole d'analgésie du service, avis hématologique")])
+      ],
+      refs: ["Howard J et al. The Transfusion Alternatives Preoperatively in Sickle Cell Disease (TAPS) study. Lancet 2013", "Chou ST et al. American Society of Hematology 2020 guidelines for sickle cell disease: transfusion support. Blood Adv 2020"] } },
+    { id: "denutri", court: "Dénutri", desc: "Dépistage, renutrition, syndrome de renutrition", fiche: {
+      title: "Patient dénutri", subtitle: "Dépister, renourrir avant une chirurgie majeure, prévenir le syndrome de renutrition",
+      tags: ["NRS 2002", "Renutrition 7 à 14 jours", "Phosphore, thiamine"],
+      sections: [
+        S("Évaluer", [ul("Perte de poids supérieure à 10 % en 6 mois (ou 5 % en 1 mois), IMC inférieur à 18,5 (21 après 70 ans)", "Albumine inférieure à 30 g/L ; score NRS 2002 supérieur ou égal à 3", "Cause : cancer digestif, alcool, sujet âgé, maladie chronique")]),
+        S("Avant l'intervention", [ul("Dénutrition sévère avant chirurgie majeure : renutrition 7 à 14 jours, orale ou entérale, parentérale si le tube digestif est inutilisable", "Immunonutrition orale 5 à 7 jours avant une chirurgie digestive carcinologique", "Jeûne court et boisson sucrée jusqu'à 2 heures avant (sauf contre-indication)")]),
+        S("Au bloc", [ul("Doses réduites et titrées : moins de masse musculaire et d'albumine", "Points d'appui et peau fragiles, hypothermie rapide", "Cicatrisation et anastomoses fragiles : normovolémie, normothermie")], { tone: "key" }),
+        S("Après l'intervention", [ul("Réalimentation orale ou entérale précoce, dans les 24 heures", "Syndrome de renutrition : phosphore, potassium et magnésium chaque jour la première semaine ; thiamine avant tout apport glucidique ; apport progressif", "Pesée et suivi diététique")])
+      ],
+      refs: ["Weimann A et al. ESPEN practical guideline: clinical nutrition in surgery. Clin Nutr 2021", "HAS 2019 : Diagnostic de la dénutrition de l'enfant et de l'adulte"] } },
+    { id: "dysthyroidie", court: "Dysthyroïdie", desc: "Hyper- ou hypothyroïdie, goitre", fiche: {
+      title: "Dysthyroïdie : hyper- et hypothyroïdie", subtitle: "Opérer un patient en euthyroïdie, reconnaître la crise aiguë thyrotoxique et le coma myxœdémateux",
+      tags: ["Euthyroïdie", "Bêtabloquant", "Goitre compressif"],
+      sections: [
+        S("Évaluer", [ul("TSH et T4 libre récentes, symptômes (tachycardie, fibrillation atriale, amaigrissement ; ou bradycardie, frilosité)", "Goitre : dyspnée, dysphagie, déviation ou compression trachéale (scanner cervical)", "Cardiopathie associée")]),
+        S("Avant l'intervention", [kv(["Hyperthyroïdie", "Chirurgie programmée seulement en euthyroïdie ; antithyroïdiens et bêtabloquant poursuivis le matin"], ["Hypothyroïdie", "Lévothyroxine poursuivie ; hypothyroïdie sévère : différer la chirurgie programmée"], ["Urgence chez l'hyperthyroïdien", "Bêtabloquant (propranolol), antithyroïdien de synthèse, corticoïdes ; iode une heure après l'antithyroïdien"])]),
+        S("Au bloc", [ul("Hyperthyroïdie : éviter kétamine, éphédrine et atropine en excès ; besoins anesthésiques augmentés", "Hypothyroïdie : sensibilité aux hypnotiques et aux morphiniques, hypotension, hypothermie, réveil retardé", "Goitre compressif : stratégie d'intubation difficile, sonde armée, vigile si compression sévère")], { tone: "key" }),
+        S("Après l'intervention", [ul("Crise aiguë thyrotoxique (dans les 6 à 18 heures) : fièvre, tachycardie, agitation — propranolol, antithyroïdien, hydrocortisone, refroidissement, réanimation", "Coma myxœdémateux : hypothermie, bradycardie, hyponatrémie, hypoventilation — lévothyroxine IV, hydrocortisone, réanimation", "Après thyroïdectomie : hématome compressif, hypocalcémie, paralysie récurrentielle")])
+      ],
+      refs: ["Palace MR. Perioperative management of thyroid dysfunction. Health Serv Insights 2017", "Ross DS et al. 2016 American Thyroid Association guidelines for diagnosis and management of hyperthyroidism. Thyroid 2016"] } },
+    { id: "epileptique", court: "Épileptique", desc: "Traitement à poursuivre, médicaments proconvulsivants", fiche: {
+      title: "Patient épileptique", subtitle: "Ne pas interrompre le traitement, éviter ce qui abaisse le seuil épileptogène",
+      tags: ["Antiépileptiques le matin", "Tramadol à éviter", "Benzodiazépine"],
+      sections: [
+        S("Évaluer", [ul("Type et fréquence des crises, date de la dernière crise, facteurs déclenchants", "Traitement et horaires de prise ; inducteurs enzymatiques (carbamazépine, phénytoïne, phénobarbital)", "Stimulateur du nerf vague : à désactiver selon les consignes du neurologue")]),
+        S("Avant l'intervention", [ul("Antiépileptiques poursuivis, y compris le matin de l'intervention", "Jeûne court ; relais intraveineux prévu si la reprise orale est retardée (lévétiracétam, valproate)", "Corriger l'hyponatrémie, l'hypoglycémie et le manque de sommeil")]),
+        S("Au bloc", [kv(["À éviter ou limiter", "Tramadol, péthidine, sévoflurane à forte concentration avec hyperventilation, étomidate (myoclonies), surdosage en anesthésique local"], ["Utilisables", "Propofol, thiopental, benzodiazépines, sufentanil, curares (besoins augmentés sous inducteurs enzymatiques)"], ["Pendant l'anesthésie", "Normocapnie, normonatrémie, normoglycémie"])], { tone: "key" }),
+        S("Après l'intervention", [ul("Reprise du traitement oral dès que possible, aux horaires habituels", "Crise : protection, oxygène, benzodiazépine (midazolam ou clonazépam), rechercher une cause métabolique", "Crise prolongée au-delà de 5 minutes : protocole d'état de mal")])
+      ],
+      refs: ["Perks A et al. Anaesthesia and epilepsy. Br J Anaesth 2012", "RFE SFAR-SRLF 2018 : Prise en charge de l'état de mal épileptique en préhospitalier, en structure d'urgence et en réanimation"] } },
+    { id: "parkinson", court: "Parkinson", desc: "Lévodopa sans interruption, antiémétiques", fiche: {
+      title: "Patient parkinsonien", subtitle: "Ne jamais interrompre la lévodopa, proscrire les antidopaminergiques",
+      tags: ["Lévodopa à l'heure", "Pas de dropéridol", "Dysautonomie"],
+      sections: [
+        S("Évaluer", [ul("Traitement exact et horaires, fluctuations motrices", "Troubles de la déglutition, risque d'inhalation, dysautonomie (hypotension orthostatique)", "Troubles cognitifs, hallucinations ; stimulation cérébrale profonde")]),
+        S("Avant l'intervention", [ul("Dernière prise de lévodopa le matin, intervention en début de programme", "Sonde gastrique pour donner le traitement si le jeûne se prolonge ; apomorphine sous-cutanée en relais avec avis neurologique", "Stimulateur cérébral profond : désactivé selon le neurologue, bistouri bipolaire")]),
+        S("Au bloc", [kv(["Proscrits", "Métoclopramide, dropéridol, halopéridol, phénothiazines : ils aggravent le syndrome parkinsonien"], ["Antiémétiques", "Ondansétron (sauf sous apomorphine), dexaméthasone, dompéridone"], ["Hémodynamique", "Hypotension à l'induction (dysautonomie) : remplissage, vasopresseur direct"], ["IMAO-B (sélégiline, rasagiline)", "Éviter la péthidine et le tramadol (syndrome sérotoninergique)"])], { tone: "key" }),
+        S("Après l'intervention", [ul("Reprise de la lévodopa dès le réveil, aux horaires habituels", "Arrêt brutal : rigidité, fièvre, rhabdomyolyse (syndrome parkinsonien-hyperthermique)", "Dysphagie et inhalation : test de déglutition avant la réalimentation", "Confusion postopératoire : prévention non médicamenteuse")])
+      ],
+      refs: ["Brennan KA, Genever RW. Managing Parkinson's disease during surgery. BMJ 2010", "Akbar U et al. Perioperative management of Parkinson's disease. Expert Rev Neurother 2017"] } },
+    { id: "ethylique", court: "Éthylique", desc: "Sevrage, thiamine, retentissement", fiche: {
+      title: "Patient éthylique chronique", subtitle: "Dépister, prévenir le sevrage, donner la thiamine, chercher le retentissement",
+      tags: ["Thiamine", "Sevrage", "Cirrhose"],
+      sections: [
+        S("Évaluer", [ul("Consommation quotidienne, dernier verre, antécédent de sevrage compliqué (convulsions, delirium tremens)", "Retentissement : cirrhose, cardiomyopathie, pancréatite, neuropathie, dénutrition", "Bilan : NFS (macrocytose, thrombopénie), hémostase, bilan hépatique, phosphore, magnésium")]),
+        S("Avant l'intervention", [ul("Arrêt de l'alcool 4 à 8 semaines avant une chirurgie programmée : moins de complications", "Thiamine 100 à 300 mg par jour, avant tout apport glucidique", "Prévention du sevrage par benzodiazépine selon le score de Cushman")]),
+        S("Au bloc", [ul("Intoxication aiguë : estomac plein, besoins anesthésiques réduits", "Éthylisme chronique sans intoxication : besoins augmentés en hypnotiques", "Cirrhose : voir la fiche du patient cirrhotique"), { html: `<p class="btn-row"><a class="btn btn--ghost" href="#/terrains/cirrhotique">Patient cirrhotique</a></p>` }], { tone: "key" }),
+        S("Après l'intervention", [ul("Sevrage entre 6 et 72 heures : tremblements, sueurs, agitation, tachycardie — benzodiazépine titrée", "Delirium tremens entre le deuxième et le quatrième jour : réanimation", "Hypoglycémie, hypophosphatémie, hypomagnésémie à corriger", "Encéphalopathie de Gayet-Wernicke : confusion, troubles oculomoteurs, ataxie — thiamine IV à forte dose")])
+      ],
+      refs: ["Kork F et al. Perioperative management of patients with alcohol, tobacco and drug dependency. Curr Opin Anaesthesiol 2010", "SFA-SFAR : Recommandations pour la pratique clinique sur le sevrage alcoolique"] } },
+    { id: "toxicomane", court: "Toxicomane", desc: "Opioïdes, cocaïne, cannabis, substitution", fiche: {
+      title: "Patient toxicomane", subtitle: "Poursuivre la substitution, anticiper des besoins analgésiques élevés, reconnaître l'intoxication et le sevrage",
+      tags: ["Méthadone, buprénorphine", "Kétamine", "Cocaïne"],
+      sections: [
+        S("Évaluer", [ul("Produits, voie, dernière prise ; traitement de substitution et dose", "Complications : VIH, hépatites, endocardite, abords veineux difficiles", "Cocaïne récente : douleur thoracique, hypertension, troubles du rythme — ECG")]),
+        S("Avant l'intervention", [ul("Méthadone et buprénorphine poursuivies, y compris le matin, à la dose habituelle", "Intoxication aiguë à la cocaïne : différer la chirurgie programmée", "Plan d'analgésie établi avant l'intervention ; anesthésie locorégionale privilégiée")]),
+        S("Au bloc", [kv(["Opioïdes", "Besoins nettement augmentés : analgésie multimodale, kétamine, lidocaïne IV, ALR"], ["Naloxone", "À éviter chez le dépendant : sevrage brutal"], ["Cocaïne", "Pas de bêtabloquant seul (vasospasme coronaire) ; hypertension : benzodiazépine, nicardipine"], ["Cannabis", "Voies aériennes réactives, besoins en propofol augmentés"])], { tone: "key" }),
+        S("Après l'intervention", [ul("Douleur à évaluer et traiter comme chez tout patient : ne pas sous-traiter", "PCA sans débit continu, morphiniques titrés en plus de la substitution", "Sevrage : agitation, mydriase, sueurs, diarrhée, rhinorrhée — reprendre la substitution", "Avis de l'équipe d'addictologie avant la sortie")])
+      ],
+      refs: ["Kohan L et al. Buprenorphine management in the perioperative period: educational review and recommendations. Reg Anesth Pain Med 2021", "SFETD : Prise en charge de la douleur chez le patient sous traitement de substitution aux opiacés"] } },
   ];
 
   /* ---------------- Situations à risque, par terrain ---------------- */
   const RISQUES = {
+    "enceinte": ["Premier trimestre : chirurgie programmée reportée après l'accouchement", "Compression aorto-cave à partir de 20 semaines : hypotension en décubitus dorsal", "Estomac plein et intubation difficile à partir du deuxième trimestre", "Après l'intervention : accouchement prématuré, thrombose"],
+    "myopathe": ["Succinylcholine : hyperkaliémie et arrêt cardiaque, contre-indiquée", "Halogénés : rhabdomyolyse et hyperthermie maligne dans certaines myopathies", "Atteinte cardiaque : cardiomyopathie, troubles de conduction", "Au réveil : hypoventilation, encombrement, curarisation prolongée"],
+    "trisomie": ["Instabilité atlanto-axoïdienne : pas d'hyperextension du cou", "Sténose sous-glottique, macroglossie : intubation et ventilation plus difficiles", "Cardiopathie congénitale, hypertension pulmonaire", "Apnées obstructives au réveil"],
+    "g6pd": ["Médicaments oxydants : hémolyse aiguë", "Bleu de méthylène : contre-indiqué", "Infection, acidose, hyperglycémie : favorisent l'hémolyse", "Hémolyse retardée de 24 à 72 heures après l'exposition"],
+    "drepanocytaire": ["Hypoxie, hypothermie, déshydratation, acidose : falciformation", "Syndrome thoracique aigu du deuxième au troisième jour", "Crise vaso-occlusive déclenchée par la douleur et le stress", "Allo-immunisation : transfusions difficiles"],
+    "denutri": ["Perte de poids supérieure à 10 % ou albumine inférieure à 30 g/L : complications et mortalité augmentées", "Infections, lâchages d'anastomose, escarres", "Syndrome de renutrition : hypophosphatémie, troubles du rythme", "Surdosage médicamenteux : moins de masse musculaire et d'albumine"],
+    "dysthyroidie": ["Hyperthyroïdie non contrôlée : crise aiguë thyrotoxique", "Hypothyroïdie sévère : hypotension, hypothermie, réveil retardé", "Goitre compressif : voies aériennes difficiles", "Fibrillation atriale, cardiopathie associée"],
+    "epileptique": ["Arrêt du traitement ou jeûne prolongé : crise périopératoire", "Tramadol, péthidine, fortes doses d'anesthésique local : seuil épileptogène abaissé", "Inducteurs enzymatiques : besoins en morphiniques et curares augmentés", "Hyponatrémie, hypoglycémie, manque de sommeil"],
+    "parkinson": ["Interruption de la lévodopa : blocage moteur, syndrome hyperthermique", "Antidopaminergiques (métoclopramide, dropéridol, halopéridol) : aggravation", "Dysautonomie : hypotension à l'induction", "Dysphagie : inhalation, confusion postopératoire"],
+    "ethylique": ["Sevrage alcoolique : convulsions, delirium tremens", "Carence en thiamine : encéphalopathie de Gayet-Wernicke", "Cirrhose, cardiomyopathie, troubles de l'hémostase", "Hypoglycémie, hypophosphatémie, hypomagnésémie"],
+    "toxicomane": ["Arrêt de la substitution : sevrage et douleur mal contrôlée", "Tolérance aux opioïdes : besoins analgésiques élevés", "Cocaïne récente : ischémie myocardique, hypertension, troubles du rythme", "Infections : VIH, hépatites, endocardite"],
     "coronarien": ["Syndrome coronarien de moins de 12 mois ou angor instable : la chirurgie programmée est différée", "Stent récent sous double antiagrégation : ni arrêt sans avis cardiologique, ni chirurgie précipitée", "Au bloc : tachycardie, hypotension, anémie, hypothermie et douleur déclenchent l'ischémie", "Du premier au troisième jour : infarctus postopératoire, le plus souvent sans douleur"],
     "insuffisant-cardiaque": ["Décompensation récente ou signes congestifs : la chirurgie programmée est différée", "Fraction d'éjection très abaissée, hypertension pulmonaire, rétrécissement aortique associé", "À l'induction : collapsus par vasodilatation ; passage en fibrillation atriale rapide", "Du premier au troisième jour : œdème pulmonaire lors de la mobilisation des liquides"],
     "bpco-asthme": ["Exacerbation ou infection en cours, asthme non contrôlé : la chirurgie programmée est différée", "VEMS inférieur à 50 %, hypercapnie, oxygène à domicile", "À l'intubation et à l'extubation : bronchospasme ; pendant la ventilation : hyperinflation et auto-PEP", "Chirurgie thoracique ou abdominale haute : encombrement, atélectasie, pneumopathie"],
@@ -159,6 +280,18 @@
     ];
   });
 
+  /* ---------------- Regroupement par famille ---------------- */
+  const FAMILLES = [
+    ["Cœur et poumon", ["coronarien", "insuffisant-cardiaque", "bpco-asthme", "saos"]],
+    ["Métabolisme et organes", ["obese", "denutri", "dysthyroidie", "insuffisant-renal", "cirrhotique"]],
+    ["Système nerveux et muscle", ["epileptique", "parkinson", "myopathe"]],
+    ["Sang", ["drepanocytaire", "g6pd"]],
+    ["Situations particulières", ["enceinte", "sujet-age", "trisomie", "ethylique", "toxicomane"]]
+  ];
+  const BYID = Object.fromEntries(TERRAINS.map(t => [t.id, t]));
+  const ORDRE = FAMILLES.flatMap(([, ids]) => ids).map(id => BYID[id]).filter(Boolean);
+  const tileOf = t => ({ href: `${ROOT}/${t.id}`, title: t.court, desc: t.desc, icon: "terrain", accent: "anesthesie" });
+
   /* ---------------- Routes ---------------- */
   // anciennes adresses (rubrique rangée auparavant dans Gestion pré-opératoire)
   P17.redirect("#/preop/terrains", ROOT);
@@ -167,7 +300,7 @@
     title: SEC,
     render: () => P17.page({ crumbs: [[SEC, ROOT]], title: SEC, accent: "anesthesie", icon: "terrain", back: "#/",
       subtitle: "Pour chaque terrain : d'abord les situations à risque, puis la conduite de l'anesthésie avant, pendant et après l'intervention.",
-      body: P17.tiles(TERRAINS.map(t => ({ href: `${ROOT}/${t.id}`, title: t.court, desc: t.desc, icon: "terrain", accent: "anesthesie" }))) })
+      body: FAMILLES.map(([f, ids]) => P17.group(f, P17.tiles(ids.map(id => BYID[id]).filter(Boolean).map(tileOf)))).join("") })
   });
   P17.index(ROOT, SEC, "comorbidités terrain patient à risque", SEC);
   TERRAINS.forEach(t => {
@@ -180,5 +313,5 @@
     P17.index(path, t.fiche.title, `${t.desc} ${(t.fiche.tags || []).join(" ")} terrain`, SEC);
   });
   // Section principale de l'accueil (volet « Selon le patient »)
-  P17.terrains = TERRAINS.map(t => ({ href: `${ROOT}/${t.id}`, title: t.court, desc: t.desc, icon: "terrain", accent: "anesthesie" }));
+  P17.terrains = ORDRE.map(tileOf);
 })();

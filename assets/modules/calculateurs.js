@@ -274,6 +274,32 @@
         return { main: `${r.total} / 24`, sub: `${r.n} organe(s) renseigné(s) sur 6`, rows: Object.entries(r.detail).map(([k, s]) => [lab[k], s]) };
       }
     })
+    ,
+    P17.calc({
+      id: "igs2", title: "IGS II (SAPS II)", desc: "Indice de gravité simplifié (Le Gall 1993) — pires valeurs des 24 premières heures", wide: true,
+      fields: [
+        { id: "age", label: "Âge", type: "select", options: [["0", "< 40 ans"], ["7", "40–59"], ["12", "60–69"], ["15", "70–74"], ["16", "75–79"], ["18", "≥ 80"]] },
+        { id: "fc", label: "Fréquence cardiaque", type: "select", options: [["0", "70–119"], ["2", "40–69"], ["4", "120–159"], ["7", "≥ 160"], ["11", "< 40"]] },
+        { id: "pas", label: "PA systolique", type: "select", options: [["0", "100–199"], ["2", "≥ 200"], ["5", "70–99"], ["13", "< 70"]] },
+        { id: "t", label: "Température", type: "select", options: [["0", "< 39 °C"], ["3", "≥ 39 °C"]] },
+        { id: "pf", label: "PaO₂/FiO₂ (si ventilé ou CPAP)", type: "select", options: [["0", "Non ventilé"], ["6", "≥ 200"], ["9", "100–199"], ["11", "< 100"]] },
+        { id: "diu", label: "Diurèse", type: "select", options: [["0", "≥ 1 L/24 h"], ["4", "0,5–0,99 L"], ["11", "< 0,5 L"]] },
+        { id: "uree", label: "Urée", type: "select", options: [["0", "< 10 mmol/L"], ["6", "10–29,9"], ["10", "≥ 30"]] },
+        { id: "gb", label: "Leucocytes", type: "select", options: [["0", "1–19,9 G/L"], ["3", "≥ 20"], ["12", "< 1"]] },
+        { id: "k", label: "Kaliémie", type: "select", options: [["0", "3–4,9 mmol/L"], ["3", "< 3 ou ≥ 5"]] },
+        { id: "na", label: "Natrémie", type: "select", options: [["0", "125–144 mmol/L"], ["1", "≥ 145"], ["5", "< 125"]] },
+        { id: "hco3", label: "Bicarbonates", type: "select", options: [["0", "≥ 20 mmol/L"], ["3", "15–19"], ["6", "< 15"]] },
+        { id: "bili", label: "Bilirubine", type: "select", options: [["0", "< 68,4 µmol/L"], ["4", "68,4–102,5"], ["9", "≥ 102,6"]] },
+        { id: "gcs", label: "Glasgow", type: "select", options: [["0", "14–15"], ["5", "11–13"], ["7", "9–10"], ["13", "6–8"], ["26", "< 6"]] },
+        { id: "mal", label: "Maladie chronique", type: "select", options: [["0", "Aucune"], ["9", "Cancer métastatique"], ["10", "Hémopathie maligne"], ["17", "SIDA"]] },
+        { id: "adm", label: "Type d'admission", type: "select", options: [["0", "Chirurgie programmée"], ["6", "Médicale"], ["8", "Chirurgie non programmée"]] }
+      ],
+      compute: v => {
+        const r = F.igs2(v); if (!r) return null;
+        return { label: "IGS II", main: `${r.score} points`, sub: `Mortalité hospitalière prédite ≈ ${f(r.mortalite, 1)} %`, tone: r.mortalite >= 25 ? "warn" : "" };
+      },
+      note: "Glasgow : avant sédation. Mortalité prédite par l'équation de Le Gall ; à interpréter à l'échelle d'une population, pas d'un patient."
+    })
   ];
 
   /* ---------------- Perfusions ---------------- */
@@ -303,7 +329,7 @@
     { id: "hemodynamique", title: "Hémodynamique", desc: "Débit cardiaque, PAM, résistances, DO₂/VO₂, gap CO₂", cards: hemo },
     { id: "metabolique", title: "Métabolique et rein", desc: "Osmolarité, Na et Ca corrigés, trou anionique, volumes, DFG, KDIGO", cards: meta },
     { id: "neurologie", title: "Neurologie", desc: "Doppler transcrânien, PPC, Glasgow", cards: neuro },
-    { id: "scores", title: "Scores de gravité", desc: "SOFA", cards: scores },
+    { id: "scores", title: "Scores de gravité", desc: "SOFA, IGS II", cards: scores },
     { id: "perfusions", title: "Perfusions", desc: "Conversion dose ↔ débit des seringues électriques", cards: perf }
   ];
 
@@ -313,12 +339,6 @@
       crumbs: [[SEC, "#/calculateurs"]], title: SEC, accent: "calculateurs", icon: "calculateurs",
       subtitle: "Calculs fréquents en anesthésie-réanimation. Les résultats s'affichent au fur et à mesure de la saisie.",
       body: P17.tiles(PAGES.map(p => ({ href: `#/calculateurs/${p.id}`, title: p.title, desc: p.desc, icon: "calculateurs", accent: "calculateurs" })))
-        + P17.group("Autres outils de calcul", P17.tiles([
-          { href: "#/eer/cvvh", title: "Prescription CVVH", desc: "Débits selon le poids corrigé", icon: "eer", accent: "eer" },
-          { href: "#/eer/echanges-plasmatiques", title: "Échanges plasmatiques", desc: "Volume à échanger", icon: "eer", accent: "eer" },
-          { href: "#/sspi/sortie", title: "Score d'Apfel", desc: "Risque de NVPO", icon: "fiche", accent: "sspi" },
-          { href: "#/blocs", title: "Doses maximales d'anesthésiques locaux", desc: "Et émulsion lipidique", icon: "fiche", accent: "analgesie" }
-        ], { compact: true }))
     })
   });
   P17.index("#/calculateurs", SEC, "formules calculs", SEC);

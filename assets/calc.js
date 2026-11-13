@@ -437,6 +437,15 @@
       return { mol: "Énoxaparine", dose: "4 000 UI × 1/j SC", motif: "Schéma standard" };
     },
 
+    /* ---------- IGS II (Le Gall 1993) ---------- */
+    igs2(v) {   // v : points déjà attribués par variable (sélecteurs) ; renvoie total et mortalité prédite
+      const pts = Object.values(v).map(Number).filter(x => !isNaN(x));
+      if (!pts.length) return null;
+      const score = pts.reduce((a, b) => a + b, 0);
+      const logit = -7.7631 + 0.0737 * score + 0.9971 * Math.log(score + 1);
+      return { score, mortalite: 100 * Math.exp(logit) / (1 + Math.exp(logit)) };
+    },
+
     /* ---------- Morphine ---------- */
     titrationMorphine(poids, age) {
       if (!ok(poids)) return null;
