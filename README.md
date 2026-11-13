@@ -38,7 +38,7 @@ Toutes les modifications peuvent se faire directement sur GitHub (bouton ✏️ 
 | Nom du service, de l'hôpital, date de révision, photo de bannière, **annuaire** (liste `annuaire`), portrait d'hommage de la rubrique Antibiothérapie (`hommage.photo`) | `assets/config.js` |
 | Fiches d'anesthésie | `assets/modules/anesth/<spécialité>.js` (la transplantation rénale, dans `transplantation-renale.js`, s'affiche dans Urologie) |
 | Post-opératoire : analgésie, extubation, saignement (arbre décisionnel), check-list de sortie de SSPI avec NVPO et glycémie | `assets/modules/periop.js` (page `#/postop` et liste `P17.postop` dans `assets/modules/commun.js`) |
-| Blocs analgésiques : outil chirurgie → intervention → bloc, une fiche par bloc, dose maximale et toxicité des anesthésiques locaux | `assets/modules/blocs.js` |
+| Blocs analgésiques : outil chirurgie → intervention → bloc, une fiche par bloc (schéma de position, vue échographique, liens vidéo), dose maximale et toxicité des anesthésiques locaux | `assets/modules/blocs.js`, schémas de position dans `assets/modules/blocs-schemas.js` |
 | Sections de l'accueil (gestion pré-opératoire, per-opératoire, post-opératoire, outils, divers) | `assets/modules/accueil.js` |
 | Urgences au bloc : bulle rouge présente sur toutes les pages et aides cognitives (liste `URG`) | `assets/modules/urgences.js` |
 | Per-opératoire : médicaments, voies aériennes et estomac plein, rachianesthésie, antibioprophylaxie (outil qui lit les fiches des interventions), transfusion ; thromboprophylaxie postopératoire | `assets/modules/perop.js` |

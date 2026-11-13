@@ -1216,3 +1216,23 @@ body.has-decor .fcard--alert { background-color: color-mix(in srgb, var(--danger
 .calc.is-collapsible.is-open > .calc-fields { margin-top: 4px; }
 .calc.is-collapsible.is-open { box-shadow: var(--shadow); border-color: var(--accent-soft-2); }
 @media (max-width: 560px) { .calc.is-collapsible .calc-desc { display: none; } .calc.is-collapsible > .calc-head { padding: 13px 14px; } .calc.is-collapsible.is-open > :not(.calc-head) { margin: 0 12px 14px; } }
+
+/* Blocs : schéma de position à côté de la vue échographique */
+.bimg { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 16px; align-items: start; }
+.bimg-us .figs { margin: 0; }
+.bimg-us .figs--1 { grid-template-columns: minmax(0, 1fr); }
+.bschema { margin: 0; padding: 12px; border-radius: 14px; border: 1px solid var(--line-soft); background: var(--surface-2); }
+.bschema svg { display: block; width: 100%; height: auto; max-height: 320px; }
+.bschema .sk { fill: color-mix(in srgb, var(--accent) 8%, var(--surface)); stroke: var(--fg-2); stroke-width: 2; stroke-linejoin: round; }
+.bschema .lm { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-linecap: round; }
+.bschema .vx { fill: none; stroke: #c1272d; stroke-width: 2.2; opacity: .7; stroke-linecap: round; }
+.bschema .pt { fill: var(--fg-2); }
+.bschema .pr { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+.bschema .prl { stroke: var(--accent-ink); stroke-width: 1.6; opacity: .6; }
+.bschema .nd { stroke: #e0a100; stroke-width: 3.2; stroke-linecap: round; }
+.bschema figcaption { display: flex; flex-direction: column; gap: 3px; margin-top: 8px; font-size: 13.5px; line-height: 1.4; color: var(--fg-2); }
+.bschema figcaption b { color: var(--ink); font-size: 14px; }
+.bs-key { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+.bs-key i { display: inline-block; width: 14px; height: 6px; border-radius: 3px; }
+.bs-key .k-pr { background: var(--accent); } .bs-key .k-nd { background: #e0a100; margin-left: 8px; }
+@media (max-width: 700px) { .bimg { grid-template-columns: minmax(0, 1fr); } .bschema svg { max-height: 240px; } }

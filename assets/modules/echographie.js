@@ -363,7 +363,9 @@
         { href: "#/echographie/bases", title: "Bases et sémiologie échographique", desc: "Sondes, réglages, échogénicité, artefacts, TM et Doppler : à lire en premier", img: I("base-m2"), accent: "echographie" },
         { href: "#/echographie/ett", title: "Échocardiographie transthoracique", desc: "Coupes, débit, précharge, pressions de remplissage, VD, valves", img: I("ett1"), accent: "echographie" },
         { href: "#/echographie/pleuro-pulmonaire", title: "Échographie pleuro-pulmonaire et diaphragme", desc: "Sémiologie, score LUS, profils BLUE, épanchement, pneumothorax, diaphragme", img: I("pp-m1"), accent: "echographie" },
-        { href: "#/echographie/generale", title: "Échographie générale", desc: "Abdomen, doppler transcrânien, rein, abords vasculaires", img: I("echoabdo"), accent: "echographie" }
+        { href: "#/echographie/abords-vasculaires", title: "Abords vasculaires échoguidés", desc: "Voies centrales, périphériques, artérielles", img: I("echovascu"), accent: "echographie" },
+        { href: "#/echographie/doppler-transcranien", title: "Doppler transcrânien", desc: "Artère cérébrale moyenne, seuils d'alerte", img: I("echodtc"), accent: "echographie" },
+        { href: "#/echographie/generale", title: "Échographie générale", desc: "Abdomen, reins", img: I("echoabdo"), accent: "echographie" }
       ])
     })
   });
@@ -420,20 +422,40 @@
   });
 
   const GEN_FICHE = {
-    title: "Échographie générale", subtitle: "Abdomen, doppler transcrânien, artères rénales et abords vasculaires échoguidés",
-    tags: ["FAST", "Doppler transcrânien", "Index de résistance", "Abords vasculaires"],
+    title: "Échographie générale", subtitle: "Abdomen et reins : épanchement, globe, obstacle, perfusion rénale",
+    tags: ["FAST", "Globe vésical", "Index de résistance"],
     sections: [
       S("Échographie abdominale", [ul("Recherche d'un épanchement (FAST) : espace de Morrison, espace spléno-rénal, cul-de-sac de Douglas", "Globe vésical, dilatation des cavités pyélocalicielles, vésicule biliaire"), planche("echoabdo", "Échographie abdominale")]),
-      S("Doppler transcrânien", [kv(["Fenêtre", "Temporale, artère cérébrale moyenne"], ["Seuils d'alerte", "Vitesse diastolique < 20 cm/s, index de pulsatilité > 1,4"], ["Intérêt", "Dépistage d'une hypoperfusion cérébrale (traumatisme crânien, HTIC)"]), planche("echodtc", "Doppler transcrânien")]),
-      S("Doppler des artères rénales", [kv(["Index de résistance", "(Vs − Vd) / Vs sur les artères interlobaires"], ["Interprétation", "Normal < 0,70 ; élevé en cas d'atteinte rénale ou de congestion"]), planche("echorein", "Doppler des artères rénales")]),
-      S("Abords vasculaires échoguidés", [ul("Sonde linéaire, repérage avant l'asepsie : perméabilité, compressibilité de la veine, rapports avec l'artère", "Ponction dans le plan ou hors plan, extrémité de l'aiguille visible en permanence", "Contrôle du guide dans la veine avant la dilatation"), planche("echovascu", "Abords vasculaires échoguidés")])
+      S("Doppler des artères rénales", [kv(["Index de résistance", "(Vs − Vd) / Vs sur les artères interlobaires"], ["Interprétation", "Normal < 0,70 ; élevé en cas d'atteinte rénale ou de congestion"]), planche("echorein", "Doppler des artères rénales")])
     ]
   };
+  const VASC_FICHE = {
+    title: "Abords vasculaires échoguidés", subtitle: "Voies veineuses centrales et périphériques, cathéter artériel",
+    tags: ["Sonde linéaire", "Dans le plan", "Contrôle du guide"],
+    sections: [
+      S("Repérage", [ul("Sonde linéaire, repérage avant l'asepsie : perméabilité, compressibilité de la veine, rapports avec l'artère", "Veine jugulaire interne : en dehors de la carotide, compressible ; fémorale : en dedans de l'artère")]),
+      S("Ponction", [ul("Ponction dans le plan ou hors plan, extrémité de l'aiguille visible en permanence", "Contrôle du guide dans la veine, en petit et grand axe, avant la dilatation", "Position de l'extrémité du cathéter : échographie sous-costale (test aux microbulles) ou radiographie")]),
+      S("Planche", [planche("echovascu", "Abords vasculaires échoguidés")], { wide: true })
+    ]
+  };
+  const DTC_FICHE = {
+    title: "Doppler transcrânien", subtitle: "Dépister une hypoperfusion cérébrale",
+    tags: ["Artère cérébrale moyenne", "Vd < 20 cm/s", "IP > 1,4"],
+    sections: [
+      S("Technique", [kv(["Sonde", "Sectorielle basse fréquence, mode Doppler pulsé"], ["Fenêtre", "Temporale, au-dessus de l'arcade zygomatique"], ["Vaisseau", "Artère cérébrale moyenne, à 45–60 mm de profondeur"])]),
+      S("Interprétation", [kv(["Seuils d'alerte", "Vitesse diastolique < 20 cm/s, index de pulsatilité > 1,4"], ["Intérêt", "Traumatisme crânien, hypertension intracrânienne : dépistage d'une hypoperfusion"])]),
+      S("Planche", [planche("echodtc", "Doppler transcrânien")], { wide: true })
+    ]
+  };
+  P17.route("#/echographie/abords-vasculaires", { title: "Abords vasculaires", render: () => echoPage("#/echographie/abords-vasculaires", "Abords vasculaires", VASC_FICHE) });
+  P17.route("#/echographie/doppler-transcranien", { title: "Doppler transcrânien", render: () => echoPage("#/echographie/doppler-transcranien", "Doppler transcrânien", DTC_FICHE) });
   P17.route("#/echographie/generale", { title: "Échographie générale", render: () => echoPage("#/echographie/generale", "Échographie générale", GEN_FICHE) });
 
   P17.index("#/echographie", SEC, "echo ultrasons", SEC);
   P17.index("#/echographie/bases", "Bases et sémiologie échographique", "sonde linéaire convexe sectorielle réglages gain profondeur échogénicité anéchogène hypoéchogène hyperéchogène artefact cône d'ombre renforcement réverbération miroir doppler couleur pulsé TM orientation", SEC);
   P17.index("#/echographie/ett", "ETT — échocardiographie transthoracique", ETT.map(x => x[0]).join(" "), SEC);
   P17.index("#/echographie/pleuro-pulmonaire", "Échographie pleuro-pulmonaire et diaphragmatique", "poumon LUS score aération lignes B lignes A pneumothorax point poumon épanchement pleural volume Balik Vignon diaphragme course excursion épaississement D-RSBI sevrage BLUE PLAPS atélectasie", SEC);
-  P17.index("#/echographie/generale", "Échographie générale", GEN.map(x => x[0]).join(" "), SEC);
+  P17.index("#/echographie/generale", "Échographie générale : abdomen et reins", "FAST épanchement globe vésical index de résistance rénal", SEC);
+  P17.index("#/echographie/abords-vasculaires", "Abords vasculaires échoguidés", "voie veineuse centrale jugulaire fémorale cathéter artériel ponction", SEC);
+  P17.index("#/echographie/doppler-transcranien", "Doppler transcrânien", "DTC artère cérébrale moyenne index de pulsatilité HTIC", SEC);
 })();

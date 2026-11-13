@@ -412,12 +412,8 @@
   const PROBA = Object.entries(T);
 
   // Hommage en tête de rubrique : portrait si une photo est fournie dans la configuration
-  // Hommage : une ligne discrète en tête de rubrique, et le portrait au trait en filigrane
+  // Hommage : portrait au trait en filigrane
   // derrière toutes les pages d'antibiothérapie (élément fixe, affiché selon la page ouverte)
-  const hommage = () => {
-    const h = CFG.hommage; if (!h || !h.nom) return "";
-    return `<p class="hm-line accent-antibiotherapie">En hommage au <b>${P17.esc(h.nom)}</b>${h.legende ? `, ${P17.esc(h.legende)}` : ""}</p>`;
-  };
   (function mountTrait() {
     const h = CFG.hommage; if (!h || !h.trait) return;
     const put = () => {
@@ -435,7 +431,7 @@
     render: () => P17.page({
       crumbs: base, title: "Antibiothérapie en réanimation", accent: "antibiotherapie", icon: "antibiotherapie",
       subtitle: `Fiches révisées pour le ${P17.esc(CFG.serviceLong)}. Outils d'aide à la prescription : toujours confronter à l'écologie locale et aux prélèvements.`,
-      body: hommage() + P17.group("Antibiothérapie probabiliste", P17.tiles(PROBA.map(([id, t]) => ({ href: `${ROOT}/probabiliste/${id}`, title: t.title, desc: t.desc, icon: "tool", accent: "antibiotherapie" }))))
+      body: P17.group("Antibiothérapie probabiliste", P17.tiles(PROBA.map(([id, t]) => ({ href: `${ROOT}/probabiliste/${id}`, title: t.title, desc: t.desc, icon: "tool", accent: "antibiotherapie" }))))
         + P17.group("Outils", P17.tiles([
           { href: `${ROOT}/durees`, title: "Durées d'antibiothérapie", desc: "Par site infectieux", icon: "fiche", accent: "antibiotherapie" },
           { href: `${ROOT}/adaptation-renale`, title: "Adaptation à la fonction rénale", desc: "Insuffisance rénale, hémodialyse, EER continue", icon: "tool", accent: "antibiotherapie" },
