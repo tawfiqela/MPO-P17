@@ -43,7 +43,7 @@
     { id: "echographie", href: "#/echographie", title: "Échographie", desc: "Bases, ETT, pleuro-pulmonaire, diaphragme", icon: "echographie" }
   ];
   const DIVERS = [
-    { id: "bibliographie", href: "#/bibliographie", title: "Bibliographie", desc: "Références du service (à venir)", icon: "bibliographie" },
+    { id: "bibliographie", href: "#/bibliographie", title: "Bibliographie", desc: "Trois lectures recommandées chaque jour", icon: "bibliographie" },
     { id: "enseignement", href: "#/enseignement", title: "Enseignement et recherche", desc: "Cours, staffs, travaux", icon: "enseignement" }
   ];
   const MENU = [...OUTILS, ...DIVERS];
