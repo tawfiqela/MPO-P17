@@ -267,10 +267,202 @@
         ],
         refs: ["Mirski MA et al. Diagnosis and treatment of vascular air embolism. Anesthesiology 2007"]
       }
+    },
+    /* ---------------- Incidents peropératoires ---------------- */
+    {
+      id: "incendie", group: "inc", title: "Incendie au bloc opératoire", court: "Incendie au bloc", hint: "Couper l'oxygène, retirer et éteindre, sauver le patient",
+      fiche: {
+        subtitle: "Feu au champ opératoire, dans les voies aériennes ou dans la salle",
+        tags: ["Triangle du feu", "Couper l'O₂", "Bistouri électrique"],
+        sections: [
+          S("Reconnaître et prévenir", [
+            kv(["Triangle du feu", "Comburant (oxygène, protoxyde d'azote), source de chaleur (bistouri électrique, laser, lumière froide), combustible (champs, compresses, antiseptique alcoolique, sonde, cheveux)"],
+              ["Situation à haut risque", "Source de chaleur près d'un oxygène enrichi : chirurgie de la tête, du cou, du thorax haut sous sédation avec O₂ au masque ou aux lunettes"],
+              ["Prévention", "Laisser sécher l'antiseptique alcoolique (≥ 3 min, sans flaque) ; FiO₂ la plus basse possible (≤ 30 %) ou dispositif supraglottique ou sonde si l'O₂ est indispensable ; prévenir avant chaque usage du bistouri près des voies aériennes ; ballonnet rempli de sérum coloré en chirurgie laser"]),
+            info("Signes : flamme, flash, fumée, odeur de brûlé, bruit inhabituel, chaleur, champ qui se décolore. Annoncer « feu » à voix haute.")
+          ]),
+          S("Feu des voies aériennes : agir immédiatement", [steps(
+            ["Retirer la sonde d'intubation", "Simultanément : couper l'arrivée de gaz frais et d'oxygène, déconnecter le circuit"],
+            ["Verser du sérum physiologique dans les voies aériennes", "Retirer tout corps étranger (fragments de sonde, compresses)"],
+            ["Ventiler au masque, en air", "Éviter l'oxygène pur tant qu'un foyer peut persister, puis réintuber"],
+            ["Bronchoscopie", "Recherche de brûlures et de débris ; évaluer les lésions et décider de la suite (réanimation)"]
+          )], { wide: true, tone: "alert" }),
+          S("Feu au champ ou sur le patient", [steps(
+            ["Arrêter l'oxygène et le protoxyde d'azote", "Arrêter le bistouri et toute source de chaleur"],
+            ["Retirer les champs et tout ce qui brûle", "Éteindre avec du sérum ou de l'eau, ou étouffer"],
+            ["Si le feu persiste", "Extincteur au CO₂, sans danger pour le patient et la plaie"],
+            ["Évaluer le patient", "Voies aériennes, brûlures, inhalation de fumées ; reprendre la ventilation et l'anesthésie"]
+          )], { wide: true, tone: "alert" }),
+          S("Feu dans la salle", [ul("Donner l'alerte (numéro incendie de l'établissement), fermer les arrivées de gaz de la salle si le feu progresse",
+            "Évacuer le patient en le ventilant au ballon autonome, avec un relais d'anesthésie intraveineuse",
+            "Fermer la porte de la salle ; ne pas utiliser l'ascenseur",
+            "Conserver le matériel en cause, déclaration d'événement indésirable")])
+        ],
+        refs: ["Apfelbaum JL et al. Practice advisory for the prevention and management of operating room fires (ASA). Anesthesiology 2013", "Anesthesia Patient Safety Foundation : algorithme de prévention et de prise en charge des incendies au bloc opératoire"]
+      }
+    },
+    {
+      id: "bradycardie", group: "inc", title: "Bradycardie peropératoire", court: "Bradycardie", hint: "Arrêter le stimulus, atropine, adrénaline, entraînement électrosystolique",
+      tool: doses("urgBrady", P => [
+        ["Atropine IV", "0,5 mg, à répéter toutes les 3–5 min, jusqu'à 3 mg"],
+        ["Adrénaline IV, bolus", "5 à 10 µg si collapsus"],
+        ["Adrénaline en continu (1 mg dans 50 mL)", `${f(F.debitPSE(0.02, P, 20), 1)} à ${f(F.debitPSE(0.1, P, 20), 1)} mL/h (0,02–0,1 µg/kg/min ; adulte 2–10 µg/min)`],
+        ["Isoprénaline", "5 µg/min (0,5 à 10 µg/min) ; 1 mg dans 50 mL : 15 mL/h = 5 µg/min"],
+        ["Éphédrine", "6 à 9 mg IV si hypotension associée"]
+      ]),
+      fiche: {
+        subtitle: "Fréquence < 50/min avec retentissement, ou bradycardie brutale et profonde",
+        tags: ["Réflexe vagal", "Atropine", "Pacing"],
+        sections: [
+          S("Agir immédiatement", [steps(
+            ["Faire arrêter le stimulus", "Traction viscérale ou mésentérique, pneumopéritoine, réflexe oculocardiaque, laryngoscopie, compression carotidienne, stimulation du nerf vague"],
+            ["Vérifier l'oxygénation et la ventilation", "Hypoxie : cause à corriger en premier ; oxygène pur"],
+            ["Atropine 0,5 mg IV", "Répéter si besoin jusqu'à 3 mg"],
+            ["Si collapsus ou échec", "Adrénaline en bolus puis en continu, ou isoprénaline"],
+            ["Bradycardie extrême ou asystolie", "Massage cardiaque ; entraînement électrosystolique transcutané (palettes en place)"]
+          )], { wide: true, tone: "alert" }),
+          S("Causes à rechercher", [tbl(["Cause", "Indices"], [
+            ["Réflexe vagal", "Lié au geste chirurgical, cède à l'arrêt du stimulus"],
+            ["Hypoxie", "SpO₂, capnographie, position de la sonde"],
+            ["Bloc sympathique étendu", "Rachianesthésie ou péridurale haute : hypotension, niveau sensitif"],
+            ["Médicaments", "Morphiniques à forte dose, néostigmine, dexmédétomidine, bêtabloquants, succinylcholine (réinjection)"],
+            ["Hyperkaliémie, hypothermie", "Ionogramme, température"],
+            ["Hypertension intracrânienne, ischémie myocardique", "Réflexe de Cushing ; ECG, sus-décalage"]
+          ])], { wide: true })
+        ],
+        refs: ["Soar J et al. European Resuscitation Council Guidelines 2021: adult advanced life support. Resuscitation 2021", "Stanford Anesthesia Cognitive Aid Group. Emergency Manual: cognitive aids for perioperative critical events"]
+      }
+    },
+    {
+      id: "tachycardie", group: "inc", title: "Tachycardie et troubles du rythme peropératoires", court: "Tachycardie, trouble du rythme", hint: "Instable : choc électrique ; stable : identifier le rythme",
+      fiche: {
+        subtitle: "Fréquence > 150/min ou trouble du rythme mal toléré",
+        tags: ["Choc synchronisé", "Amiodarone", "Causes au bloc"],
+        sections: [
+          S("Agir immédiatement", [steps(
+            ["Signes de gravité ?", "Choc, ischémie myocardique, insuffisance cardiaque, syncope"],
+            ["Instable : choc électrique externe synchronisé", "Jusqu'à 3 chocs ; puis amiodarone 300 mg IV en 10–20 min et nouveau choc"],
+            ["Stable, QRS fins réguliers", "Manœuvre vagale, puis adénosine 6 mg IV rapide, 12 mg si échec"],
+            ["Stable, fibrillation atriale", "Contrôle de la fréquence : bêtabloquant (esmolol) ou amiodarone si dysfonction ventriculaire"],
+            ["Stable, QRS larges", "Tachycardie ventriculaire jusqu'à preuve du contraire : amiodarone 300 mg en 10–20 min"]
+          )], { wide: true, tone: "alert" }),
+          S("Causes propres au bloc", [ul("Anesthésie trop légère, douleur, hypovolémie, saignement",
+            "Hypoxie, hypercapnie (hyperthermie maligne)",
+            "Anaphylaxie, médicaments (adrénaline infiltrée, éphédrine, atropine, kétamine)",
+            "Hypokaliémie, hypomagnésémie (sulfate de magnésium 2 g IV sur 10 min, et en première intention des torsades de pointes)",
+            "Ischémie myocardique, embolie pulmonaire, pneumothorax, tamponnade, cathéter central dans le ventricule droit")]),
+          S("Énergies du choc synchronisé (biphasique)", [kv(["Fibrillation atriale, tachycardie à QRS larges", "120 à 150 J, puis augmenter"], ["Flutter, tachycardie à QRS fins régulière", "70 à 120 J"])])
+        ],
+        refs: ["Soar J et al. European Resuscitation Council Guidelines 2021: adult advanced life support. Resuscitation 2021"]
+      }
+    },
+    {
+      id: "desaturation", group: "inc", title: "Désaturation peropératoire", court: "Désaturation", hint: "O₂ pur, ventilation manuelle, du patient à la machine",
+      fiche: {
+        subtitle: "SpO₂ qui baisse sous anesthésie générale : chercher méthodiquement, de la machine au patient",
+        tags: ["O₂ 100 %", "Ballon", "DOPES"],
+        sections: [
+          S("Agir immédiatement", [steps(
+            ["Oxygène pur, appel à l'aide si la SpO₂ < 90 %", "Vérifier la courbe de pléthysmographie (artefact ?) et le capnogramme"],
+            ["Ventiler à la main au ballon", "Sentir les résistances et la compliance ; écouter les deux champs pulmonaires"],
+            ["Sonde : DOPE", "Déplacement (sélective, extubation), Obstruction (sécrétions, coudure, morsure), Pneumothorax, Équipement (circuit, fuite, ventilateur, arrivée d'O₂)"],
+            ["Si la cause n'est pas trouvée", "Aspiration, fibroscopie, manœuvre de recrutement, PEP ; arrêter le pneumopéritoine ou corriger la position"],
+            ["Si la SpO₂ reste < 80 %", "Ventilation au ballon autonome (ambu) relié à une bouteille d'O₂ pour exclure un problème de machine ou de gaz"]
+          )], { wide: true, tone: "alert" }),
+          S("Causes", [tbl(["Origine", "Exemples"], [
+            ["Apport d'oxygène", "FiO₂ basse, panne ou inversion de gaz, débit de gaz frais insuffisant"],
+            ["Ventilation", "Intubation sélective, œsophagienne, obstruction, bronchospasme, laryngospasme, déconnexion, hypoventilation"],
+            ["Poumon", "Atélectasie (obèse, cœlioscopie, Trendelenburg), inhalation, œdème pulmonaire, pneumothorax"],
+            ["Circulation", "Bas débit, embolie (pulmonaire, gazeuse, graisseuse, de ciment), anaphylaxie, shunt"],
+            ["Mesure", "Hypoperfusion distale, froid, mouvement, bleu de méthylène, vernis"]
+          ])], { wide: true })
+        ],
+        refs: ["Stanford Anesthesia Cognitive Aid Group. Emergency Manual: cognitive aids for perioperative critical events", "Difficult Airway Society. Guidelines for management of unanticipated difficult intubation in adults. Br J Anaesth 2015"]
+      }
+    },
+    {
+      id: "rachi-totale", group: "inc", title: "Rachianesthésie totale ou bloc neuraxial étendu", court: "Rachianesthésie totale", hint: "Oxygéner, intuber, vasopresseurs, atropine",
+      fiche: {
+        subtitle: "Extension céphalique du bloc après rachianesthésie, ou injection intrathécale accidentelle lors d'une péridurale ou d'un bloc périphérique profond",
+        tags: ["Bloc haut", "Intubation", "Vasopresseurs"],
+        sections: [
+          S("Reconnaître", [ul("Engourdissement ou faiblesse des mains et des bras, gêne respiratoire, difficulté à parler, nausées",
+            "Hypotension et bradycardie profondes (bloc sympathique cardiaque au-dessus de T4)",
+            "Apnée, mydriase bilatérale, perte de conscience : rachianesthésie totale")]),
+          S("Agir immédiatement", [steps(
+            ["Appeler à l'aide, oxygène pur", "Ventilation au masque dès la moindre défaillance respiratoire"],
+            ["Intubation", "Si apnée, troubles de conscience ou inhalation possible ; hypnotique à dose réduite"],
+            ["Hypotension", "Éphédrine, phényléphrine ou noradrénaline ; adrénaline si collapsus sévère ; remplissage, jambes surélevées (pas de Trendelenburg brutal chez la parturiente : décubitus latéral gauche)"],
+            ["Bradycardie", "Atropine 0,5 mg, adrénaline si échec ou arrêt cardiaque"],
+            ["Arrêt cardiaque", "Réanimation standard, adrénaline précoce"]
+          )], { wide: true, tone: "alert" }),
+          S("Ensuite", [ul("Sédation et ventilation jusqu'à la levée du bloc (1 à 2 heures selon l'anesthésique local)", "Rassurer le patient conscient sous ventilation", "Évoquer une toxicité systémique si une forte dose a été injectée", "Information du patient, déclaration")])
+        ],
+        refs: ["Stanford Anesthesia Cognitive Aid Group. Emergency Manual: cognitive aids for perioperative critical events", "Obstetric Anaesthetists' Association / Difficult Airway Society : prise en charge des complications de l'anesthésie neuraxiale"]
+      }
+    },
+    {
+      id: "pneumothorax", group: "inc", title: "Pneumothorax peropératoire", court: "Pneumothorax", hint: "Pressions qui montent, désaturation : exsufflation puis drain",
+      fiche: {
+        subtitle: "Pressions d'insufflation qui montent, désaturation, hypotension, chez un patient à risque",
+        tags: ["Exsufflation", "Drain", "Échographie"],
+        sections: [
+          S("Reconnaître", [ul("Contextes : voie centrale sous-clavière ou jugulaire, bloc supraclaviculaire ou interscalénique, chirurgie thoracique, rénale (lombotomie), hépatique haute, cœlioscopie (pneumothorax par diffusion du CO₂), traumatisé, emphysème",
+            "Hausse des pressions, désaturation, hypotension puis collapsus (pneumothorax compressif), asymétrie du murmure et de l'ampliation",
+            "Échographie : abolition du glissement pleural, point poumon")]),
+          S("Agir immédiatement", [steps(
+            ["Oxygène pur, arrêter le protoxyde d'azote", "Ventiler à la main pour sentir la compliance"],
+            ["Collapsus : exsufflation à l'aiguille", "Cathéter de gros calibre au 2e espace intercostal sur la ligne médio-claviculaire, ou 4e–5e espace sur la ligne axillaire moyenne"],
+            ["Drainage thoracique", "Après l'exsufflation, ou d'emblée si l'état est stable ; le chirurgien peut ouvrir la plèvre en chirurgie thoracique ou abdominale"],
+            ["Pneumothorax au CO₂ en cœlioscopie", "Baisser la pression d'insufflation, PEP ; se résorbe souvent seul après l'exsufflation"]
+          )], { wide: true, tone: "alert" })
+        ],
+        refs: ["Stanford Anesthesia Cognitive Aid Group. Emergency Manual: cognitive aids for perioperative critical events", "Lott C et al. European Resuscitation Council Guidelines 2021: cardiac arrest in special circumstances. Resuscitation 2021"]
+      }
+    },
+    {
+      id: "panne-oxygene", group: "inc", title: "Panne d'oxygène ou de gaz médicaux", court: "Panne d'oxygène", hint: "Bouteille d'O₂, ballon autonome, anesthésie intraveineuse",
+      fiche: {
+        subtitle: "Alarme de basse pression d'oxygène, FiO₂ mesurée basse ou désaturation inexpliquée",
+        tags: ["Bouteille", "Ambu", "AIVOC"],
+        sections: [
+          S("Agir immédiatement", [steps(
+            ["Ouvrir la bouteille d'oxygène de secours du respirateur", "Débrancher le tuyau mural d'O₂ si une contamination ou une inversion de gaz est possible"],
+            ["Si pas de bouteille sur la machine", "Ventiler au ballon autonome relié à une bouteille d'O₂ indépendante, ou à l'air ambiant"],
+            ["Réduire la consommation", "Débit de gaz frais bas ; ventilation manuelle si le ventilateur est entraîné par l'O₂"],
+            ["Maintenir l'anesthésie", "Passer en anesthésie intraveineuse si l'évaporateur ne peut plus être utilisé"],
+            ["Prévenir", "Les autres salles, l'ingénierie biomédicale, le service technique ; vérifier la réserve de bouteilles"]
+          )], { wide: true, tone: "alert" }),
+          S("Points clés", [ul("Vérifier chaque matin la présence et le remplissage de la bouteille de secours et du ballon autonome",
+            "FiO₂ mesurée qui chute alors que l'O₂ est ouvert : penser à une inversion ou une contamination de gaz",
+            "Consigner l'heure et l'autonomie restante de la bouteille (volume × pression)")])
+        ],
+        refs: ["Stanford Anesthesia Cognitive Aid Group. Emergency Manual: cognitive aids for perioperative critical events", "SFAR : recommandations concernant la vérification du matériel d'anesthésie"]
+      }
+    },
+    {
+      id: "panne-electrique", group: "inc", title: "Panne électrique ou de respirateur", court: "Panne électrique, respirateur", hint: "Ballon, lumière de secours, AIVOC sur batterie",
+      fiche: {
+        subtitle: "Coupure de courant au bloc ou arrêt du respirateur",
+        tags: ["Ballon autonome", "Batterie", "Lampe"],
+        sections: [
+          S("Agir immédiatement", [steps(
+            ["Vérifier le patient", "Ventilation, pouls, oxygénation ; lampe de poche ou téléphone pour éclairer"],
+            ["Ventiler au ballon autonome", "Avec une bouteille d'O₂ si possible ; ou en ventilation manuelle sur la machine si elle fonctionne encore"],
+            ["Maintenir l'anesthésie", "Pousse-seringues et moniteur sur batterie ; relais intraveineux si l'évaporateur ne peut plus délivrer"],
+            ["Surveillance manuelle", "Pouls, pression au brassard manuel, oxymètre portable"],
+            ["Informer le chirurgien", "Arrêter ou abréger le geste ; prévenir le service technique"]
+          )], { wide: true, tone: "alert" }),
+          S("Points clés", [ul("Connaître l'autonomie des batteries du respirateur, du moniteur et des pousse-seringues", "Repérer les prises secourues (onduleur, groupe électrogène)", "Ballon autonome, lampe et oxymètre portable accessibles dans chaque salle")])
+        ],
+        refs: ["Stanford Anesthesia Cognitive Aid Group. Emergency Manual: cognitive aids for perioperative critical events"]
+      }
     }
+
   ];
 
   /* ---------------- Pages ---------------- */
+  const GROUPES = [["vit", "Urgences vitales"], ["inc", "Incidents peropératoires"]];
   const ICON = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12Z"/></svg>';
 
   P17.route(ROOT, {
@@ -278,7 +470,7 @@
     render: () => P17.page({
       crumbs: [[SEC, ROOT]], title: SEC, accent: "urgence", icon: "urgence", back: "#/",
       subtitle: "Aides cognitives à lire à voix haute pendant la prise en charge. Elles restent accessibles depuis la bulle rouge, sur toutes les pages.",
-      body: P17.tiles(URG.map(u => ({ href: `${ROOT}/${u.id}`, title: u.court, desc: u.hint, icon: "urgence", accent: "urgence" })))
+      body: GROUPES.map(([g, t]) => P17.group(t, P17.tiles(URG.filter(u => (u.group || "vit") === g).map(u => ({ href: `${ROOT}/${u.id}`, title: u.court, desc: u.hint, icon: "urgence", accent: "urgence" }))))).join("")
     })
   });
   P17.index(ROOT, SEC, "urgence crise aide cognitive check-list", SEC);
@@ -306,7 +498,7 @@
       <aside class="urg-panel" id="urg-panel" role="dialog" aria-modal="true" aria-label="${SEC}" hidden>
         <header class="urg-head"><span class="urg-title">${ICON}${SEC}</span><button class="urg-close" type="button" aria-label="Fermer">${P17.icon("close")}</button></header>
         <nav class="urg-list">
-          ${URG.map(u => `<a href="${ROOT}/${u.id}"><b>${u.court}</b><span>${u.hint}</span></a>`).join("")}
+          ${GROUPES.map(([g, t]) => `<p class="urg-grp">${t}</p>` + URG.filter(u => (u.group || "vit") === g).map(u => `<a href="${ROOT}/${u.id}"><b>${u.court}</b><span>${u.hint}</span></a>`).join("")).join("")}
         </nav>
         <a class="urg-all" href="${ROOT}">Toutes les aides</a>
       </aside>
