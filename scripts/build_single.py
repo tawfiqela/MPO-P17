@@ -58,7 +58,7 @@ frag = re.sub(r"<!doctype html>\s*", "", html, flags=re.I)
 frag = re.sub(r"</?html[^>]*>|</?head>|</?body>", "", frag)
 frag = re.sub(r'\s*<meta charset="utf-8">', "", frag)
 frag = re.sub(r'\s*<meta name="viewport"[^>]*>', "", frag)
-frag = frag.replace("<title>Réa Chir P17</title>", '<title>Réa Chir P17</title>\n<meta name="claude:viewport-fit-sides" content="cover">', 1).lstrip()
+frag = frag.replace("<title>Anesthésie P17</title>", '<title>Anesthésie P17</title>\n<meta name="claude:viewport-fit-sides" content="cover">', 1).lstrip()
 with open(os.path.join(OUT, "rea-chir-p17-apercu.html"), "w", encoding="utf-8") as f:
     f.write(frag)
 

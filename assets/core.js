@@ -1,5 +1,5 @@
 /* =====================================================================
-   Réa Chir P17 — noyau de l'application
+   Anesthésie P17 — noyau de l'application
    Routeur, composants d'affichage, recherche, thème, visionneuse, PWA
    ===================================================================== */
 (function () {

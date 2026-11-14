@@ -1,7 +1,7 @@
 {
-  "name": "Réa Chir P17 — CHU Ibn Rochd",
-  "short_name": "Réa Chir P17",
-  "description": "Protocoles d'anesthésie-réanimation du Service de Réanimation Chirurgicale P17, CHU Ibn Rochd de Casablanca",
+  "name": "Anesthésie P17 — CHU Ibn Rochd",
+  "short_name": "Anesthésie P17",
+  "description": "Protocoles d'anesthésie du bloc opératoire central, Pavillon 17, CHU Ibn Rochd de Casablanca",
   "lang": "fr",
   "start_url": "./index.html",
   "scope": "./",

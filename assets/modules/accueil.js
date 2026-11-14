@@ -1,5 +1,5 @@
 /* =====================================================================
-   Accueil : pièce centrale « Réanimation Chirurgicale · Pavillon 17 »
+   Accueil : pièce centrale « Anesthésie · Bloc central, Pavillon 17 »
    entourée des spécialités, puis les autres rubriques.
 
    Disposition (grand écran, 3 × 3) :
@@ -141,8 +141,8 @@
               <span class="hub-flag" title="Royaume du Maroc">${P17.flag()}</span>
               ${lockup()}
               <span class="hub-rule" aria-hidden="true"></span>
-              <h1 class="hub-title">${P17.esc(C.serviceBanniere || "Réanimation Chirurgicale")}</h1>
-              <span class="hub-pav">${P17.esc(C.pavillon || "Pavillon 17")}</span>
+              <h1 class="hub-title">${P17.esc(C.serviceBanniere || "Anesthésie")}</h1>
+              <span class="hub-pav">${(C.pavillon || "Pavillon 17").split(" · ").map(P17.esc).join("<br>")}</span>
               <span class="hub-ar" lang="ar" dir="rtl">${P17.esc(C.etablissementAr || "")}</span>
               <span class="hub-sub">${P17.esc(C.sousTitre || "")}</span>
             </div>

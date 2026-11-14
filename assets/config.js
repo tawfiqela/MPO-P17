@@ -3,15 +3,15 @@
    de l'établissement, la photo de bannière, etc.
    ===================================================================== */
 window.P17_CONFIG = {
-  appName: "Réa Chir P17",
+  appName: "Anesthésie P17",
   etablissement: "CHU Ibn Rochd",
   etablissementAr: "المركز الاستشفائي الجامعي ابن رشد",
   ville: "Casablanca",
-  service: "Réanimation Chirurgicale P17",
-  serviceBanniere: "Réanimation Chirurgicale",
-  pavillon: "Pavillon 17",
-  serviceLong: "Service de Réanimation Chirurgicale P17",
-  sousTitre: "Protocoles d'anesthésie-réanimation",
+  service: "Anesthésie — Bloc central P17",
+  serviceBanniere: "Anesthésie",
+  pavillon: "Bloc opératoire central · Pavillon 17",
+  serviceLong: "Anesthésie · Bloc opératoire central P17",
+  sousTitre: "Protocoles d'anesthésie",
 
   // Photo de l'hôpital pour la bannière d'accueil (optionnel).
   // Déposer le fichier dans assets/img/ puis indiquer son chemin, par ex. :

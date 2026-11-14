@@ -1,5 +1,5 @@
 /* =====================================================================
-   Antibiothérapie — Service de Réanimation Chirurgicale P17
+   Antibiothérapie — Anesthésie P17
    Outils d'antibiothérapie probabiliste, fiches BMR, durées,
    adaptation rénale, modalités d'administration.
    ===================================================================== */
@@ -428,8 +428,8 @@
   P17.route(ROOT, {
     title: SEC,
     render: () => P17.page({
-      crumbs: base, title: "Antibiothérapie en réanimation", accent: "antibiotherapie", icon: "antibiotherapie",
-      subtitle: `Fiches révisées pour le ${P17.esc(CFG.serviceLong)}. Outils d'aide à la prescription : toujours confronter à l'écologie locale et aux prélèvements.`,
+      crumbs: base, title: "Antibiothérapie", accent: "antibiotherapie", icon: "antibiotherapie",
+      subtitle: `Outils d'aide à la prescription : toujours confronter à l'écologie locale et aux prélèvements.`,
       body: P17.group("Antibiothérapie probabiliste", P17.tiles(PROBA.map(([id, t]) => ({ href: `${ROOT}/probabiliste/${id}`, title: t.title, desc: t.desc, icon: "tool", accent: "antibiotherapie" }))))
         + P17.group("Outils", P17.tiles([
           { href: `${ROOT}/durees`, title: "Durées d'antibiothérapie", desc: "Par site infectieux", icon: "fiche", accent: "antibiotherapie" },

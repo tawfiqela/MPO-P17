@@ -1,6 +1,6 @@
-# Réa Chir P17 — Plateforme de protocoles
+# Anesthésie P17 — Plateforme de protocoles
 
-Plateforme web installable (PWA) du **Service de Réanimation Chirurgicale P17 — CHU Ibn Rochd, Casablanca** : protocoles d'anesthésie par spécialité, gestion pré-opératoire, per-opératoire et post-opératoire, urgences au bloc, échographie, calculateurs, EER et échanges plasmatiques, antibiothérapie, enseignement et recherche.
+Plateforme web installable (PWA) de l’**anesthésie du bloc opératoire central, Pavillon 17 — CHU Ibn Rochd, Casablanca** : protocoles d'anesthésie par spécialité, gestion pré-opératoire, per-opératoire et post-opératoire, urgences au bloc, échographie, calculateurs, EER et échanges plasmatiques, antibiothérapie, enseignement et recherche.
 
 Le site fonctionne sans serveur ni base de données : il suffit de l'héberger gratuitement sur GitHub Pages. Une fois ouvert une première fois, il reste utilisable hors connexion.
 
