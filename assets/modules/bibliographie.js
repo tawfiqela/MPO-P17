@@ -91,6 +91,13 @@
     ]
   };
 
+  // Nouveautés hebdomadaires (biblio-nouveautes.js) : rangées dans leur thème, en tête
+  const NEWS = (window.P17_BIBLIO_NEWS || []).filter(w => w && Array.isArray(w.lectures) && w.lectures.length);
+  NEWS.slice().reverse().forEach(w => w.lectures.forEach(([th, aut, titre, revue, an, ret, lien]) => {
+    const t = LECTURES[th] ? th : "Anesthésie et périopératoire";
+    if (!LECTURES[t].some(a => a[1] === titre)) LECTURES[t].unshift([aut, titre, revue, an, ret, lien]);
+  }));
+
   // Liste aplatie en alternant les thèmes : deux lectures voisines n'ont jamais le même thème
   const THEMES = Object.keys(LECTURES);
   const ALL = [];
@@ -101,10 +108,10 @@
   const jour = () => { const d = new Date(); return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000); };
   const duJour = (n = 3) => { const start = (jour() * n) % ALL.length; return Array.from({ length: n }, (_, k) => ALL[(start + k) % ALL.length]); };
   const pubmed = t => `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(t)}`;
-  const carte = ({ theme, a: [aut, titre, revue, an, retenir] }, big) => `
+  const carte = ({ theme, a: [aut, titre, revue, an, retenir, lien] }, big) => `
     <article class="lec${big ? " lec--day" : ""}">
       ${big ? `<span class="lec-theme">${P17.esc(theme)}</span>` : ""}
-      <h3 class="lec-title"><a href="${pubmed(titre)}" target="_blank" rel="noopener noreferrer">${P17.esc(titre)}</a></h3>
+      <h3 class="lec-title"><a href="${P17.esc(lien && /^https:\/\//.test(lien) ? lien : pubmed(titre))}" target="_blank" rel="noopener noreferrer">${P17.esc(titre)}</a></h3>
       <p class="lec-src">${P17.esc(aut)} · <em>${P17.esc(revue)}</em> ${an}</p>
       <p class="lec-ret">${P17.esc(retenir)}</p>
     </article>`;
@@ -114,8 +121,12 @@
     title: SEC,
     render: () => P17.page({
       crumbs: [[SEC, "#/bibliographie"]], title: SEC, accent: "bibliographie", icon: "bibliographie",
-      subtitle: "Chaque jour, trois lectures recommandées sur des thèmes différents. Les liens ouvrent la notice PubMed.",
+      subtitle: "Chaque lundi, une sélection de nouveautés ; chaque jour, trois lectures de référence sur des thèmes différents.",
       body: `
+        ${NEWS.length ? `<section class="lec-day lec-news accent-bibliographie">
+          <h2 class="lec-h">Nouveautés de la semaine du ${P17.esc(new Date(NEWS[0].semaine + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }))}</h2>
+          <div class="lec-grid">${NEWS[0].lectures.map(([th, aut, titre, revue, an, ret, lien]) => carte({ theme: th, a: [aut, titre, revue, an, ret, lien] }, true)).join("")}</div>
+        </section>` : ""}
         <section class="lec-day accent-bibliographie">
           <h2 class="lec-h">Sélection du ${P17.esc(dateFr())}</h2>
           <div class="lec-grid">${duJour().map(x => carte(x, true)).join("")}</div>

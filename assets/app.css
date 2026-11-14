@@ -1320,3 +1320,4 @@ body.has-decor .fcard--alert { background-color: color-mix(in srgb, var(--danger
 .urg-grp:first-child { margin-top: 2px; }
 .footer-ed { flex-basis: 100%; text-align: right; color: var(--muted); font-size: 12.5px; }
 @media (max-width: 760px) { .footer-ed { text-align: left; } }
+.lec-news { margin-bottom: 26px; } .lec-news .lec--day { border-top-color: var(--ok, #1f8a5b); }
