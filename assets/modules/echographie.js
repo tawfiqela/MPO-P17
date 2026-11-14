@@ -350,14 +350,15 @@
     title: SEC,
     render: () => P17.page({
       crumbs: base, title: SEC, accent: "echographie", icon: "echographie",
-      subtitle: "Commencer par les bases et la sémiologie, puis l'échocardiographie, l'échographie pleuro-pulmonaire et diaphragmatique (avec outils de calcul) et l'échographie générale.",
+      subtitle: "Classées par ordre d'utilité au bloc : les bases d'abord, puis les gestes et les évaluations les plus fréquents en anesthésie.",
       body: P17.tiles([
         { href: "#/echographie/bases", title: "Bases et sémiologie échographique", desc: "Sondes, réglages, échogénicité, artefacts, TM et Doppler : à lire en premier", icon: "fiche", accent: "echographie" },
-        { href: "#/echographie/ett", title: "Échocardiographie transthoracique", desc: "Coupes, débit, précharge, pressions de remplissage, VD, valves", icon: "fiche", accent: "echographie" },
-        { href: "#/echographie/pleuro-pulmonaire", title: "Échographie pleuro-pulmonaire et diaphragme", desc: "Sémiologie, score LUS, profils BLUE, épanchement, pneumothorax, diaphragme", icon: "fiche", accent: "echographie" },
         { href: "#/echographie/abords-vasculaires", title: "Abords vasculaires échoguidés", desc: "Voies centrales, périphériques, artérielles", icon: "fiche", accent: "echographie" },
-        { href: "#/echographie/doppler-transcranien", title: "Doppler transcrânien", desc: "Artère cérébrale moyenne, seuils d'alerte", icon: "fiche", accent: "echographie" },
-        { href: "#/echographie/generale", title: "Échographie générale", desc: "Abdomen, reins", icon: "fiche", accent: "echographie" }
+        { href: "#/echographie/gastrique", title: "Échographie gastrique", desc: "Estomac vide ou plein avant l'induction, grade de Perlas, volume", icon: "fiche", accent: "echographie" },
+        { href: "#/echographie/pleuro-pulmonaire", title: "Échographie pleuro-pulmonaire et diaphragme", desc: "Sémiologie, score LUS, pneumothorax, épanchement, diaphragme", icon: "fiche", accent: "echographie" },
+        { href: "#/echographie/ett", title: "Échocardiographie transthoracique", desc: "Coupes, débit, précharge, pressions de remplissage, VD, valves", icon: "fiche", accent: "echographie" },
+        { href: "#/echographie/generale", title: "Échographie générale", desc: "Abdomen, reins", icon: "fiche", accent: "echographie" },
+        { href: "#/echographie/doppler-transcranien", title: "Doppler transcrânien", desc: "Artère cérébrale moyenne, seuils d'alerte", icon: "fiche", accent: "echographie" }
       ])
     })
   });
@@ -650,6 +651,88 @@
       "Lindegaard KF et al. Cerebral vasospasm diagnosis by means of angiography and blood velocity measurements. Acta Neurochir 1989"
     ]
   };
+
+  /* ---------------- Échographie gastrique (estomac plein ?) ---------------- */
+  const gastTool = P17.calc({
+    id: "gastro", kind: "tool", title: "Volume gastrique (modèle de Perlas)",
+    desc: "Antre mesuré en décubitus latéral droit, coupe sagittale épigastrique, entre deux contractions.",
+    fields: [
+      { id: "grade", label: "Grade qualitatif", type: "seg", full: true, options: [["0", "0 · vide"], ["1", "1 · liquide en latéral seul"], ["2", "2 · liquide en dorsal et latéral"], ["s", "Solide"]], value: "0" },
+      { id: "ap", label: "Diamètre antéro-postérieur", unit: "cm", placeholder: "ex. 2,1", showIf: v => v.grade !== "s" },
+      { id: "cc", label: "Diamètre cranio-caudal", unit: "cm", placeholder: "ex. 3,0", showIf: v => v.grade !== "s" },
+      { id: "age", label: "Âge", unit: "ans", placeholder: "ex. 50", showIf: v => v.grade !== "s" },
+      { id: "poids", label: "Poids", unit: "kg", placeholder: "ex. 70", showIf: v => v.grade !== "s" }
+    ],
+    compute(v) {
+      if (v.grade === "s") return { label: "Contenu solide", main: "Estomac plein", tone: "danger", sub: "Reporter une chirurgie programmée ; en urgence, induction en séquence rapide." };
+      if (!v.ap || !v.cc || !v.age) {
+        if (v.grade === "0") return { label: "Grade 0", main: "Estomac vide", tone: "ok", sub: "Antre plat dans les deux positions : risque d'inhalation faible." };
+        return null;
+      }
+      const csa = Math.PI * v.ap * v.cc / 4;
+      const vol = Math.max(0, 27.0 + 14.6 * csa - 1.28 * v.age);
+      const rows = [["Surface de l'antre", `${f(csa, 1)} cm²`]];
+      let tone = "ok", sub = "Volume compatible avec un estomac vide (≤ 1,5 mL/kg).";
+      if (v.poids) {
+        const pk = vol / v.poids; rows.push(["Volume rapporté au poids", `${f(pk, 2)} mL/kg`]);
+        if (pk > 1.5 || v.grade === "2") { tone = "danger"; sub = "Volume > 1,5 mL/kg ou grade 2 : estomac à considérer comme plein."; }
+      } else if (v.grade === "2") { tone = "danger"; sub = "Grade 2 : estomac à considérer comme plein."; }
+      return { label: "Volume gastrique estimé", main: `≈ ${f(vol, 0)} mL`, rows, tone, sub };
+    },
+    note: "<p>Volume (mL) = 27,0 + 14,6 × surface (cm²) − 1,28 × âge (ans), surface = π × AP × CC / 4. Modèle validé chez l'adulte non enceinte, IMC < 40 kg/m² ; moins fiable après chirurgie gastrique ou en cas de hernie hiatale.</p>"
+  });
+  const GASTRO_FICHE = {
+    title: "Échographie gastrique", subtitle: "Évaluer le contenu de l'estomac avant l'induction : estomac vide ou plein ?",
+    tags: ["Jeûne", "Grade de Perlas", "Volume > 1,5 mL/kg", "Agonistes du GLP-1"],
+    tool: gastTool, toolLabel: "Outil de calcul",
+    sections: [
+      S("Quand la faire", [
+        ul("Jeûne non respecté, incertain ou impossible à vérifier (urgence, patient non communicant)",
+          "Vidange gastrique ralentie : diabète avec gastroparésie, agonistes du GLP-1 (sémaglutide, liraglutide, tirzépatide), morphiniques, douleur, insuffisance rénale, obésité, grossesse au 3e trimestre, occlusion",
+          "Décision difficile entre report, induction classique et séquence rapide"),
+        info("L'échographie gastrique complète l'interrogatoire sur le jeûne : elle ne le remplace pas et ne retarde pas une urgence vitale.")
+      ]),
+      S("Technique", [
+        kv(["Sonde", "Convexe 2–5 MHz (linéaire chez l'enfant mince)"],
+          ["Coupe", "Sagittale ou parasagittale épigastrique, sous le rebord costal ; antre entre le lobe gauche du foie (en avant) et le pancréas (en arrière), repères vasculaires : aorte ou veine cave inférieure, artère mésentérique supérieure"],
+          ["Positions", "Décubitus dorsal tête relevée à 45°, puis décubitus latéral droit (le liquide descend dans l'antre : position la plus sensible)"],
+          ["Mesures", "Diamètres antéro-postérieur et cranio-caudal de l'antre, de séreuse à séreuse, au repos entre deux contractions"])
+      ]),
+      S("Interpréter l'aspect", [
+        tbl(["Contenu", "Aspect", "Conduite"], [
+          ["Vide", "Antre plat ou arrondi, parois accolées : aspect en « œil de bœuf » ou en cible", "Induction habituelle"],
+          ["Liquide clair", "Contenu anéchogène, antre distendu, parfois microbulles (« nuit étoilée »)", "Selon le grade et le volume"],
+          ["Lait, liquide épais", "Contenu hypoéchogène homogène", "Considérer comme plein"],
+          ["Solide", "Aspect en « verre dépoli » juste après le repas (air mêlé), puis contenu hétérogène hyperéchogène masquant la paroi postérieure", "Estomac plein : reporter si programmé, séquence rapide si urgence"]
+        ])
+      ], { wide: true }),
+      S("Grades de Perlas (liquide clair)", [
+        tbl(["Grade", "Aspect", "Volume habituel", "Risque d'inhalation"], [
+          ["0", "Antre vide en décubitus dorsal et latéral droit", "Minime", "Faible"],
+          ["1", "Liquide visible en décubitus latéral droit seulement", "Souvent ≤ 1,5 mL/kg (compatible avec un jeûne normal)", "Faible : mesurer le volume si doute"],
+          ["2", "Liquide visible dans les deux positions", "Souvent > 1,5 mL/kg", "Élevé : estomac plein"]
+        ], "Seuil retenu : volume de liquide > 1,5 mL/kg ou présence de solide = estomac à risque. Le volume s'estime avec l'outil ci-dessus.")
+      ], { wide: true }),
+      S("Conduite à tenir", [
+        tbl(["Résultat", "Chirurgie programmée", "Urgence"], [
+          ["Vide ou grade 1 avec volume ≤ 1,5 mL/kg", "Anesthésie habituelle", "Anesthésie habituelle, selon le contexte"],
+          ["Grade 2 ou volume > 1,5 mL/kg", "Reporter, ou séquence rapide si le report n'est pas possible", "Séquence rapide ; discuter une aspiration par sonde gastrique"],
+          ["Solide", "Reporter (délai selon le repas et le terrain)", "Séquence rapide"],
+          ["Examen non concluant", "Considérer l'estomac comme plein", "Séquence rapide"]
+        ]),
+        warn("Agonistes du GLP-1 : un contenu solide est retrouvé malgré un jeûne respecté. Sans arrêt suffisant du traitement, ou en cas de symptômes digestifs, l'échographie aide à choisir entre report et séquence rapide.")
+      ], { wide: true }),
+      S("Limites", [ul("Chirurgie gastrique antérieure (sleeve, bypass), hernie hiatale volumineuse, sonde gastrique en place", "Obésité morbide, grossesse : fenêtre plus difficile ; modèle de volume non validé", "Apprentissage : environ 30 à 50 examens supervisés pour une interprétation fiable")])
+    ],
+    refs: [
+      "Perlas A et al. Validation of a mathematical model for ultrasound assessment of gastric volume by gastroenterologists and anesthesiologists. Anesth Analg 2013",
+      "Van de Putte P, Perlas A. Ultrasound assessment of gastric content and volume. Br J Anaesth 2014",
+      "Kruisselbrink R et al. Diagnostic accuracy of point-of-care gastric ultrasound. Anesth Analg 2019",
+      "Joshi GP et al. Multisociety clinical practice guidance for the safe use of glucagon-like peptide-1 receptor agonists in the perioperative period. 2024"
+    ]
+  };
+  P17.route("#/echographie/gastrique", { title: "Échographie gastrique", render: () => echoPage("#/echographie/gastrique", "Échographie gastrique", GASTRO_FICHE) });
+  P17.index("#/echographie/gastrique", "Échographie gastrique : estomac plein", "jeûne estomac plein inhalation antre Perlas grade volume gastrique GLP-1 sémaglutide séquence rapide", SEC);
   P17.route("#/echographie/abords-vasculaires", { title: "Abords vasculaires", render: () => echoPage("#/echographie/abords-vasculaires", "Abords vasculaires", VASC_FICHE) });
   P17.route("#/echographie/doppler-transcranien", { title: "Doppler transcrânien", render: () => echoPage("#/echographie/doppler-transcranien", "Doppler transcrânien", DTC_FICHE) });
   P17.route("#/echographie/generale", { title: "Échographie générale", render: () => echoPage("#/echographie/generale", "Échographie générale", GEN_FICHE) });

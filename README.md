@@ -120,3 +120,7 @@ Les formules (poids idéal, P/F, débit cardiaque, osmolarité, CKD-EPI 2021, KD
 - Les anciennes planches-images (échographie, antibiothérapie, EER) ont été remplacées par des fiches rédigées au format du service. Le tableau d'adaptation rénale des antibiotiques provient de la plateforme dont ce site s'inspire ; le dépôt d'origine ne précisant pas de licence, obtenir l'accord de son auteur avant diffusion.
 
 Outil d'aide à la décision : il ne remplace pas le jugement clinique.
+
+## Mise à jour automatique de la bibliographie
+
+Chaque lundi matin, une tâche planifiée ajoute 3 à 5 lectures récentes dans `assets/modules/biblio-nouveautes.js` et publie directement sur la branche `main`. Avant toute modification locale du site, faire `git pull` pour récupérer ce fichier et ne pas écraser les nouveautés.
