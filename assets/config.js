@@ -7,11 +7,12 @@ window.P17_CONFIG = {
   etablissement: "CHU Ibn Rochd",
   etablissementAr: "المركز الاستشفائي الجامعي ابن رشد",
   ville: "Casablanca",
-  service: "Anesthésie — Bloc central P17",
+  service: "Anesthésie et médecine périopératoire — P17",
   serviceBanniere: "Anesthésie",
+  serviceBanniere2: "& médecine périopératoire",
   pavillon: "Bloc opératoire central · Pavillon 17",
-  serviceLong: "Anesthésie · Bloc opératoire central P17",
-  sousTitre: "Protocoles d'anesthésie",
+  serviceLong: "Anesthésie et médecine périopératoire · Bloc central P17",
+  sousTitre: "Protocoles, outils et fiches",
 
   // Photo de l'hôpital pour la bannière d'accueil (optionnel).
   // Déposer le fichier dans assets/img/ puis indiquer son chemin, par ex. :

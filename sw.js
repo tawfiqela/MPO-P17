@@ -1,6 +1,6 @@
 /* Service worker : fonctionnement hors connexion de la plateforme Réa Chir P17.
    La liste PRECACHE et la VERSION sont régénérées par scripts/build_sw.py. */
-const VERSION = "20261114-95e4648d";
+const VERSION = "20261114-4c20b354";
 const CACHE = "p17-" + VERSION;
 const PRECACHE = [
   "./",
@@ -89,6 +89,7 @@ const PRECACHE = [
   "./icons/icon-192.png",
   "./icons/icon-512-maskable.png",
   "./icons/icon-512.png",
+  "./icons/og-image.png",
   "./index.html",
   "./manifest.webmanifest"
 ];

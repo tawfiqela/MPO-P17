@@ -1,7 +1,7 @@
 {
   "name": "Anesthésie P17 — CHU Ibn Rochd",
   "short_name": "Anesthésie P17",
-  "description": "Protocoles d'anesthésie du bloc opératoire central, Pavillon 17, CHU Ibn Rochd de Casablanca",
+  "description": "Anesthésie et médecine périopératoire — Bloc opératoire central, Pavillon 17, CHU Ibn Rochd, Casablanca",
   "lang": "fr",
   "start_url": "./index.html",
   "scope": "./",

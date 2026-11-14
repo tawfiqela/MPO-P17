@@ -141,7 +141,7 @@
               <span class="hub-flag" title="Royaume du Maroc">${P17.flag()}</span>
               ${lockup()}
               <span class="hub-rule" aria-hidden="true"></span>
-              <h1 class="hub-title">${P17.esc(C.serviceBanniere || "Anesthésie")}</h1>
+              <h1 class="hub-title">${P17.esc(C.serviceBanniere || "Anesthésie")}${C.serviceBanniere2 ? `<span class="hub-title2">${P17.esc(C.serviceBanniere2)}</span>` : ""}</h1>
               <span class="hub-pav">${(C.pavillon || "Pavillon 17").split(" · ").map(P17.esc).join("<br>")}</span>
               <span class="hub-ar" lang="ar" dir="rtl">${P17.esc(C.etablissementAr || "")}</span>
               <span class="hub-sub">${P17.esc(C.sousTitre || "")}</span>

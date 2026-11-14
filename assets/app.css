@@ -1315,3 +1315,4 @@ body.has-decor .fcard--alert { background-color: color-mix(in srgb, var(--danger
 .lec-list { display: grid; gap: 10px; }
 @media (max-width: 860px) { .lec-grid { grid-template-columns: 1fr; } }
 .lec-h--all + .acc-group { margin-top: 0; }
+.hub-title2 { display: block; font-size: .62em; font-weight: 700; color: #cfe6f3; letter-spacing: 0; margin-top: 4px; }
