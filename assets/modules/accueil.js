@@ -171,7 +171,6 @@
         </section>`).join("")}
         <p class="home-meta">
           <span>Version ${P17.esc(C.version || "")}</span>
-          <span>Révision des contenus : ${P17.esc(C.revision || "")}</span>
           <span>Installable sur téléphone et utilisable hors connexion</span>
         </p>`;
     },

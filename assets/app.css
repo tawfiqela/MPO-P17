@@ -1265,3 +1265,4 @@ body.has-decor .fcard--alert { background-color: color-mix(in srgb, var(--danger
 .tsteps .ts-t::before{content:counter(ts);display:inline-grid;place-items:center;width:1.35em;height:1.35em;margin-right:.45em;border-radius:50%;background:var(--accent-soft,#e1eff8);color:var(--accent,#0f6fa8);font-size:.8em;font-weight:700}
 .tsteps .ts-a{color:var(--fg,#2a3b4c)}
 @media (max-width:640px){.tsteps li{grid-template-columns:1fr;gap:.15rem}.tsteps .ts-a{padding-left:1.8em;font-size:.95em}}
+.footer-maj { color: var(--muted); font-size: 12.5px; }
