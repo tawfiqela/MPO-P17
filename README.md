@@ -48,8 +48,8 @@ Toutes les modifications peuvent se faire directement sur GitHub (bouton ✏️ 
 | Antibiothérapie (BMR, durées, rein, administration) | `assets/modules/atb-data.js` |
 | Outils d'antibiothérapie probabiliste | `assets/modules/antibiotherapie.js` |
 | Calculateurs (formules) | `assets/calc.js` (formules) et `assets/modules/calculateurs.js` (affichage) |
-| Échographie (ETT, pleuro-pulmonaire et diaphragme avec leurs outils) | `assets/modules/echographie.js`, formules dans `assets/calc.js`, images dans `assets/img/echo/` |
-| Schémas échographiques et fiches-mémos (bases, pleuro-pulmonaire, diaphragme) | `scripts/echo_figures.py` puis `scripts/echo_posters.py` (régénèrent `assets/img/echo/fig/` et `assets/img/echo/base-m*.webp`, `pp-m*.webp`) |
+| Échographie (ETT, pleuro-pulmonaire et diaphragme avec leurs outils) | `assets/modules/echographie.js`, formules dans `assets/calc.js`, schémas dans `assets/img/echo/fig/` |
+| Schémas échographiques (bases, pleuro-pulmonaire, diaphragme) | `scripts/echo_figures.py` (régénère `assets/img/echo/fig/`) |
 | Vues échographiques schématiques des blocs | `scripts/bloc_figures.py` (régénère `assets/img/blocs/*.webp`) |
 | Scènes de bloc et de réanimation en filigrane, selon la rubrique | `assets/modules/decor.js` (liste `MAP`), images dans `assets/img/decor/` |
 | Couleurs, typographie | `assets/app.css` (variables en tête de fichier) |
@@ -117,6 +117,6 @@ Les formules (poids idéal, P/F, débit cardiaque, osmolarité, CKD-EPI 2021, KD
 ## 6. Origine des contenus
 
 - Les fiches d'anesthésie, d'analgésie, de SSPI et d'antibiothérapie ont été rédigées d'après les recommandations de la SFAR, de la SPILF, de la HAS et d'autres références francophones et internationales citées en bas de chaque fiche. **Elles doivent être relues et validées par l'équipe médicale du service** avant usage clinique, et confrontées à l'écologie bactérienne locale.
-- Les fiches-mémos d'échographie et certaines planches d'antibiothérapie (classifications, mécanismes de résistance), et le tableau d'adaptation rénale proviennent de la plateforme dont ce site s'inspire ; le dépôt d'origine ne précisant pas de licence, obtenir l'accord de son auteur avant diffusion.
+- Les anciennes planches-images (échographie, antibiothérapie, EER) ont été remplacées par des fiches rédigées au format du service. Le tableau d'adaptation rénale des antibiotiques provient de la plateforme dont ce site s'inspire ; le dépôt d'origine ne précisant pas de licence, obtenir l'accord de son auteur avant diffusion.
 
 Outil d'aide à la décision : il ne remplace pas le jugement clinique.

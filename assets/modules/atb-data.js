@@ -74,7 +74,6 @@
         ["NDM, VIM, IMP (classe B)", "Ceftazidime-avibactam + aztréonam", "Céfidérocol"],
         ["Infection urinaire non grave", "Selon l'antibiogramme : aminoside, fosfomycine IV, cotrimoxazole", "—"]],
       choc: [AMIKA],
-      atlas: "assets/img/atb/Carbapenemases.webp",
       notes: ["Avis infectiologique systématique", "Tigécycline et colistine : options de recours, en association", "Signalement à l'équipe d'hygiène, dépistage des patients contacts"]
     },
     {

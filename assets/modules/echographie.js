@@ -1,35 +1,19 @@
 /* =====================================================================
-   Échographie : ETT (fiches-mémos), échographie pleuro-pulmonaire et
+   Échographie : ETT, échographie pleuro-pulmonaire et
    diaphragmatique (fiche + outils : score LUS, volume d'épanchement,
    diaphragme), échographie générale.
    ===================================================================== */
 (function () {
   const SEC = "Échographie";
-  const I = n => `assets/img/echo/${n}.webp`;
   const FG = n => `assets/img/echo/fig/${n}.webp`;
   // Dimensions des schémas (évite les sauts de mise en page au chargement)
   const DIM = {"base-doppler-couleur":[640,300],"base-doppler-pulse":[640,260],"base-echogenicite":[640,260],"base-miroir":[640,400],"base-ombre-renforcement":[640,360],"base-reverberation":[640,480],"dia-epaisseur":[646,320],"dia-sous-costale":[640,480],"dia-tm-course":[640,320],"pp-condensation":[640,480],"pp-epanchement":[640,480],"pp-lignes-a":[640,480],"pp-lignes-b":[640,480],"pp-lus-0":[320,240],"pp-lus-1":[320,240],"pp-lus-2":[320,240],"pp-lus-3":[320,240],"pp-poumon-blanc":[640,480],"pp-tm-bord-de-mer":[640,300],"pp-tm-code-barres":[640,300],"pp-tm-point-poumon":[640,300],"pp-tm-sinusoide":[640,300]};
   const figs = (list, cols) => ({ figs: list.map(([n, c]) => ({ img: FG(n), caption: c, w: (DIM[n] || [])[0], h: (DIM[n] || [])[1] })), cols });
-  const memos = list => ({ html: P17.gallery(list.map(([n, t]) => ({ src: I(n), title: t }))) });
-  const MEMO_PP = [["pp-m1", "Sémiologie de base (1/2)"], ["pp-m2", "Sémiologie de base (2/2)"], ["pp-m3", "Protocole d'examen et score LUS"], ["pp-m4", "Profils diagnostiques (BLUE)"],
-    ["pp-m5", "Épanchement pleural"], ["pp-m6", "Pneumothorax"], ["pp-m7", "Échographie diaphragmatique"], ["pp-m8", "Applications en réanimation chirurgicale"], ["echopoumon", "Synthèse pleuro-pulmonaire"], ["echodiaph", "Synthèse diaphragme"]];
-  const MEMO_BASE = [["base-m1", "Sondes, réglages, orientation, modes"], ["base-m2", "Échogénicité et artefacts"], ["base-m3", "Doppler : principes et pratique"]];
   const base = [[SEC, "#/echographie"]];
   const { S, ul, ult, kv, tbl, warn, info, ok, danger } = P17.h;
   const F = window.P17Calc;
   const f = P17.fmt;
 
-  const ETT = [
-    ["Principales coupes (1/2)", "ett1"], ["Principales coupes (2/2)", "ett2"],
-    ["Estimation du débit cardiaque", "ettDC"], ["Évaluation d'une HTP", "ettHTAP"],
-    ["Précharge-dépendance", "ettPC"], ["Tamponnade péricardique", "ettpericarde"],
-    ["Pressions de remplissage du VG", "ettptdvg"], ["Cinétique segmentaire du VG", "ettseg"],
-    ["Valve aortique", "ettVA"], ["Fonction ventriculaire droite", "ettVD"], ["Valve mitrale", "ettVM"]
-  ];
-  const GEN = [
-    ["Échographie abdominale", "echoabdo"], ["Doppler transcrânien", "echodtc"],
-    ["Doppler des artères rénales", "echorein"], ["Abords vasculaires échoguidés", "echovascu"]
-  ];
 
   /* ---------------- Outil 1 : score LUS (12 régions) ---------------- */
   const ZONES = [
@@ -179,7 +163,17 @@
           ["Épanchement", "Image anéchogène déclive limitée par la plèvre pariétale, le diaphragme et le poumon ; signe du quadrilatère ; signe sinusoïde en TM", "Épanchement liquidien ; le poumon atélectasié peut flotter dans le liquide (« méduse »)"],
           ["Point poumon", "Alternance au même endroit de glissement et d'absence de glissement", "Pathognomonique du pneumothorax ; sa position renseigne sur son étendue"],
           ["Code-barres (stratosphère)", "Lignes uniquement horizontales en TM", "Absence de glissement (pneumothorax, apnée, adhérences, intubation sélective)"]
-        ])
+        ]),
+        { html: '<h4 class="blk-title">Synthèse : signes et diagnostics</h4>' },
+        tbl(["Signe", "Poumon normal", "Épanchement", "Pneumothorax", "Syndrome interstitiel", "Pneumonie", "Atélectasie"], [
+          ["Lignes A", "+", "−", "+", "−", "−", "−"],
+          ["Lignes B", "−", "−", "−", "++", "± (autour)", "−"],
+          ["Glissement pleural", "+", "−", "−", "+", "± ", "−"],
+          ["Bord de mer (TM)", "+", "−", "−", "+", "−", "−"],
+          ["Code-barres (TM)", "−", "−", "+", "−", "−", "−"],
+          ["Sinusoïde (TM)", "−", "+", "−", "−", "si épanchement associé", "−"],
+          ["Condensation", "−", "poumon comprimé", "−", "−", "+ (bronchogramme dynamique)", "+ (bronchogramme statique, pouls pulmonaire)"]
+        ], "Performance au lit : épanchement (Se ≈ 100 %, Sp ≈ 97 %), pneumothorax (Se 95 %, Sp 91 %), syndrome interstitiel (Se 93 %, Sp 93 %), condensation (Se 90 %, Sp 98 %) — Lichtenstein.")
       ], { wide: true }),
       S("Technique, protocole d'examen et score LUS", [
         { html: '<h4 class="blk-title">Matériel et réglages</h4>' },
@@ -263,8 +257,7 @@
           "Sevrage : score LUS en fin d'épreuve de VS (< 13 risque faible, > 17 risque élevé de détresse après extubation), associé à l'échographie cardiaque (E/e') et diaphragmatique",
           "Remplissage vasculaire : l'apparition de lignes B diffuses pendant l'expansion volémique incite à l'arrêter",
           "Après un geste : cathéter veineux central sous-clavier ou jugulaire, intubation (glissement absent à gauche avec pouls pulmonaire : intubation sélective), drainage thoracique")
-      ]),
-      S("Fiches-mémos", [memos(MEMO_PP)], { wide: true })
+      ])
     ],
     refs: [
       "Lichtenstein DA, Mezière GA. Relevance of lung ultrasound in the diagnosis of acute respiratory failure: the BLUE protocol. Chest 2008",
@@ -343,8 +336,7 @@
           ["Doppler tissulaire", "Vitesses basses et amples du myocarde", "Onde S', e' (rapport E/e'), fonction du VD"]
         ]),
         warn("Doppler : aligner le faisceau sur le flux. Angle < 20° : erreur < 6 % ; au-delà de 60°, la mesure n'est pas fiable. Une échelle de vitesse trop basse donne un aliasing (mosaïque de couleurs).")
-      ], { wide: true }),
-      S("Fiches-mémos", [memos(MEMO_BASE)], { wide: true })
+      ], { wide: true })
     ],
     refs: [
       "Société française d'anesthésie et de réanimation : échographie en anesthésie-réanimation, référentiels de formation",
@@ -360,12 +352,12 @@
       crumbs: base, title: SEC, accent: "echographie", icon: "echographie",
       subtitle: "Commencer par les bases et la sémiologie, puis l'échocardiographie, l'échographie pleuro-pulmonaire et diaphragmatique (avec outils de calcul) et l'échographie générale.",
       body: P17.tiles([
-        { href: "#/echographie/bases", title: "Bases et sémiologie échographique", desc: "Sondes, réglages, échogénicité, artefacts, TM et Doppler : à lire en premier", img: I("base-m2"), accent: "echographie" },
-        { href: "#/echographie/ett", title: "Échocardiographie transthoracique", desc: "Coupes, débit, précharge, pressions de remplissage, VD, valves", img: I("ett1"), accent: "echographie" },
-        { href: "#/echographie/pleuro-pulmonaire", title: "Échographie pleuro-pulmonaire et diaphragme", desc: "Sémiologie, score LUS, profils BLUE, épanchement, pneumothorax, diaphragme", img: I("pp-m1"), accent: "echographie" },
-        { href: "#/echographie/abords-vasculaires", title: "Abords vasculaires échoguidés", desc: "Voies centrales, périphériques, artérielles", img: I("echovascu"), accent: "echographie" },
-        { href: "#/echographie/doppler-transcranien", title: "Doppler transcrânien", desc: "Artère cérébrale moyenne, seuils d'alerte", img: I("echodtc"), accent: "echographie" },
-        { href: "#/echographie/generale", title: "Échographie générale", desc: "Abdomen, reins", img: I("echoabdo"), accent: "echographie" }
+        { href: "#/echographie/bases", title: "Bases et sémiologie échographique", desc: "Sondes, réglages, échogénicité, artefacts, TM et Doppler : à lire en premier", icon: "fiche", accent: "echographie" },
+        { href: "#/echographie/ett", title: "Échocardiographie transthoracique", desc: "Coupes, débit, précharge, pressions de remplissage, VD, valves", icon: "fiche", accent: "echographie" },
+        { href: "#/echographie/pleuro-pulmonaire", title: "Échographie pleuro-pulmonaire et diaphragme", desc: "Sémiologie, score LUS, profils BLUE, épanchement, pneumothorax, diaphragme", icon: "fiche", accent: "echographie" },
+        { href: "#/echographie/abords-vasculaires", title: "Abords vasculaires échoguidés", desc: "Voies centrales, périphériques, artérielles", icon: "fiche", accent: "echographie" },
+        { href: "#/echographie/doppler-transcranien", title: "Doppler transcrânien", desc: "Artère cérébrale moyenne, seuils d'alerte", icon: "fiche", accent: "echographie" },
+        { href: "#/echographie/generale", title: "Échographie générale", desc: "Abdomen, reins", icon: "fiche", accent: "echographie" }
       ])
     })
   });
@@ -382,9 +374,6 @@
       </div>`
   });
 
-  // Planches (fiches-mémos) présentées comme les autres fiches : une partie par thème
-  const planche = (n, t) => ({ figs: [{ img: I(n), caption: t }], cols: 1 });
-  const planches = list => ({ figs: list.map(([n, t]) => ({ img: I(n), caption: t })), cols: 2 });
   const echoPage = (path, label, fiche) => `
       <div class="page accent-echographie">
         <div class="page-head">
@@ -393,19 +382,158 @@
         </div>
         ${P17.fiche({ accent: "echographie", kicker: SEC, ...fiche })}
       </div>`;
+  /* ---------------- Échocardiographie transthoracique ---------------- */
+  const H4 = t => ({ html: `<h4 class="blk-title">${t}</h4>` });
+  // Œil de bœuf des 17 segments du VG (AHA), coloré par territoire coronaire
+  const bullseye = () => {
+    const C = { iva: "#c8323c", cd: "#2f6fb5", cx: "#e3a51d", apex: "#9aa7b2" };
+    const ter = { 1: "iva", 2: "iva", 7: "iva", 8: "iva", 13: "iva", 14: "iva", 3: "cd", 4: "cd", 9: "cd", 10: "cd", 15: "cd", 5: "cx", 6: "cx", 11: "cx", 12: "cx", 16: "cx" };
+    const P = (r, a) => [100 + r * Math.cos(a), 100 - r * Math.sin(a)];
+    const arc = (r1, r2, a1, a2) => { const [x1, y1] = P(r2, a1), [x2, y2] = P(r2, a2), [x3, y3] = P(r1, a2), [x4, y4] = P(r1, a1);
+      return `M${x1.toFixed(1)} ${y1.toFixed(1)} A${r2} ${r2} 0 0 0 ${x2.toFixed(1)} ${y2.toFixed(1)} L${x3.toFixed(1)} ${y3.toFixed(1)} A${r1} ${r1} 0 0 1 ${x4.toFixed(1)} ${y4.toFixed(1)}Z`; };
+    const rad = d => d * Math.PI / 180; let out = "";
+    const ring = (first, n, r1, r2) => { for (let i = 0; i < n; i++) {
+      const w = 360 / n, mid = 90 + i * w, a1 = rad(mid + w / 2), a2 = rad(mid - w / 2), s = first + i;
+      // sens antihoraire : 1 antérieur (haut), 2 antéro-septal, 3 inféro-septal, 4 inférieur, 5 inféro-latéral, 6 antéro-latéral
+      const [tx, ty] = P((r1 + r2) / 2, rad(mid));
+      out += `<path d="${arc(r1, r2, a2, a1)}" fill="${C[ter[s]]}" stroke="#fff" stroke-width="1.6"/><text x="${tx.toFixed(1)}" y="${(ty + 4).toFixed(1)}">${s}</text>`;
+    } };
+    ring(1, 6, 70, 96); ring(7, 6, 44, 70);
+    for (let i = 0; i < 4; i++) { const mid = 90 + i * 90, s = 13 + i, [tx, ty] = P(31, rad(mid));
+      out += `<path d="${arc(20, 44, rad(mid - 45), rad(mid + 45))}" fill="${C[ter[s]]}" stroke="#fff" stroke-width="1.6"/><text x="${tx.toFixed(1)}" y="${(ty + 4).toFixed(1)}">${s}</text>`; }
+    out += `<circle cx="100" cy="100" r="20" fill="${C.apex}" stroke="#fff" stroke-width="1.6"/><text x="100" y="104">17</text>`;
+    const leg = [["iva", "IVA"], ["cd", "Coronaire droite"], ["cx", "Circonflexe"]].map(([k, l]) => `<span><i style="background:${C[k]}"></i>${l}</span>`).join("");
+    return { html: `<div class="bull"><svg viewBox="-16 -16 232 232" role="img" aria-label="Les 17 segments du ventricule gauche"><g font-size="11" font-weight="700" fill="#fff" text-anchor="middle">${out}</g>
+      <g font-size="8.5" fill="currentColor" text-anchor="middle" font-weight="600"><text x="100" y="-5">Antérieur</text><text x="100" y="212">Inférieur</text><text x="-6" y="103" transform="rotate(-90 -6 100)">Septal</text><text x="206" y="103" transform="rotate(90 206 100)">Latéral</text></g></svg>
+      <div class="bull-leg">${leg}<span><i style="background:${C.apex}"></i>Apex (IVA le plus souvent)</span><p>Anneau externe : segments basaux (1–6) ; anneau moyen : segments médians (7–12) ; anneau interne : segments apicaux (13–16).</p></div></div>` };
+  };
+
   const ETT_FICHE = {
     title: "Échocardiographie transthoracique", subtitle: "Coupes de référence, débit cardiaque, précharge, pressions de remplissage, ventricule droit, péricarde et valves",
     tags: ["ITV sous-aortique", "VCI", "E/e'", "TAPSE"],
     sections: [
-      S("Coupes de référence", [ul("Parasternale grand axe et petit axe, apicale 4 et 5 cavités, sous-costale, veine cave inférieure", "Sonde sectorielle 2–4 MHz ; repère à droite de l'écran en mode cardiaque"), planches([["ett1", "Principales coupes (1/2)"], ["ett2", "Principales coupes (2/2)"]])], { wide: true }),
-      S("Débit cardiaque", [kv(["Formule", "Débit = ITV sous-aortique × surface de la chambre de chasse × FC"], ["ITV sous-aortique", "Normale 18–22 cm ; < 14 cm : bas débit probable"], ["Suivi", "À diamètre constant, la variation de l'ITV reflète celle du volume d'éjection"]), planche("ettDC", "Estimation du débit cardiaque")]),
-      S("Précharge-dépendance", [ul("Variation respiratoire de l'ITV ou de la Vmax sous-aortique > 12 % (ventilation contrôlée, Vt ≥ 8 mL/kg, rythme sinusal)", "Lever de jambes passif : hausse de l'ITV ≥ 10 % (valable en ventilation spontanée)", "Veine cave inférieure : petite et collabée en faveur d'une hypovolémie ; dilatée et fixe contre le remplissage"), planche("ettPC", "Précharge-dépendance")]),
-      S("Pressions de remplissage du VG", [kv(["E/A", "< 0,8 avec E < 50 cm/s : pressions basses ; > 2 : pressions élevées"], ["E/e' moyen", "> 14 : pressions de remplissage élevées"], ["Autres signes", "Oreillette gauche dilatée, vitesse de l'insuffisance tricuspide > 2,8 m/s"]), planche("ettptdvg", "Pressions de remplissage du VG")]),
-      S("Cinétique segmentaire du VG", [ul("17 segments, cotés de la normokinésie à l'akinésie et à la dyskinésie", "Un trouble segmentaire dans un territoire coronaire oriente vers une ischémie"), planche("ettseg", "Cinétique segmentaire du VG")]),
-      S("Ventricule droit et hypertension pulmonaire", [kv(["Dilatation", "Rapport des surfaces VD/VG > 0,6 ; > 1 : dilatation sévère"], ["Fonction systolique", "TAPSE < 17 mm ou onde S' < 9,5 cm/s : dysfonction"], ["Septum paradoxal", "Surcharge de pression du VD (cœur pulmonaire aigu)"], ["PAPs", "4 × Vmax² de l'insuffisance tricuspide + pression de l'oreillette droite"]), planches([["ettVD", "Fonction ventriculaire droite"], ["ettHTAP", "Évaluation d'une HTP"]])], { wide: true }),
-      S("Tamponnade péricardique", [ul("Épanchement péricardique avec collapsus diastolique des cavités droites", "Veine cave inférieure dilatée, peu compliante", "Variations respiratoires exagérées des flux mitral (> 25 %) et tricuspide"), planche("ettpericarde", "Tamponnade péricardique")], { tone: "alert" }),
-      S("Valves", [ul("Rétrécissement aortique serré : Vmax > 4 m/s, gradient moyen > 40 mmHg, surface < 1 cm²", "Insuffisances aortique et mitrale : mécanisme, extension du jet, retentissement sur les cavités"), planches([["ettVA", "Valve aortique"], ["ettVM", "Valve mitrale"]])], { wide: true })
+      S("Coupes de référence", [
+        info("Sonde sectorielle 2–4 MHz, preset cardiaque, repère de l'écran à droite. Patient en décubitus latéral gauche si possible."),
+        tbl(["Coupe", "Position de la sonde", "Ce qu'on évalue"], [
+          ["Parasternale grand axe", "3e–4e espace intercostal gauche, repère vers l'épaule droite", "Valves aortique et mitrale (IA, IM, obstruction de la chambre de chasse : bourrelet septal, SAM), aorte ascendante (dilatation, flap de dissection), parois antéro-septale et postérieure, diamètre télédiastolique du VG (dilaté si > 70 mm), diamètre de la chambre de chasse"],
+          ["Parasternale petit axe", "Rotation de 90° horaire depuis le grand axe", "FEVG et cinétique segmentaire (territoires IVA, Cx, CD), VD (dilatation, septum paradoxal), épanchement péricardique (circonférentiel ou non), valve pulmonaire"],
+          ["Apicale 4 cavités", "Choc de pointe, repère vers la gauche", "Cavités gauches : FEVG, cinétique septale, latérale et apicale, IM, IA, pressions de remplissage (E/A, E/e'). Cavités droites : TAPSE, onde S', septum paradoxal, PAPs sur la fuite tricuspide. Foramen ovale (test aux microbulles), épanchement, hématome rétro-auriculaire"],
+          ["Apicale 5 cavités", "Depuis l'apicale 4 cavités, bascule antérieure", "ITV sous-aortique et débit cardiaque, obstruction dynamique de la chambre de chasse, IA et RA (Vmax, rapport des ITV)"],
+          ["Sous-costale 4 cavités", "Sous l'appendice xiphoïde, faisceau vers l'épaule gauche, abdomen relâché", "Meilleure fenêtre chez le patient ventilé ou emphysémateux ; épanchement péricardique ; paroi libre du VD ; cavités gauches comme en apicale"],
+          ["Veine cave inférieure", "Sous-costale, rotation en coupe longitudinale", "Diamètre et variations respiratoires (congestion, précharge-dépendance), reflux systolique dans les veines sus-hépatiques, position d'une canule veineuse d'ECMO"]
+        ])
+      ], { wide: true }),
+      S("Débit cardiaque", [
+        { html: "<p>L'ITV sous-aortique est proportionnelle au volume d'éjection systolique. Ses variations suivent celles du débit, qui dépend de l'inotropisme des deux ventricules, des conditions de charge et de la fréquence cardiaque. Elle sert au diagnostic du type de choc et au suivi du traitement (remplissage, inotropes).</p>" },
+        kv(["Mesure de l'ITV", "Apicale 5 cavités, Doppler pulsé dans la chambre de chasse, à 1 cm de la valve aortique. Qualité : clic de fermeture aortique visible, flux laminaire au contour net"],
+          ["Normale", "18 à 22 cm ; < 14 cm : volume d'éjection abaissé (faible lien avec les besoins du patient)"],
+          ["Forme du flux", "Pointue, en « lame de sabre » : hypovolémie ; arrondie et aplatie : baisse de l'inotropisme du VG"],
+          ["Diamètre de la chambre de chasse", "Parasternale grand axe, en mésosystole ; 2 cm par défaut si mal visualisé"]),
+        info("Débit (mL/min) = FC × ITV (cm) × π × d² / 4 (d : diamètre de la chambre de chasse en cm). À diamètre constant, suivre l'ITV suffit.")
+      ]),
+      S("Précharge-dépendance", [
+        warn("Précharge-dépendant ne veut pas dire « à remplir » : la décision de remplissage tient compte de la tolérance (congestion, poumon, pression) et de l'objectif."),
+        H4("Critères statiques : peu fiables isolément"),
+        ul("VCI < 10 mm : précharge-dépendance probable",
+          "Collapsus télésystolique du VG (« kissing ventricles ») : précharge-dépendance très probable (sensible, peu spécifique)"),
+        H4("Critères dynamiques"),
+        tbl(["Indice", "Technique", "En faveur d'une précharge-dépendance"], [
+          ["Variation respiratoire de l'ITV sous-aortique", "Apicale 5 cavités, Doppler pulsé ; ventilation contrôlée, Vt ≥ 8 mL/kg, rythme sinusal, pas d'effort inspiratoire", "> 12 à 19 % selon les seuils (zone grise) ; > 19 % : très probable"],
+          ["Variation du diamètre de la VCI", "Sous-costale, mode TM à 2 cm de l'abouchement dans l'oreillette droite", "Ventilé : distensibilité (Dmax − Dmin) / Dmin > 18 % ; VCI > 20 mm fixe : peu probable. Ventilation spontanée : collapsus > 50 % (ininterprétable si effort respiratoire intense)"],
+          ["Occlusion télé-expiratoire", "Pause de 15 s en fin d'expiration, sans effort inspiratoire", "Hausse de l'ITV > 5 %"],
+          ["Variation de la veine cave supérieure (ETO)", "Vue basale, mode TM", "Index de collapsibilité (Dmax − Dmin) / Dmax > 36 % ; indépendant des pressions intrathoraciques"]
+        ]),
+        warn("Variations respiratoires non interprétables : ventilation spontanée, Vt bas, arythmie, défaillance ventriculaire droite, hyperpression abdominale, thorax ouvert."),
+        H4("Tests de remplissage : la référence"),
+        ul("Épreuve de remplissage : 250 à 500 mL de cristalloïde en 10 à 15 min",
+          "Lever de jambes passif : patient demi-assis à 45°, puis tronc à plat et jambes levées à 45° ; mesurer l'ITV dans la minute",
+          "Réponse positive : hausse de l'ITV de 10 à 12 % ou plus ; le lever de jambes reste valable en ventilation spontanée et en arythmie")
+      ], { wide: true }),
+      S("Pressions de remplissage du VG", [
+        { html: "<p>Rechercher une élévation des pressions de remplissage (PAPO > 16 mmHg) par des indices diastoliques : diagnostic d'œdème pulmonaire, échec de sevrage ventilatoire, tolérance du remplissage. Non utilisable en cas de valvulopathie mitrale sévère ou de prothèse mitrale.</p>" },
+        ul("1re étape, flux mitral : apicale 4 cavités, Doppler pulsé à l'extrémité des feuillets mitraux ; ondes E et A, rapport E/A, temps de décélération de l'onde E",
+          "2e étape, Doppler tissulaire à l'anneau mitral (septal ou latéral) : onde e' (protodiastolique), puis rapport E/e'"),
+        tbl(["Profil mitral", "E/A", "Décélération de E", "Signification"], [
+          ["Normal (sujet jeune)", "> 1", "< 220 ms", "Pressions normales"],
+          ["Trouble de la relaxation", "< 1", "> 200 ms", "Sujet âgé, hypertendu ; pressions normales"],
+          ["Pseudo-normal", "> 1", "< 150 ms", "Pressions élevées si sujet âgé ou hypertendu"],
+          ["Restrictif", "> 1,5 à 2", "< 150 ms", "Pressions élevées (PAPO > 18 mmHg)"]
+        ], "Profil dépendant du patient ; ininterprétable en fibrillation atriale ou tachycardie."),
+        tbl(["E/e'", "Interprétation"], [
+          ["< 8", "Pressions de remplissage non élevées"],
+          ["8 à 15", "Zone d'incertitude : s'aider de l'oreillette gauche, de la fuite tricuspide (> 2,8 m/s), du contexte"],
+          ["> 15 (moyen > 14)", "Pressions élevées probables (PAPO > 20 mmHg)"]
+        ], "Utilisable en arythmie. Renseigne sur les pressions, pas sur la précharge-dépendance. e' < 7 cm/s (septal) ou < 10 cm/s (latéral) : argument supplémentaire si FEVG conservée. Moins fiable si trouble de cinétique basal ou atteinte mitrale.")
+      ], { wide: true }),
+      S("Cinétique segmentaire du VG", [
+        { html: "<p>Le VG est divisé en 17 segments rattachés à un territoire coronaire. Un trouble de cinétique (hypokinésie, akinésie, dyskinésie) systématisé à un territoire est un argument de syndrome coronarien, avec la clinique, l'ECG et la troponine.</p>" },
+        bullseye(),
+        tbl(["Artère", "Parois", "Dérivations ECG"], [
+          ["Interventriculaire antérieure (IVA)", "Antérieure, antéro-septale, apex", "V1–V6 (± DII, DIII, aVF si IVA récurrente)"],
+          ["Coronaire droite (CD)", "Inférieure, inféro-septale", "DII, DIII, aVF (± V1, aVR)"],
+          ["Circonflexe (Cx)", "Latérale, inféro-latérale", "V5–V6, DI, aVL"]
+        ], "Les segments inféro-septaux et apicaux varient selon la dominance coronaire.")
+      ], { wide: true }),
+      S("Ventricule droit", [
+        { html: "<p>VD triangulaire, enroulé autour du VG, à paroi fine (< 5 mm) et compliante ; sa paroi libre dépend de la coronaire droite. Coupes : apicale 4 cavités, sous-costale, parasternale petit axe.</p>" },
+        tbl(["Paramètre", "Mesure", "Anormal"], [
+          ["Rapport des surfaces VD/VG", "Apicale 4 cavités, en télédiastole", "> 0,6 : dilatation ; > 1 : dilatation sévère"],
+          ["Septum paradoxal", "Parasternale petit axe : VG en « D »", "Surcharge de pression (systolique) ou de volume (diastolique) du VD"],
+          ["Épaisseur de la paroi libre", "Sous-costale, télédiastole", "> 5 mm : hypertrophie, surcharge chronique"],
+          ["TAPSE", "Apicale 4 cavités, mode TM sur l'anneau tricuspide latéral", "< 17 mm : dysfonction systolique"],
+          ["Onde S'", "Doppler tissulaire sur l'anneau tricuspide latéral", "< 9,5 cm/s : dysfonction systolique"],
+          ["Fraction de raccourcissement de surface", "(Surface télédiastolique − télésystolique) / télédiastolique", "< 35 % : dysfonction systolique"]
+        ])
+      ], { wide: true }),
+      S("Hypertension pulmonaire", [
+        tbl(["Type (cathétérisme droit)", "Définition"], [
+          ["HTP", "PAPm > 20 mmHg"],
+          ["Pré-capillaire", "PAPO ≤ 15 mmHg et résistances vasculaires pulmonaires élevées"],
+          ["Post-capillaire", "PAPO > 15 mmHg"]
+        ]),
+        kv(["PAPs", "4 × Vmax² de l'insuffisance tricuspide + pression de l'oreillette droite (5 à 20 mmHg selon la VCI) ; HTP probable si > 50 mmHg ; sous-estimée si fuite tricuspide massive"],
+          ["Flux sous-pulmonaire", "Parasternale petit axe, Doppler pulsé dans la chambre de chasse du VD : encoche mésosystolique ou temps d'accélération court en faveur d'une HTP pré-capillaire"],
+          ["PAPm et PAPd", "Doppler continu sur la fuite pulmonaire : PAPm ≈ 4 × Vmax² + POD (protodiastole) ; PAPd ≈ 4 × Vmin² + POD (télédiastole)"],
+          ["Retentissement", "Dilatation et hypertrophie du VD, septum paradoxal, dilatation de la VCI"])
+      ]),
+      S("Tamponnade péricardique", [
+        H4("1. Épanchement"),
+        ul("Espace anéchogène péricardique, systolo-diastolique (un décollement systolique postérieur < 3 mm est physiologique)",
+          "Coupes sous-costale, parasternales et apicale 4 cavités ; bandes fibrineuses ou aspect dense hétérogène : hémopéricarde",
+          "Quantification en télédiastole, mode TM en parasternale grand axe : < 10 mm faible, 10 à 20 mm moyen, > 20 mm abondant (cœur « dansant »)",
+          "Pièges : franges graisseuses épicardiques antérieures, confusion avec un épanchement pleural, hématome localisé rétro-auriculaire après chirurgie cardiaque"),
+        H4("2. Retentissement"),
+        ul("Collapsus de l'oreillette droite (précoce, sensible ; grave si > 1/3 de la diastole), collapsus diastolique du VD (plus spécifique)",
+          "Septum paradoxal respiratoire : bombe dans le VG à l'inspiration",
+          "VCI dilatée, sans variation respiratoire",
+          "Variations respiratoires des flux (Doppler pulsé, défilement lent) : baisse > 30 % de l'onde E mitrale, > 25 % de l'ITV sous-aortique"),
+        warn("Les signes de compression dépendent de la volémie : majorés par l'hypovolémie, masqués par une hypertension des cavités droites. Un épanchement localisé (postopératoire) peut comprimer une seule cavité.")
+      ], { tone: "alert" }),
+      S("Valve aortique", [
+        ul("Parasternale petit axe : trois cusps (coronaire droite, coronaire gauche, non coronaire) ; parasternale grand axe : deux cusps visibles",
+          "Analyse : nombre de cusps, calcifications, ouverture, végétation, aorte ascendante"),
+        tbl(["", "Insuffisance aortique", "Rétrécissement aortique"], [
+          ["Causes", "Dégénérative, dilatation aortique, bicuspidie, endocardite, dissection, traumatisme", "Calcifications, bicuspidie, rhumatisme"],
+          ["Retentissement", "Dilatation du VG (diamètre télédiastolique > 60 mm)", "Hypertrophie concentrique (> 12 mm), bourrelet septal, dilatation de l'OG"],
+          ["Sévère si", "Jet jusqu'à mi-VG, vena contracta > 6 mm", "Vmax > 4 m/s, gradient moyen ≥ 40 mmHg, surface < 1 cm², rapport ITV chambre de chasse / ITV aortique ≤ 0,25"]
+        ], "Doppler continu à travers la valve, pulsé dans la chambre de chasse.")
+      ], { wide: true }),
+      S("Valve mitrale", [
+        ul("Parasternale grand axe et apicale 4 cavités ; l'ETO reste l'examen de référence",
+          "Analyse : épaississement, prolapsus, restriction, rupture de cordage ou de pilier, végétation, calcifications, dilatation de l'anneau, SAM"),
+        tbl(["", "Insuffisance mitrale", "Rétrécissement mitral"], [
+          ["Description", "Mécanisme (prolapsus, restriction, perforation, dilatation de l'anneau), jet central ou excentré", "Calcifications, épaississement, restriction de mobilité"],
+          ["Retentissement", "Dilatation de l'OG, altération de la FEVG, HTP", "Dilatation de l'OG, HTP, dilatation des cavités droites"],
+          ["Sévère si", "Vena contracta > 6–7 mm ; ITV mitrale / ITV aortique > 1,4 ; flux triangulaire de Vmax > 5 m/s ; reflux dans les veines pulmonaires (hauteur du jet peu fiable)", "Gradient moyen > 10 mmHg (Doppler continu), dépendant de la fréquence, du débit et d'une fuite associée"]
+        ])
+      ], { wide: true })
     ],
+    refs: [
+      "Lang RM et al. Recommendations for cardiac chamber quantification by echocardiography in adults (ASE/EACVI). J Am Soc Echocardiogr 2015",
+      "Nagueh SF et al. Recommendations for the evaluation of left ventricular diastolic function by echocardiography (ASE/EACVI). J Am Soc Echocardiogr 2016",
+      "Monnet X, Teboul JL. Assessment of fluid responsiveness: recent advances. Curr Opin Crit Care 2018",
+      "Vahanian A et al. 2021 ESC/EACTS Guidelines for the management of valvular heart disease. Eur Heart J 2022"
+    ]
   };
   P17.route("#/echographie/ett", { title: "ETT", render: () => echoPage("#/echographie/ett", "ETT", ETT_FICHE) });
 
@@ -422,29 +550,104 @@
   });
 
   const GEN_FICHE = {
-    title: "Échographie générale", subtitle: "Abdomen et reins : épanchement, globe, obstacle, perfusion rénale",
-    tags: ["FAST", "Globe vésical", "Index de résistance"],
+    title: "Échographie générale", subtitle: "Reins, péritoine et vessie ; Doppler des artères rénales",
+    tags: ["Dilatation pyélocalicielle", "FAST", "Globe vésical", "Index de résistance"],
     sections: [
-      S("Échographie abdominale", [ul("Recherche d'un épanchement (FAST) : espace de Morrison, espace spléno-rénal, cul-de-sac de Douglas", "Globe vésical, dilatation des cavités pyélocalicielles, vésicule biliaire"), planche("echoabdo", "Échographie abdominale")]),
-      S("Doppler des artères rénales", [kv(["Index de résistance", "(Vs − Vd) / Vs sur les artères interlobaires"], ["Interprétation", "Normal < 0,70 ; élevé en cas d'atteinte rénale ou de congestion"]), planche("echorein", "Doppler des artères rénales")])
+      S("Échographie abdominale au lit", [
+        info("Sonde convexe abdominale 2–5 MHz (à défaut, sonde cardiaque). Trois questions : obstacle urinaire, épanchement péritonéal, globe vésical."),
+        tbl(["Recherche", "Indications", "Fenêtres", "Diagnostic positif"], [
+          ["Dilatation pyélocalicielle", "Insuffisance rénale aiguë, pyélonéphrite, colique néphrétique", "Flancs droit et gauche, rein en coupe longitudinale", "Bassinet central anéchogène > 10 mm, calices dilatés en poches périphériques, uretère anormalement visible"],
+          ["Hémopéritoine (FAST)", "Traumatisme abdominal, polytraumatisé, choc hémorragique postopératoire", "Flanc droit (espace hépato-rénal de Morison), flanc gauche (espace spléno-rénal), sus-pubienne", "Lame anéchogène hépato-rénale, spléno-rénale ou rétro-vésicale (cul-de-sac de Douglas)"],
+          ["Globe vésical", "Oligo-anurie, douleur hypogastrique, agitation postopératoire", "Sus-pubienne, coupes transversale et longitudinale", "Vessie anéchogène distendue, arrondie"]
+        ]),
+        kv(["Volume vésical", "Hauteur × largeur × profondeur (cm) × 0,52 ≈ volume en mL ; ou 4/3 × π × r³ si la vessie est sphérique"],
+          ["Seuil usuel", "> 400 à 500 mL avec impossibilité d'uriner : sondage évacuateur"])
+      ], { wide: true }),
+      S("Doppler des artères rénales", [
+        { html: "<p>L'index de résistance des artères interlobaires renseigne sur la perfusion rénale au cours de l'insuffisance rénale aiguë : dépistage précoce, orientation fonctionnelle ou organique, réponse à une hausse de pression artérielle.</p>" },
+        kv(["Technique", "Sonde convexe, Doppler couleur pour repérer les artères interlobaires (entre médullaire et corticale), puis Doppler pulsé ; moyenne de plusieurs mesures sur les deux reins"],
+          ["Calcul", "IR = (Vitesse systolique maximale − vitesse télédiastolique) / vitesse systolique maximale"],
+          ["Normale", "0,6 ± 0,1"]),
+        tbl(["Situation", "Interprétation"], [
+          ["IR > 0,7 sans insuffisance rénale", "Risque d'insuffisance rénale aiguë dans les jours suivants"],
+          ["IR > 0,7 avec insuffisance rénale", "Atteinte plutôt organique et persistante (> 3 jours)"],
+          ["Baisse de l'IR quand la PAM monte", "Argument pour un objectif de pression plus élevé"]
+        ], "Influencé par l'âge, la fréquence cardiaque, la pression intra-abdominale et la ventilation. Mesure opérateur-dépendante ; aucune stratégie guidée par l'IR n'a prouvé de bénéfice.")
+      ])
+    ],
+    refs: [
+      "Rozycki GS et al. Surgeon-performed ultrasound for the assessment of truncal injuries (FAST). Ann Surg 1998",
+      "Darmon M et al. Diagnostic accuracy of Doppler renal resistive index for reversibility of acute kidney injury in critically ill patients. Intensive Care Med 2011",
+      "Schnell D, Darmon M. Renal Doppler to assess renal perfusion in the critically ill: a reappraisal. Intensive Care Med 2012"
     ]
   };
   const VASC_FICHE = {
-    title: "Abords vasculaires échoguidés", subtitle: "Voies veineuses centrales et périphériques, cathéter artériel",
-    tags: ["Sonde linéaire", "Dans le plan", "Contrôle du guide"],
+    title: "Abords vasculaires échoguidés", subtitle: "Voies veineuses centrales, cathéters de dialyse, cathéters artériels et midlines",
+    tags: ["Sonde linéaire", "Petit axe", "Grand axe", "Contrôle du guide"],
     sections: [
-      S("Repérage", [ul("Sonde linéaire, repérage avant l'asepsie : perméabilité, compressibilité de la veine, rapports avec l'artère", "Veine jugulaire interne : en dehors de la carotide, compressible ; fémorale : en dedans de l'artère")]),
-      S("Ponction", [ul("Ponction dans le plan ou hors plan, extrémité de l'aiguille visible en permanence", "Contrôle du guide dans la veine, en petit et grand axe, avant la dilatation", "Position de l'extrémité du cathéter : échographie sous-costale (test aux microbulles) ou radiographie")]),
-      S("Planche", [planche("echovascu", "Abords vasculaires échoguidés")], { wide: true })
+      S("Principes communs", [
+        ul("Sonde linéaire 7–15 MHz, repérage avant l'asepsie : perméabilité, compressibilité de la veine, rapport avec l'artère, absence de thrombose",
+          "Ponction échoguidée en temps réel, sonde sous gaine stérile ; petit axe (hors plan) ou grand axe (dans le plan), extrémité de l'aiguille visible en permanence",
+          "Contrôle du guide dans la veine en petit et grand axe avant la dilatation",
+          "Position de l'extrémité : échographie sous-costale (microbulles dans l'oreillette droite) ou radiographie ; rechercher un pneumothorax (glissement pleural)")
+      ]),
+      S("Choix du site", [
+        tbl(["Site", "Indication", "Longueur usuelle", "Points clés"], [
+          ["Jugulaire interne", "Cathéter veineux central et de dialyse : droite en première intention", "15–16 cm à droite, 20 cm à gauche", "Veine en dehors de la carotide, compressible. Permet la PVC et la ScvO₂. Risques : ponction carotidienne, pneumothorax, embolie gazeuse"],
+          ["Sous-clavière", "Si les autres sites sont inaccessibles ; meilleur site pour l'infection et le confort", "15–16 cm à droite, 20 cm à gauche", "Voie sous- ou sus-claviculaire ; plèvre proche : pneumothorax et hémothorax plus fréquents, compression d'une artère impossible"],
+          ["Fémorale veineuse", "Deuxième intention (infection, dysfonction) ; utile en instabilité ou trouble de l'hémostase", "20–25 cm", "Veine en dedans de l'artère ; ponctionner à au moins 2 cm sous le pli inguinal"],
+          ["Radiale artérielle", "Cathéter artériel en première intention", "—", "L'échographie augmente le succès et réduit les complications ; vérifier la perméabilité des arcades palmaires (test d'Allen ou Doppler)"],
+          ["Fémorale artérielle", "Deuxième intention", "—", "Plus de complications que la radiale (faux anévrisme, hématome) ; ponction sous le ligament inguinal"],
+          ["Midline (veine basilique ou céphalique)", "Capital veineux difficile, voie périphérique prévue > 6 jours", "15–20 cm", "Ponction en petit axe au bras ; jusqu'à 28 jours. Pas de noradrénaline ni de nutrition parentérale exclusive"]
+        ])
+      ], { wide: true }),
+      S("Complications à rechercher", [
+        ul("Ponction artérielle, hématome : compression, sauf sous-clavière",
+          "Pneumothorax ou hémothorax : glissement pleural après le geste",
+          "Embolie gazeuse : tête basse à la pose et au retrait d'un cathéter cervical",
+          "Malposition : contrôle échographique ou radiographique avant utilisation des catécholamines")
+      ])
+    ],
+    refs: [
+      "Lamperti M et al. International evidence-based recommendations on ultrasound-guided vascular access. Intensive Care Med 2012",
+      "SFAR. Recommandations pour l'utilisation de l'échographie lors de la mise en place des accès vasculaires. 2015",
+      "Timsit JF et al. Expert consensus-based clinical practice guidelines management of intravascular catheters in the intensive care unit. Ann Intensive Care 2020"
     ]
   };
   const DTC_FICHE = {
-    title: "Doppler transcrânien", subtitle: "Dépister une hypoperfusion cérébrale",
-    tags: ["Artère cérébrale moyenne", "Vd < 20 cm/s", "IP > 1,4"],
+    title: "Doppler transcrânien", subtitle: "Hypertension intracrânienne, hypoperfusion cérébrale et vasospasme",
+    tags: ["Artère cérébrale moyenne", "IP", "Lindegaard"],
     sections: [
-      S("Technique", [kv(["Sonde", "Sectorielle basse fréquence, mode Doppler pulsé"], ["Fenêtre", "Temporale, au-dessus de l'arcade zygomatique"], ["Vaisseau", "Artère cérébrale moyenne, à 45–60 mm de profondeur"])]),
-      S("Interprétation", [kv(["Seuils d'alerte", "Vitesse diastolique < 20 cm/s, index de pulsatilité > 1,4"], ["Intérêt", "Traumatisme crânien, hypertension intracrânienne : dépistage d'une hypoperfusion"])]),
-      S("Planche", [planche("echodtc", "Doppler transcrânien")], { wide: true })
+      S("Technique", [
+        kv(["Sonde", "Sectorielle basse fréquence (2 MHz), Doppler couleur puis pulsé"],
+          ["Fenêtre", "Temporale, au-dessus de l'arcade zygomatique, en avant du tragus"],
+          ["Repères", "Pédoncules cérébraux, aile du sphénoïde, faux du cerveau"],
+          ["Artères", "Cérébrale moyenne (45 à 60 mm de profondeur, flux vers la sonde), cérébrales antérieure et postérieure, tronc basilaire (fenêtre occipitale)"],
+          ["Indications", "Neurotraumatisé, hémorragie méningée, suspicion d'HTIC, arrêt circulatoire cérébral (flux diastolique inversé, en appui de la mort encéphalique)"])
+      ]),
+      S("Hypertension intracrânienne et hypoperfusion", [
+        kv(["Mesures", "Vitesse systolique (Vs), télédiastolique (Vd) et moyenne (Vm) sur l'artère cérébrale moyenne"],
+          ["Index de pulsatilité", "IP = (Vs − Vd) / Vm"]),
+        tbl(["Signe", "Seuil d'alerte"], [
+          ["Vitesse diastolique", "< 20 à 25 cm/s ; flux diastolique nul puis inversé à un stade ultime"],
+          ["Vitesse moyenne", "< 30 à 35 cm/s"],
+          ["Index de pulsatilité", "> 1,2 à 1,4"]
+        ], "À interpréter avec la PaCO₂, l'hémoglobine, la pression artérielle et le débit cardiaque. Un DTC anormal impose une action rapide : pression de perfusion, osmothérapie, imagerie."),
+      ], { tone: "alert" }),
+      S("Vasospasme", [
+        kv(["Principe", "Accélération des vitesses dans l'artère rétrécie (hémorragie méningée, surtout entre J4 et J14)"],
+          ["Index de Lindegaard", "Vm de l'artère cérébrale moyenne / Vm de la carotide interne cervicale"]),
+        tbl(["Résultat", "Interprétation"], [
+          ["Vm cérébrale moyenne > 120 cm/s", "Accélération significative"],
+          ["Lindegaard < 3", "Hyperhémie (débit global élevé)"],
+          ["Lindegaard > 3", "Vasospasme ; sévère si > 6 (ou Vm > 200 cm/s)"]
+        ])
+      ])
+    ],
+    refs: [
+      "Rasulo FA et al. Transcranial Doppler as a screening test to exclude intracranial hypertension in brain-injured patients. Crit Care 2017",
+      "Ract C et al. Transcranial Doppler ultrasound goal-directed therapy for the early management of severe traumatic brain injury. Intensive Care Med 2007",
+      "Lindegaard KF et al. Cerebral vasospasm diagnosis by means of angiography and blood velocity measurements. Acta Neurochir 1989"
     ]
   };
   P17.route("#/echographie/abords-vasculaires", { title: "Abords vasculaires", render: () => echoPage("#/echographie/abords-vasculaires", "Abords vasculaires", VASC_FICHE) });
@@ -453,9 +656,9 @@
 
   P17.index("#/echographie", SEC, "echo ultrasons", SEC);
   P17.index("#/echographie/bases", "Bases et sémiologie échographique", "sonde linéaire convexe sectorielle réglages gain profondeur échogénicité anéchogène hypoéchogène hyperéchogène artefact cône d'ombre renforcement réverbération miroir doppler couleur pulsé TM orientation", SEC);
-  P17.index("#/echographie/ett", "ETT — échocardiographie transthoracique", ETT.map(x => x[0]).join(" "), SEC);
+  P17.index("#/echographie/ett", "ETT — échocardiographie transthoracique", "coupes parasternale apicale sous-costale débit cardiaque ITV précharge-dépendance VCI lever de jambes pressions de remplissage E/A E/e' cinétique segmentaire 17 segments ventricule droit TAPSE HTP PAPs tamponnade valve aortique mitrale", SEC);
   P17.index("#/echographie/pleuro-pulmonaire", "Échographie pleuro-pulmonaire et diaphragmatique", "poumon LUS score aération lignes B lignes A pneumothorax point poumon épanchement pleural volume Balik Vignon diaphragme course excursion épaississement D-RSBI sevrage BLUE PLAPS atélectasie", SEC);
-  P17.index("#/echographie/generale", "Échographie générale : abdomen et reins", "FAST épanchement globe vésical index de résistance rénal", SEC);
+  P17.index("#/echographie/generale", "Échographie générale : abdomen et reins", "FAST hémopéritoine Morison Douglas dilatation pyélocalicielle globe vésical index de résistance rénal Doppler", SEC);
   P17.index("#/echographie/abords-vasculaires", "Abords vasculaires échoguidés", "voie veineuse centrale jugulaire fémorale cathéter artériel ponction", SEC);
-  P17.index("#/echographie/doppler-transcranien", "Doppler transcrânien", "DTC artère cérébrale moyenne index de pulsatilité HTIC", SEC);
+  P17.index("#/echographie/doppler-transcranien", "Doppler transcrânien", "DTC artère cérébrale moyenne index de pulsatilité HTIC vasospasme Lindegaard", SEC);
 })();

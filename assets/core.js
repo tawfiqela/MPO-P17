@@ -175,9 +175,13 @@
       if (b.kv) return `<dl class="kv">${b.kv.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl>`;
       if (b.table) {
         const t = b.table;
-        return `${b.title ? `<h4 class="blk-title">${b.title}</h4>` : ""}<div class="table-wrap"><table class="tbl ${t.cls || ""}">
+        // Sur mobile, les tableaux de texte (≥ 3 colonnes) s'empilent en cartes ; les grilles courtes défilent
+        const txt = c => String(c ?? "").replace(/<[^>]+>/g, "");
+        const stack = t.head && t.head.length >= 3 && t.rows.some(r => r.slice(1).some(c => txt(c).length > 28));
+        const lab = i => t.head && t.head[i] ? ` data-label="${P17.esc(txt(t.head[i]))}"` : "";
+        return `${b.title ? `<h4 class="blk-title">${b.title}</h4>` : ""}<div class="table-wrap${stack ? " table-wrap--stack" : ""}"><table class="tbl ${t.cls || ""}">
           ${t.head ? `<thead><tr>${t.head.map(c => `<th>${c}</th>`).join("")}</tr></thead>` : ""}
-          <tbody>${t.rows.map(r => `<tr>${r.map((c, i) => i === 0 && t.rowHead !== false ? `<th scope="row">${c}</th>` : `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>
+          <tbody>${t.rows.map(r => `<tr>${r.map((c, i) => i === 0 && t.rowHead !== false ? `<th scope="row">${c}</th>` : `<td${lab(i)}>${c}</td>`).join("")}</tr>`).join("")}</tbody>
         </table></div>${t.note ? `<p class="tbl-note">${t.note}</p>` : ""}`;
       }
       if (b.callout !== undefined) {

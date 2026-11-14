@@ -8,7 +8,6 @@
   const SEC = "Antibiothérapie";
   const ROOT = "#/antibiotherapie";
   const base = [[SEC, ROOT]];
-  const IMG = n => `assets/img/atb/${n}.webp`;
   const CFG = P17.cfg;
 
   /* ---------- Rendu des propositions ---------- */
@@ -440,8 +439,9 @@
         + P17.group("Antibiorésistances et classifications", P17.tiles([
           { href: `${ROOT}/resistances`, title: "Bactéries multirésistantes", desc: "SARM, E-BLSE, AmpC, EPC, P. aeruginosa, A. baumannii, S. maltophilia, ERV", icon: "fiche", accent: "antibiotherapie" },
           { href: `${ROOT}/sensibles`, title: "Bactéries multisensibles", desc: "Antibiotique de référence par bactérie", icon: "fiche", accent: "antibiotherapie" },
-          { href: `${ROOT}/mecanismes`, title: "Mécanismes et phénotypes de résistance", desc: "Fiches-mémos illustrées", icon: "image", accent: "antibiotherapie" },
-          { href: `${ROOT}/classifications`, title: "Classifications", desc: "Bactéries et familles d'antibiotiques", icon: "image", accent: "antibiotherapie" }
+          { href: `${ROOT}/mecanismes`, title: "Mécanismes et phénotypes de résistance", desc: "Bêta-lactamases, entérobactéries, phénotypes habituels", icon: "fiche", accent: "antibiotherapie" },
+          { href: `${ROOT}/bacteries`, title: "Classification des bactéries", desc: "Gram, orientation, antibiothérapie de première intention", icon: "fiche", accent: "antibiotherapie" },
+          { href: `${ROOT}/antibiotiques`, title: "Familles d'antibiotiques", desc: "Action, PK/PD, spectre, posologies, effets indésirables", icon: "fiche", accent: "antibiotherapie" }
         ]))
     })
   });
@@ -485,7 +485,6 @@
           S("Antibiotiques de référence", [{ table: { head: ["Molécule", "Posologie", "Remarques"], rows: b.ref } }], { wide: true }),
           S("Choix selon le site ou le mécanisme", [{ table: { head: ["Situation", "Première intention", "Alternatives"], rows: b.sites } }], { wide: true }),
           ...(b.choc && b.choc.length ? [S("Choc septique : association", [{ table: { head: ["Molécule", "Posologie", "Remarques"], rows: b.choc } }], { wide: true, tone: "alert" })] : []),
-          ...(b.atlas ? [S("Fiche-mémo", [{ img: b.atlas, caption: "Traitements des entérobactéries productrices de carbapénémases" }])] : []),
           ...(b.notes && b.notes.length ? [S("À retenir", [{ ul: b.notes }], { tone: "key" })] : [])
         ],
         refs: ["Tamma PD et al. IDSA 2024 Guidance on the treatment of antimicrobial-resistant Gram-negative infections. Clin Infect Dis 2024", "EUCAST : tableaux de concentrations critiques (version en vigueur)", "Données de surveillance : Santé publique France, EARS-Net"]
@@ -506,29 +505,287 @@
   });
   P17.index(`${ROOT}/sensibles`, "Bactéries multisensibles — antibiotique de référence", "staphylocoque streptocoque entérocoque listeria", SEC);
 
-  /* ---------- Mécanismes (images) ---------- */
+  /* ---------- Mécanismes, phénotypes et classifications ---------- */
+  const H4 = t => ({ html: `<h4 class="blk-title">${t}</h4>` });
+  // Grille de phénotypes : première ligne = en-têtes, cellules S / I / R colorées
+  const grid = (P, note) => {
+    const cls = c => /^S$|^S /.test(c) ? "S" : /^R$|^R /.test(c) ? "R" : /^I|S\/I|I\/R|S\/I\/R/.test(c) ? "I" : "";
+    return { html: `<div class="table-wrap"><table class="tbl tbl--center"><thead><tr>${P[0].map(c => `<th>${c}</th>`).join("")}</tr></thead>
+      <tbody>${P.slice(1).map(r => `<tr>${r.map((c, i) => i === 0 ? `<th scope="row">${c}</th>` : `<td class="${cls(c)}">${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+      <p class="tbl-note">${note ? note + " " : ""}S : sensible ; S/I : habituellement sensible ; I : sensible à forte exposition ; I/R : habituellement résistant ; S/I/R : variable selon la souche ; R : résistant. Toujours confirmer par l'antibiogramme.</p>` };
+  };
+  // Arbre d'orientation : [libellé, [enfants]]
+  const tree = node => {
+    const li = ([t, kids]) => `<li><span>${t}</span>${kids && kids.length ? `<ul>${kids.map(li).join("")}</ul>` : ""}</li>`;
+    return { html: `<ul class="tree">${li(node)}</ul>` };
+  };
   P17.route(`${ROOT}/mecanismes`, {
     title: "Mécanismes de résistance",
     render: () => atbPage({
       path: `${ROOT}/mecanismes`, crumb: "Mécanismes et phénotypes", kicker: "Antibiorésistance", title: "Mécanismes et phénotypes de résistance",
+      subtitle: "Bêta-lactamases, groupes naturels des entérobactéries, mécanismes par famille et phénotypes habituels",
       sections: [
-        S("Principaux mécanismes", [{ html: P17.gallery([{ title: "Classification des bêta-lactamases (Ambler)", src: IMG("resistance1") }, { title: "Classification des entérobactéries", src: IMG("resistance2") }, { title: "Synthèse des mécanismes", src: IMG("resistance3") }]) }], { wide: true }),
-        S("Phénotypes habituels", [{ html: P17.gallery([{ title: "Cocci à Gram positif", src: IMG("Cocci-Gram-positifs") }, { title: "Bacilles à Gram négatif sauvages", src: IMG("Bacilles-Gram-negatifs") }, { title: "Bêta-lactamases", src: IMG("Beta-lactamases") }, { title: "Pseudomonas aeruginosa", src: IMG("Pseudomonas-aeruginosa") }, { title: "Acinetobacter baumannii", src: IMG("Acinetobacter-baumanii") }, { title: "Carbapénémases", src: IMG("Carbapenemases") }]) }], { wide: true })
+      S("Classification des bêta-lactamases (Ambler)", [
+        tbl(["", "Classe A", "Classe B", "Classe C", "Classe D"], [
+          ["Type d'enzyme", "Sérine-protéase", "Métallo-bêta-lactamase (zinc)", "Sérine-protéase", "Sérine-protéase"],
+          ["Enzymes", "Pénicillinases (TEM, SHV) ; BLSE (CTX-M) ; carbapénémase KPC", "Carbapénémases NDM, VIM, IMP", "Céphalosporinases AmpC, CMY", "Carbapénémases OXA-48, OXA-23, OXA-51 ; oxacillinases à spectre étroit (OXA-1)"],
+          ["Bactéries", "Entérobactéries, BGN non fermentants", "Entérobactéries, BGN non fermentants", "Entérobactéries du groupe 3 (gène présent mais non exprimé dans le groupe 1)", "Entérobactéries, BGN non fermentants"],
+          ["Antibiotiques hydrolysés", "Pénicillinase : pénicillines ; BLSE : + céphalosporines ; KPC : + carbapénèmes", "Toutes les bêta-lactamines sauf l'aztréonam", "Pénicillines, céphalosporines sauf céfépime", "Cloxacilline, céphalosporines, carbapénèmes"]
+        ], "Les métallo-enzymes (classe B) ne sont pas inhibées par l'avibactam ; l'aztréonam reste actif sur elles s'il n'y a pas de BLSE associée.")
+      ], { wide: true }),
+      S("Groupes naturels des entérobactéries", [
+        tbl(["Groupe", "Mécanisme naturel", "Bactéries", "Bêta-lactamines hydrolysées"], [
+          ["0", "Aucune bêta-lactamase", "<em>Proteus mirabilis</em>, <em>Salmonella</em>", "Aucune"],
+          ["1", "Céphalosporinase AmpC non exprimée", "<em>E. coli</em>, <em>Shigella</em>", "Aucune"],
+          ["2", "Pénicillinase", "<em>K. pneumoniae</em>, <em>K. oxytoca</em>, <em>Citrobacter koseri</em>", "Pénicillines (sauf associées à un inhibiteur)"],
+          ["3", "Céphalosporinase AmpC inductible", "<em>E. cloacae</em>, <em>K. aerogenes</em>, <em>Serratia</em>, <em>Morganella</em>, <em>C. freundii</em>, <em>Hafnia</em>, <em>Providencia</em>", "Pénicillines G et A, C1G, C2G ; C3G en cas d'hyperproduction (céphalosporinase de haut niveau)"],
+          ["4", "Pénicillinase et céphalosporinase", "<em>Yersinia</em>", "Pénicillines, C1G, C2G"],
+          ["5", "Céfuroximase", "<em>Proteus vulgaris</em>, <em>P. penneri</em>", "Pénicillines, C1G, C2G (sauf inhibiteurs et céfoxitine)"]
+        ], "Groupe 3 : éviter les C3G même si l'antibiogramme les donne sensibles dans les infections graves (sélection de mutants hyperproducteurs) ; préférer le céfépime.")
+      ], { wide: true }),
+      S("Synthèse des mécanismes de résistance", [
+        tbl(["Famille", "Inactivation enzymatique", "Modification de la cible", "Imperméabilité, efflux"], [
+          ["Bêta-lactamines", "Pénicillinases (<em>blaZ</em> du staphylocoque ; TEM, SHV) ; céphalosporinases AmpC ; BLSE (TEM, SHV, CTX-M) ; carbapénémases (KPC, NDM, VIM, IMP, OXA-48, OXA-23, OXA-51)", "PLP2a (SARM) ; PLP mosaïques (pneumocoque) ; PLP3 (<em>H. influenzae</em>) ; PLP5 (entérocoques)", "Perte de la porine OprD et efflux MexAB-OprM (<em>P. aeruginosa</em>) ; AcrAB-TolC (<em>E. coli</em>)"],
+          ["Aminosides", "Enzymes modificatrices : phénotypes K (APH-3'), KT (ANT-4'), KTG (AAC-6') chez le staphylocoque, les entérobactéries, <em>P. aeruginosa</em>", "Méthylases de l'ARN 16S (ArmA, RmtB, RmtC) : haut niveau à tous les aminosides", "MexXY-OprM (<em>P. aeruginosa</em>), AdeABC (<em>A. baumannii</em>), AcrD (<em>E. coli</em>)"],
+          ["Fluoroquinolones", "Acétyltransférase AAC(6')-Ib-cr (entérobactéries)", "Mutations de <em>gyrA</em> et <em>parC</em> (topoisomérases) ; protection par Qnr", "Mutations des porines ; efflux QepA"],
+          ["Glycopeptides", "—", "VanA, VanB : précurseur de paroi modifié (D-Ala-D-Lac)", "—"],
+          ["Lipopeptides (daptomycine)", "—", "Modification de la charge de la membrane", "—"],
+          ["Oxazolidinones (linézolide)", "—", "Mutations de l'ARN 23S ; méthylase Cfr ; protection OptrA, PoxtA", "—"],
+          ["Macrolides", "Estérases (EreA, EreB), phosphotransférase MphA", "Méthylases Erm de l'ARN 23S (phénotype MLSb) ; mutations", "Efflux Mef (MefA, MefE)"],
+          ["Cyclines", "Tet(X)", "Protection du ribosome Tet(M)", "Efflux Tet(K)"]
+        ])
+      ], { wide: true }),
+      S("Cocci à Gram positif : phénotypes habituels", [
+        grid([["Antibiotique", "<em>S. aureus</em> sauvage", "<em>S. aureus</em> pénicillinase", "SARM", "<em>S. epidermidis</em>", "<em>S. pneumoniae</em>", "<em>S. pyogenes</em>", "<em>E. faecalis</em>", "<em>E. faecium</em>", "ERV (VanA, VanB)"],
+          ["Amoxicilline", "S", "R", "R", "S/I/R", "S/I", "S", "S", "R", "R"],
+          ["Oxacilline, cloxacilline", "S", "S", "R", "S/I/R", "R", "R", "R", "R", "R"],
+          ["Amoxicilline-clavulanate", "S", "S", "R", "S/I/R", "S", "S", "S", "R", "R"],
+          ["Pipéracilline", "S", "R", "R", "S/I/R", "S", "S", "S", "R", "R"],
+          ["Pipéracilline-tazobactam", "S", "S", "R", "S/I/R", "S", "S", "S", "R", "R"],
+          ["C1G, C2G", "S", "S", "R", "S/I/R", "S", "S", "R", "R", "R"],
+          ["C3G, C4G", "S", "S", "R", "S/I/R", "S", "S", "R", "R", "R"],
+          ["C5G (ceftaroline, ceftobiprole)", "S", "S", "S", "S/I/R", "S", "S", "S (ceftobiprole)", "R", "R"],
+          ["Carbapénèmes", "S", "S", "R", "S/I/R", "S", "S", "S", "R", "R"],
+          ["Glycopeptides", "S", "S", "S", "S/I", "S", "S", "S", "S", "R"],
+          ["Daptomycine", "S", "S", "S", "S", "S", "S", "S", "S/I", "S/I"],
+          ["Linézolide", "S", "S", "S", "S", "S", "S", "S", "S", "S"],
+          ["Ofloxacine, ciprofloxacine", "S/I", "S/I", "R", "R", "R", "R", "R", "R", "R"],
+          ["Lévofloxacine", "S", "S", "I/R", "S/I/R", "S", "S", "S", "R", "R"],
+          ["Cotrimoxazole", "S", "S/I", "S/I", "S/I", "S/I", "S", "I/R", "R", "R"],
+          ["Rifampicine", "S", "S/I", "S/I", "I/R", "S", "S", "S", "S", "I/R"],
+          ["Tigécycline", "S", "S", "S", "S", "S", "S", "S", "S", "S"],
+          ["Macrolides", "S/I", "S/I", "I/R", "R", "S/I", "S/I", "R", "R", "R"]
+        ], "Aminosides chez le staphylocoque : selon l'enzyme. Phénotype K (APH-3') : kanamycine et amikacine ; KT (ANT-4') : + tobramycine ; KTG (AAC-6'-APH-2'') : + gentamicine. Entérocoques : résistance naturelle de bas niveau aux aminosides, synergie conservée sauf haut niveau.")
+      ], { wide: true }),
+      S("Bacilles à Gram négatif sauvages : phénotypes habituels", [
+        grid([["Antibiotique", "Entérobactéries groupes 0 et 1", "Entérobactéries groupe 2", "Entérobactéries groupe 3", "<em>P. aeruginosa</em>", "<em>A. baumannii</em>", "<em>S. maltophilia</em>", "<em>H. influenzae</em>", "<em>Legionella</em>"],
+          ["Amoxicilline", "S", "R", "R", "R", "R", "R", "S", "R"],
+          ["Amoxicilline-clavulanate", "S", "S", "R", "R", "R", "R", "S", "R"],
+          ["Pipéracilline", "S", "S/I", "S/I/R", "S", "S", "R", "S", "R"],
+          ["Pipéracilline-tazobactam", "S", "S", "S/I/R", "S", "S", "R", "S", "R"],
+          ["C1G, C2G", "S", "S", "R", "R", "R", "R", "S/I", "R"],
+          ["C3G", "S", "S", "S/I/R", "R (sauf ceftazidime)", "R (sauf ceftazidime)", "R (sauf ceftazidime)", "S", "R"],
+          ["Céfépime", "S", "S", "S", "S", "S", "I/R", "S", "R"],
+          ["Aztréonam", "S", "S", "S", "S", "R", "R", "S", "R"],
+          ["Carbapénèmes", "S", "S", "S (imipénème I chez les Protéeae)", "S (sauf ertapénème)", "S", "I/R", "S", "R"],
+          ["Ofloxacine", "S", "S", "S", "S/I", "S", "R", "S", "S"],
+          ["Ciprofloxacine", "S", "S", "S", "S", "S", "R", "S", "S"],
+          ["Lévofloxacine", "S", "S", "S", "S", "S", "S", "S", "S"],
+          ["Amikacine", "S", "S", "S (sauf <em>Serratia</em>)", "S", "S", "R", "S", "R"],
+          ["Tobramycine", "S", "S", "S (sauf <em>Serratia</em>)", "S", "S", "R", "S", "R"],
+          ["Gentamicine", "S", "S", "S", "S/I", "S/I", "R", "S", "R"],
+          ["Cotrimoxazole", "S", "S", "S", "R", "S/I", "S", "S/I", "R"],
+          ["Colistine", "S (R : <em>Proteus</em>)", "S", "S (R : <em>Serratia</em>, <em>Morganella</em>)", "S", "S", "S/I", "S", "R"],
+          ["Tigécycline", "S (sauf Protéeae)", "S", "S (sauf Protéeae)", "R", "S", "S", "S", "S"],
+          ["Macrolides", "R", "R", "R", "R", "R", "R", "I/R", "S"]
+        ])
+      ], { wide: true }),
+      S("Bacilles à Gram négatif producteurs de bêta-lactamases", [
+        grid([["Antibiotique", "Pénicillinase bas niveau (TEM, SHV)", "Pénicillinase résistante aux inhibiteurs (TRI)", "AmpC naturelle", "AmpC hyperproduite", "BLSE (TEM, SHV, CTX-M)", "KPC (classe A)", "NDM, VIM, IMP (classe B)", "OXA-48 (classe D)"],
+          ["Amoxicilline", "R", "R", "R", "R", "R", "R", "R", "R"],
+          ["Amoxicilline-clavulanate", "S", "R", "R", "R", "S/I/R", "I/R", "R", "R"],
+          ["Ticarcilline", "R", "R", "S", "R", "R", "R", "R", "R"],
+          ["Pipéracilline", "I/R", "I/R", "S", "R", "R", "R", "R", "R"],
+          ["Pipéracilline-tazobactam", "S", "I/R", "S", "I/R", "S/I/R", "I/R", "R", "R"],
+          ["C1G, C2G", "S", "S", "I/R", "R", "R", "I/R", "R", "S"],
+          ["Céfoxitine", "S", "S", "S/I/R", "R", "S", "I/R", "R", "S"],
+          ["C3G", "S", "S", "S", "R", "I/R", "I/R", "R", "S"],
+          ["Céfépime", "S", "S", "S", "S", "I/R", "I/R", "R", "S"],
+          ["Aztréonam", "S", "S", "S/I/R", "R", "R", "I/R", "S", "S"],
+          ["Carbapénèmes", "S", "S", "S", "S", "S", "I/R", "R", "S/I/R"],
+          ["Témocilline", "S", "S", "S", "S", "S", "S/I/R", "—", "R"],
+          ["Ceftazidime-avibactam", "S", "S", "S", "S", "S", "S", "I/R", "S"],
+          ["Ceftolozane-tazobactam", "S", "S", "S", "S", "S", "S", "I/R", "S"],
+          ["Imipénème-relebactam", "S", "S", "S", "S", "S", "S", "I/R", "S/I/R"],
+          ["Céfidérocol", "S", "S", "S", "S", "S", "S", "S", "S"],
+          ["Tigécycline", "S", "S", "S", "S", "S", "S", "S", "S"]
+        ], "Pénicillinases : entérobactéries du groupe 2 et BGN non fermentants. AmpC : entérobactéries du groupe 3, CMY (<em>C. freundii</em>), DHA (<em>M. morganii</em>), ACC-1 (<em>Hafnia</em>). BLSE et carbapénémases : entérobactéries et BGN non fermentants, gènes plasmidiques (sauf SME de <em>Serratia marcescens</em>)."),
+        { html: '<h4 class="blk-title">Entérobactéries productrices de carbapénémases : molécules actives</h4>' },
+        grid([["Carbapénémase", "Ceftazidime-avibactam", "Imipénème-relebactam", "Méropénème-vaborbactam", "Céfidérocol", "Tigécycline"],
+          ["KPC (classe A)", "S", "S", "S", "S", "S"],
+          ["NDM, VIM (classe B)", "S (associé à l'aztréonam)", "R", "R", "S", "S"],
+          ["OXA-48 (classe D)", "S", "R", "R", "S", "S"]
+        ])
+      ], { wide: true }),
       ]
     })
   });
-  P17.route(`${ROOT}/classifications`, {
-    title: "Classifications",
+  P17.route(`${ROOT}/bacteries`, {
+    title: "Classification des bactéries",
     render: () => atbPage({
-      path: `${ROOT}/classifications`, crumb: "Classifications", kicker: "Antibiothérapie", title: "Classifications bactériennes et des antibiotiques",
+      path: `${ROOT}/bacteries`, crumb: "Classification des bactéries", kicker: "Antibiothérapie", title: "Classification des bactéries",
+      subtitle: "Orientation au laboratoire, sites infectieux, identification et antibiothérapie de première intention",
       sections: [
-        S("Classification bactérienne", [{ html: P17.gallery([["Classification des Gram négatif", "gramneg1"], ["Cocci à Gram négatif", "gramneg2"], ["Bacilles à Gram négatif (1/2)", "gramneg3"], ["Bacilles à Gram négatif (2/2)", "gramneg4"], ["Classification des Gram positif", "grampos1"], ["Cocci à Gram positif", "grampos2"], ["Bacilles à Gram positif", "grampos3"], ["Autres bactéries", "bactautres"]].map(([t, n]) => ({ title: t, src: IMG(n) }))) }], { wide: true }),
-        S("Classification des antibiotiques", [{ html: P17.gallery([["Mécanismes d'action", "antibio1"], ["Paramètres PK/PD", "antibio2"], ["Bêta-lactamines", "antibio3"], ["Aminosides", "antibio4"], ["Fluoroquinolones", "antibio5"], ["Macrolides et apparentés", "antibio6"], ["Anti-Gram positif", "antibio7"], ["Autres antibiotiques", "antibio8"]].map(([t, n]) => ({ title: t, src: IMG(n) }))) }], { wide: true })
+      S("Bactéries à Gram positif", [
+        H4("Orientation au laboratoire"),
+        tree(["<b>Gram positif</b> : paroi épaisse de peptidoglycane, pas de membrane externe", [
+          ["<b>Cocci</b>", [
+            ["Catalase + : <b>staphylocoques</b>", [["Coagulase + : <em>S. aureus</em>"], ["Coagulase − : staphylocoques blancs (<em>S. epidermidis</em> ; <em>S. saprophyticus</em> résistant à la novobiocine)"]]],
+            ["Catalase − : <b>streptocoques et entérocoques</b>", [
+              ["Hémolyse α (partielle) : <em>S. pneumoniae</em> (sensible à l'optochine), streptocoques viridans (<em>S. mutans</em>, <em>S. oralis</em>)"],
+              ["Hémolyse β (complète) : <em>S. pyogenes</em> (groupe A), <em>S. agalactiae</em> (groupe B)"],
+              ["Pas d'hémolyse (γ) : entérocoques (groupe D : <em>E. faecalis</em>, <em>E. faecium</em>), <em>S. gallolyticus</em> (<em>bovis</em>)"]]]]],
+          ["<b>Bacilles</b>", [["Aérobies : <em>Listeria</em>, <em>Bacillus</em>, <em>Corynebacterium</em>"], ["Anaérobies : <em>Clostridium</em>, <em>Clostridioides difficile</em>"]]],
+          ["<b>Filaments ramifiés</b>", [["Aérobies : <em>Nocardia</em> (faiblement acido-alcoolo-résistant)"], ["Anaérobies : <em>Actinomyces</em>"]]]]]),
+        H4("Principales bactéries"),
+        tbl(["Bactérie", "Infections", "Identification", "Antibiothérapie"], [
+          ["Staphylocoques (<em>S. aureus</em>, staphylocoques blancs)", "Peau, os et articulations, bactériémies, endocardites, site opératoire, matériel ; pneumonies (<em>S. aureus</em>)", "Cocci en amas ; MALDI-TOF ; PCR <em>mecA</em>, toxines (TSST-1, PVL)", "Méti-S : oxacilline, cloxacilline, céfazoline. Méti-R : vancomycine, linézolide, daptomycine, cotrimoxazole, ceftobiprole"],
+          ["Streptocoques (<em>S. pyogenes</em>, <em>S. agalactiae</em>, <em>S. pneumoniae</em>)", "<em>S. pyogenes</em> : peau, ORL, dermohypodermites nécrosantes. <em>S. agalactiae</em> : materno-fœtales. <em>S. pneumoniae</em> : pneumonies, ORL, méningites", "Cocci en chaînettes ; MALDI-TOF ; antigène urinaire pneumocoque, test rapide", "Amoxicilline (C3G en probabiliste ; C3G si sensibilité diminuée à l'amoxicilline) ; allergie : lévofloxacine"],
+          ["Entérocoques (<em>E. faecalis</em>, <em>E. faecium</em>)", "Urinaires, abdominales, bactériémies, endocardites", "Cocci ovales en courtes chaînettes ; MALDI-TOF", "<em>E. faecalis</em> : amoxicilline. <em>E. faecium</em> : vancomycine, linézolide, daptomycine. Résistance naturelle aux céphalosporines (sauf ceftobiprole)"],
+          ["<em>Clostridioides difficile</em>", "Colites pseudo-membraneuses, diarrhées post-antibiotiques", "Antigène GDH et toxines (<em>tcdA</em>, <em>tcdB</em>, toxine binaire)", "Fidaxomicine en première intention ; vancomycine orale"],
+          ["<em>Listeria monocytogenes</em>", "Materno-fœtales, méningo-encéphalites, bactériémies", "Bacilles isolés ou en courtes chaînettes ; MALDI-TOF ; PCR", "Amoxicilline + gentamicine ; cotrimoxazole en alternative. Résistance naturelle aux céphalosporines"],
+          ["<em>Nocardia</em>", "Pulmonaires (nodules, abcès), cérébrales, cutanées ; immunodéprimés", "Bacilles filamenteux ramifiés ; MALDI-TOF ; PCR ARN 16S, <em>hsp65</em>", "Association de deux molécules parmi imipénème, céfotaxime, amikacine, cotrimoxazole, selon l'espèce"]
+        ])
+      ], { wide: true }),
+      S("Bactéries à Gram négatif", [
+        H4("Orientation au laboratoire"),
+        tree(["<b>Gram négatif</b> : fine paroi de peptidoglycane entourée d'une membrane externe (porines, efflux)", [
+          ["<b>Diplocoques</b> : <em>N. meningitidis</em>, <em>N. gonorrhoeae</em>, <em>Moraxella catarrhalis</em>"],
+          ["<b>Coccobacilles</b> : <em>H. influenzae</em>, <em>Bordetella</em>, <em>Pasteurella</em>, <em>Brucella</em>, <em>Francisella</em>"],
+          ["<b>Bacilles</b>", [
+            ["Fermentant le lactose (entérobactéries) : rapides (<em>E. coli</em>, <em>Klebsiella</em>, <em>Enterobacter</em>) ou lents (<em>Citrobacter</em>, <em>Serratia</em>)"],
+            ["Ne fermentant pas le lactose", [
+              ["Oxydase + : <em>Pseudomonas</em>"],
+              ["Oxydase − : <em>Acinetobacter</em>, <em>Stenotrophomonas</em> ; entérobactéries H₂S + (<em>Salmonella</em>, <em>Proteus</em>) ou H₂S − (<em>Shigella</em>, <em>Yersinia</em>)"]]]]],
+          ["<b>Bacilles incurvés</b>, oxydase + : <em>Campylobacter</em> (42 °C), <em>Vibrio</em> (milieu alcalin), <em>Helicobacter</em> (uréase)"]]]),
+        H4("Principales bactéries"),
+        tbl(["Bactérie", "Infections", "Identification", "Antibiothérapie"], [
+          ["Entérobactéries groupes 0 et 1 (<em>E. coli</em>, <em>P. mirabilis</em>, <em>Salmonella</em>)", "Abdominales, urinaires", "Bacilles, oxydase − ; MALDI-TOF ; bêta-lactamase rapide", "Probabiliste : C3G si test de bêta-lactamase négatif, carbapénème s'il est positif. Documenté : amoxicilline si sauvage"],
+          ["Entérobactéries groupe 2 (<em>K. pneumoniae</em>, <em>K. oxytoca</em>, <em>C. koseri</em>)", "Bactériémies, pneumonies acquises sous ventilation ; plus rarement peau, méningites nosocomiales", "Idem", "Probabiliste : idem. Documenté : amoxicilline-clavulanate ou C3G si sauvage"],
+          ["Entérobactéries groupe 3 (<em>E. cloacae</em>, <em>K. aerogenes</em>, <em>C. freundii</em>, <em>S. marcescens</em>, <em>M. morganii</em>, <em>Hafnia</em>, <em>Providencia</em>)", "Infections nosocomiales de réanimation", "Idem", "Probabiliste : céfépime si test négatif, carbapénème s'il est positif. Documenté : céfépime"],
+          ["<em>Pseudomonas aeruginosa</em>", "Pneumonies, bactériémies, urinaires, matériel ; BPCO, mucoviscidose", "Bacille aérobie strict, oxydase +", "Céfépime, ceftazidime ou pipéracilline-tazobactam, puis adaptation à l'antibiogramme"],
+          ["<em>Acinetobacter baumannii</em>", "Pneumonies, urinaires, plaies, bactériémies", "Coccobacille, oxydase −", "Imipénème ou méropénème ± amikacine selon l'antibiogramme"],
+          ["<em>Stenotrophomonas maltophilia</em>", "Pneumonies, bactériémies sur cathéter", "Bacille, oxydase −", "Cotrimoxazole, associé en probabiliste à la lévofloxacine ou à la ceftazidime"],
+          ["<em>Neisseria meningitidis</em>, <em>N. gonorrhoeae</em>", "Méningites, bactériémies ; gonococcies uro-génitales, arthrites", "Diplocoques ; antigènes capsulaires (CNR)", "C3G ; amoxicilline si sensible"],
+          ["<em>Moraxella catarrhalis</em>", "ORL, pneumonies", "Diplocoque", "Amoxicilline-clavulanate (pénicillinase dans 95 % des cas)"],
+          ["<em>Haemophilus influenzae</em>", "Méningites, pneumonies, bactériémies ; otites, sinusites, bronchites", "Petits coccobacilles", "C3G ; amoxicilline ou amoxicilline-clavulanate selon l'antibiogramme"],
+          ["Groupe HACEK", "Endocardites, abcès cérébraux et dentaires", "Croissance lente et difficile", "C3G"],
+          ["<em>Legionella pneumophila</em>", "Pneumonies (fièvre de Pontiac : forme pseudo-grippale)", "Antigène urinaire (sérogroupe 1), PCR ; culture difficile", "Lévofloxacine ou macrolide (spiramycine IV, azithromycine)"]
+        ])
+      ], { wide: true }),
+      S("Bactéries atypiques et intracellulaires", [
+        tbl(["Bactérie", "Infections", "Diagnostic", "Antibiothérapie"], [
+          ["<em>Mycoplasma pneumoniae</em>", "Pneumonies, signes extra-pulmonaires", "PCR (multiplex)", "Macrolides, fluoroquinolones, cyclines. Résistance naturelle aux bêta-lactamines"],
+          ["<em>Chlamydia pneumoniae</em>, <em>C. psittaci</em>, <em>C. trachomatis</em>", "Pneumonies interstitielles ; infections génitales (<em>C. trachomatis</em>)", "Sérologie, PCR", "Macrolides, fluoroquinolones, doxycycline"],
+          ["<em>Coxiella burnetii</em> (fièvre Q)", "Fièvre, hépatite, pneumonie, endocardite, myocardite, méningite", "Sérologie (PCR peu sensible)", "Doxycycline ± hydroxychloroquine ; fluoroquinolone si atteinte neuro-méningée"],
+          ["<em>Rickettsia</em>", "Fièvre, vascularite systémique, fuite capillaire", "Sérologie", "Doxycycline"],
+          ["<em>Leptospira interrogans</em>", "Fièvre, atteintes hépatique, rénale, méningée, cardiaque, pulmonaire, hématologique", "PCR, sérologie", "Amoxicilline ou doxycycline ; C3G dans les formes graves"],
+          ["<em>Borrelia burgdorferi</em> (Lyme)", "Érythème migrant, puis atteintes cardiaque, neurologique, articulaire", "Sérologie ± PCR", "Amoxicilline ou doxycycline ; C3G si atteinte neurologique ou cardiaque"],
+          ["<em>Treponema pallidum</em> (syphilis)", "Chancre, puis formes secondaire et tertiaire", "Sérologie (TPHA, VDRL)", "Benzathine pénicilline G IM"]
+        ])
+      ], { wide: true }),
       ]
     })
   });
-  P17.index(`${ROOT}/mecanismes`, "Mécanismes et phénotypes de résistance", "Ambler bêta-lactamases carbapénémases phénotypes", SEC);
-  P17.index(`${ROOT}/classifications`, "Classifications bactériennes et des antibiotiques", "Gram cocci bacilles familles antibiotiques PK/PD", SEC);
+  P17.route(`${ROOT}/antibiotiques`, {
+    title: "Familles d'antibiotiques",
+    render: () => atbPage({
+      path: `${ROOT}/antibiotiques`, crumb: "Familles d'antibiotiques", kicker: "Antibiothérapie", title: "Familles d'antibiotiques",
+      subtitle: "Mécanismes d'action, PK/PD, spectre, posologies usuelles et effets indésirables",
+      sections: [
+      S("Mécanismes d'action", [
+        tbl(["Cible", "Familles"], [
+          ["Synthèse de la paroi", "Bêta-lactamines, glycopeptides"],
+          ["Membrane cytoplasmique", "Polymyxines (colistine), daptomycine"],
+          ["Ribosome, sous-unité 30S (ARN 16S)", "Aminosides, cyclines"],
+          ["Ribosome, sous-unité 50S (ARN 23S)", "Macrolides et apparentés, oxazolidinones"],
+          ["Synthèse de l'ARN", "Rifampicine, fidaxomicine"],
+          ["ADN", "Fluoroquinolones (topoisomérases), métronidazole"],
+          ["Métabolisme de l'acide folique", "Sulfamides, triméthoprime (cotrimoxazole)"]
+        ])
+      ]),
+      S("Paramètres PK/PD", [
+        tbl(["Bactéricidie", "Objectif", "Familles", "Conséquence pratique"], [
+          ["Concentration-dépendante", "Cmax / CMI de 8 à 10", "Aminosides, métronidazole, fluoroquinolones (Gram −), daptomycine", "Dose unique journalière forte"],
+          ["AUC-dépendante", "AUC / CMI au-dessus d'un seuil", "Vancomycine, fluoroquinolones, daptomycine", "Dose totale adaptée à l'exposition (dosages)"],
+          ["Temps-dépendante", "Concentration > 4 × CMI pendant 100 % de l'intervalle", "Bêta-lactamines, fluoroquinolones (Gram +), macrolides, oxazolidinones, cyclines", "Dose de charge puis perfusion prolongée ou continue"]
+        ])
+      ], { wide: true }),
+      S("Bêta-lactamines", [
+        tbl(["Classe", "Molécules", "Spectre", "Particularités"], [
+          ["Pénicillines G et V", "Pénicilline G, benzathine pénicilline, pénicilline V", "Cocci Gram + (hors pénicillinase), spirochètes", "Syphilis ; prophylaxie du splénectomisé (pénicilline V)"],
+          ["Aminopénicillines", "Amoxicilline, ampicilline", "Idem + certains Gram − (entérobactéries du groupe 1, <em>H. influenzae</em>), <em>Listeria</em>, <em>E. faecalis</em>", "—"],
+          ["Pénicillines M", "Oxacilline, cloxacilline", "Staphylocoque méti-S", "—"],
+          ["Carboxy- et uréidopénicillines", "Pipéracilline, témocilline", "Idem amoxicilline + <em>P. aeruginosa</em> (pas la témocilline)", "Témocilline : stable vis-à-vis des BLSE"],
+          ["Associations à un inhibiteur", "Amoxicilline-clavulanate, pipéracilline-tazobactam", "Bactéries productrices de pénicillinase, anaérobies", "Diffusion méningée insuffisante"],
+          ["C1G", "Céfazoline", "Streptocoques, staphylocoque méti-S, entérobactéries des groupes 1 et 2", "Antibioprophylaxie chirurgicale"],
+          ["C2G", "Céfoxitine, céfuroxime", "Idem + certains anaérobies (céfoxitine)", "Céfoxitine : stable vis-à-vis des BLSE (pas de l'AmpC)"],
+          ["C3G", "Céfotaxime, ceftriaxone, ceftazidime (IV) ; céfixime (oral)", "Streptocoques, staphylocoque méti-S (céfotaxime), <em>Neisseria</em>, entérobactéries sauf AmpC hyperproduite et BLSE", "Ceftazidime : active sur <em>P. aeruginosa</em>, faible sur les Gram +"],
+          ["C4G", "Céfépime", "Idem C3G + entérobactéries du groupe 3, <em>P. aeruginosa</em>", "Neurotoxicité si insuffisance rénale"],
+          ["C5G et nouvelles associations", "Ceftaroline, ceftobiprole ; ceftolozane-tazobactam, ceftazidime-avibactam", "Ceftaroline, ceftobiprole : + SARM. Ceftolozane-tazobactam : <em>P. aeruginosa</em> multirésistant", "Réserver aux BMR documentées"],
+          ["Carbapénèmes", "Imipénème, méropénème, ertapénème", "Très large : tous sauf SARM, <em>S. maltophilia</em>, <em>E. faecium</em> ; ertapénème inactif sur <em>P. aeruginosa</em> et <em>Acinetobacter</em>", "Imipénème : épileptogène, effet post-antibiotique sur les BGN. Épargne indispensable"],
+          ["Monobactam", "Aztréonam", "BGN uniquement (inactif si BLSE)", "Pas d'allergie croisée avec les pénicillines (sauf ceftazidime)"]
+        ], "Effets indésirables communs : allergie (0,3 à 5 % ; croisée pénicilline-céphalosporine < 5 %), neurotoxicité (surdosage, insuffisance rénale), néphrite interstitielle, troubles digestifs, <em>C. difficile</em> ; cytopénies.")
+      ], { wide: true }),
+      S("Aminosides", [
+        tbl(["Molécule", "Posologie (1 injection/j)", "Spectre", "Résiduelle cible"], [
+          ["Gentamicine", "3 à 8 mg/kg IV", "Meilleure activité sur les cocci Gram + (staphylocoques, streptocoques, entérocoques en synergie), entérobactéries, <em>Listeria</em>", "< 0,5 mg/L"],
+          ["Amikacine", "25 à 30 mg/kg IV", "BGN dont <em>P. aeruginosa</em>, <em>Acinetobacter</em>, <em>Providencia</em> ; résistances plus fréquentes chez les Gram +", "< 2,5 mg/L"],
+          ["Tobramycine", "3 à 8 mg/kg IV ; inhalée 300 mg × 2/j", "Idem, meilleure sur <em>P. aeruginosa</em>", "< 0,5 mg/L"]
+        ], "Inactifs sur les anaérobies, les bactéries intracellulaires, <em>S. maltophilia</em>, <em>B. cepacia</em>. Toxicité rénale (tubulaire) et cochléo-vestibulaire irréversible : durée courte (1 à 3 jours), pas d'association néphrotoxique, résiduelle avant réinjection.")
+      ], { wide: true }),
+      S("Fluoroquinolones", [
+        tbl(["Molécule", "Posologie (IV ou orale)", "Spectre"], [
+          ["Ofloxacine", "200 mg × 2/j", "Entérobactéries, staphylocoque méti-S, intracellulaires"],
+          ["Ciprofloxacine", "400 mg × 2 à 3/j IV ; 500 à 750 mg × 2/j per os", "Idem + <em>P. aeruginosa</em> (la plus active)"],
+          ["Lévofloxacine", "500 mg × 1 à 2/j", "Idem + pneumocoque, <em>S. maltophilia</em>, <em>Legionella</em>"],
+          ["Moxifloxacine", "400 mg/j", "Idem + anaérobies, mycobactéries ; inactive sur <em>P. aeruginosa</em>"],
+          ["Délafloxacine", "300 mg × 2/j IV ; 450 mg × 2/j per os", "Idem + SARM"]
+        ], "Biodisponibilité orale excellente : relais per os précoce. Effets indésirables : confusion, convulsions, tendinopathies, allongement du QT, photosensibilité, dysglycémies, anévrisme aortique. Sélection rapide de résistances : jamais en monothérapie sur <em>S. aureus</em>.")
+      ], { wide: true }),
+      S("Macrolides et apparentés", [
+        tbl(["Molécule", "Posologie", "Spectre"], [
+          ["Spiramycine", "3 MUI × 3/j IV ou per os", "Intracellulaires (<em>Mycoplasma</em>, <em>Chlamydia</em>, <em>Legionella</em>), streptocoques, <em>Campylobacter</em>"],
+          ["Azithromycine", "500 mg/j per os ou IV", "Idem"],
+          ["Clarithromycine", "500 mg × 2/j per os ou IV", "Idem + <em>Helicobacter pylori</em>"],
+          ["Clindamycine (lincosamide)", "600 à 900 mg × 3/j IV ou per os", "Staphylocoques, streptocoques, anaérobies, toxoplasme ; effet anti-toxinique (choc toxique, fasciite)"],
+          ["Pristinamycine (synergistine)", "1 g × 3/j per os", "Staphylocoques, streptocoques, anaérobies"]
+        ], "Effets indésirables : troubles digestifs, allongement du QT, hépatotoxicité, inhibition enzymatique (CYP3A4, sauf spiramycine et azithromycine) ; <em>C. difficile</em> (clindamycine).")
+      ], { wide: true }),
+      S("Anti-Gram positif", [
+        tbl(["Molécule", "Posologie", "Spectre", "Effets indésirables"], [
+          ["Vancomycine", "Charge 25 à 30 mg/kg, puis 30 à 40 mg/kg/j en continu (cible 20–25 mg/L) ; per os 125 mg × 4/j (<em>C. difficile</em>)", "Cocci et bacilles Gram + (hors VanA, VanB)", "Red man syndrome (perfusion rapide), néphrotoxicité, ototoxicité, neutropénie, veinotoxicité"],
+          ["Teicoplanine", "Charge 6 à 12 mg/kg × 2/j pendant 3 à 5 injections, puis 6 à 12 mg/kg/j", "Idem (inactive sur VanA)", "Moins néphrotoxique"],
+          ["Linézolide", "600 mg × 2/j IV ou per os, sans adaptation rénale", "Tous les Gram + dont SARM et ERV ; effet anti-toxinique", "Thrombopénie et neutropénie (> 10 jours), neuropathie, acidose lactique, syndrome sérotoninergique"],
+          ["Daptomycine", "8 à 12 mg/kg/j IV ; toutes les 48 h si DFG < 30 mL/min", "Tous les Gram + ; inactive dans le poumon (inactivée par le surfactant)", "Rhabdomyolyse (CPK hebdomadaires), pneumopathie à éosinophiles"]
+        ])
+      ], { wide: true }),
+      S("Autres antibiotiques", [
+        tbl(["Molécule", "Posologie", "Spectre", "Effets indésirables"], [
+          ["Métronidazole", "500 mg × 3/j IV ou per os", "Anaérobies stricts, certains protozoaires", "Neurotoxicité (cure longue), effet antabuse, troubles digestifs"],
+          ["Cotrimoxazole", "Sulfaméthoxazole 80 à 100 mg/kg/j + triméthoprime 16 à 20 mg/kg/j (IV ou per os), dose maximale 12 à 15 ampoules/j", "Gram + et −, nombreuses résistances acquises. Indications : <em>S. maltophilia</em>, <em>Pneumocystis</em>, <em>Listeria</em>, toxoplasmose", "Agranulocytose, hyperkaliémie, néphrotoxicité, Lyell et Stevens-Johnson, hépatotoxicité"],
+          ["Tigécycline", "100 mg puis 50 mg × 2/j IV", "Large, sauf <em>P. aeruginosa</em> et Protéeae (<em>Proteus</em>, <em>Morganella</em>, <em>Providencia</em>) ; faibles concentrations sériques", "Troubles digestifs, hépatotoxicité, photosensibilité, pancréatite"],
+          ["Rifampicine", "10 à 30 mg/kg/j selon l'indication, toujours en association", "Gram +, intracellulaires, mycobactéries ; biofilm (matériel)", "Hépatotoxicité, inducteur enzymatique puissant, syndrome pseudo-grippal"],
+          ["Colistine", "IV : 9 MUI en charge puis 4,5 MUI × 2/j (adaptée au DFG) ; inhalée 2 MUI × 2 à 3/j", "<em>P. aeruginosa</em>, <em>A. baumannii</em>, entérobactéries (Protéeae, <em>Serratia</em> naturellement résistants)", "Néphrotoxicité, neurotoxicité"]
+        ])
+      ], { wide: true }),
+      ]
+    })
+  });
+  P17.redirect(`${ROOT}/classifications`, `${ROOT}/bacteries`);
+  P17.index(`${ROOT}/mecanismes`, "Mécanismes et phénotypes de résistance", "Ambler bêta-lactamases BLSE AmpC céphalosporinase carbapénémases KPC NDM OXA-48 groupes entérobactéries phénotypes efflux porines", SEC);
+  P17.index(`${ROOT}/bacteries`, "Classification des bactéries", "Gram positif négatif cocci bacilles staphylocoque streptocoque entérocoque entérobactéries Pseudomonas Acinetobacter Stenotrophomonas Listeria Legionella intracellulaires", SEC);
+  P17.index(`${ROOT}/antibiotiques`, "Familles d'antibiotiques", "mécanisme d'action PK/PD bêta-lactamines céphalosporines carbapénèmes aminosides fluoroquinolones macrolides vancomycine linézolide daptomycine métronidazole cotrimoxazole tigécycline colistine", SEC);
 
   /* ---------- Durées ---------- */
   P17.route(`${ROOT}/durees`, {

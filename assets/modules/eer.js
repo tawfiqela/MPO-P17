@@ -73,7 +73,19 @@
       S("Abord vasculaire", [kv(["1er choix", "Jugulaire interne droite (cathéter 15–16 cm)"], ["2e choix", "Fémorale (20–25 cm), surtout si IMC normal"], ["3e choix", "Jugulaire interne gauche (20 cm)"], ["À éviter", "Sous-clavière (risque de sténose, compromet une future FAV)"]),
         "Cathéter double lumière 12–14 Fr, pose échoguidée, extrémité à la jonction cave-atriale en jugulaire.",
         warn("Sous ECMO VA : branchement possible sur le circuit entre la pompe centrifuge et l'oxygénateur — ne jamais restituer la totalité du volume (risque d'embolie gazeuse)."),
-        { img: "assets/img/eer/eerecmo.webp", caption: "Schéma : EER branchée sur un circuit d'ECMO" }]),
+        { html: `<figure class="eer-ecmo"><svg viewBox="0 0 640 230" role="img" aria-label="Branchement de l'EER sur un circuit d'ECMO">
+          <defs><marker id="eeA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1d7fb8"/></marker><marker id="eeB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#d08a16"/></marker></defs>
+          <g fill="none" stroke="#1d7fb8" stroke-width="3" marker-end="url(#eeA)">
+            <path d="M560 70 V160 H474"/><path d="M380 160 H214"/><path d="M120 160 H70 V70"/></g>
+          <g fill="none" stroke="#d08a16" stroke-width="3" marker-end="url(#eeB)">
+            <path d="M300 160 V88 Q300 72 316 72 H326"/><path d="M330 44 H220 Q200 44 200 64 V134"/></g>
+          <g class="ee-box"><rect x="510" y="20" width="100" height="44" rx="10"/><text x="560" y="47">Patient</text>
+            <rect x="20" y="20" width="100" height="44" rx="10"/><text x="70" y="47">Patient</text>
+            <rect x="380" y="140" width="90" height="40" rx="20"/><text x="425" y="165">Pompe</text>
+            <rect x="120" y="138" width="90" height="44" rx="8"/><text x="165" y="165">Oxygénateur</text></g>
+          <g class="ee-box ee-box--eer"><rect x="330" y="24" width="140" height="76" rx="12"/><text x="400" y="58">Machine</text><text x="400" y="78">d'EER</text></g>
+          <g class="ee-lab"><text x="560" y="205">Drainage veineux</text><text x="70" y="205">Réinjection</text><text x="388" y="128">Accès : après la pompe</text><text x="245" y="34">Retour : avant l'oxygénateur</text></g>
+        </svg><figcaption>EER branchée sur le circuit d'ECMO : prélèvement après la pompe centrifuge, restitution en amont de l'oxygénateur, qui piège les bulles.</figcaption></figure>` }]),
       S("Anticoagulation du circuit", [ul("<strong>Citrate régional</strong> en première intention en l'absence de contre-indication (insuffisance hépatocellulaire sévère, choc avec hyperlactatémie > 4 mmol/L) : surveillance Ca ionisé patient (cible 1,0–1,2 mmol/L) et post-filtre (0,25–0,35 mmol/L), rapport Ca total/Ca ionisé (accumulation si > 2,5)", "<strong>Héparine non fractionnée</strong> si contre-indication au citrate : objectif anti-Xa 0,2–0,4 UI/mL ou TCA 1,5 fois le témoin", "Sans anticoagulation si risque hémorragique majeur : privilégier la prédilution et un débit sang élevé")]),
       S("Prescription et surveillance", [ul("Dose délivrée ≥ 25 mL/kg/h (prescrire 25–30 mL/kg/h pour compenser les arrêts)", "Fraction de filtration < 25 % en post-dilution", "Perte nette adaptée au bilan entrées-sorties et à l'état hémodynamique", "Ionogramme, phosphore, Mg, Ca ionisé toutes les 6–8 h au début", "Adapter les antibiotiques (doses souvent sous-estimées sous EER continue)")])
     ]
